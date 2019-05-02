@@ -27,7 +27,7 @@ mongoose.connection.on('connected', () => {
 
 
 //port no
-const port = 4500;
+const port = 5042;
 
 //middleware
 app.use(cors());

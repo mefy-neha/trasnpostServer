@@ -2,30 +2,25 @@ const mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var schema = mongoose.Schema;
 const userSchema = mongoose.Schema({
-name: {
+accountName: {
     type: String
 },
-email: {
+accountType: {
     type: String,
-    unique: true,
-    sparse: true
 },
 
-organisation:{
+description:{
     type: String,
-    enum: ['lalbaba', 'patro']
+   
 },
 
-password: {
+accountCode: {
     type: String
 },
-role: {
-    type: String,
-    enum: ['superAdmin', 'admin', 'accounts']
+subAccount: {
+    type: Boolean,
 },
-file:{
-    type : Object
-},
+
 createdDate: {
     type: Date,
     default: Date.now
