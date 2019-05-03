@@ -99,23 +99,22 @@ router.get('/list', (request, response) => {
 /************************************END ******************************************** */
 /************************** USER DETAIL BY ID ********************************************** */
 router.get('/userById', (request, response) => {
-
+    let userId = request.query.userId;
     let sentResponse = {};
-    let userId = request.query.userId
     user.findOne({ _id: userId }, (error, result) => {
         console.log('error',error);
         console.log('result',result);
 
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message + "User Does not exist";
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = true;
-            sentresponse.message = "User Detail";
+            sentResponse.error = true;
+            sentResponse.message = "User Detail";
             sentResponse.result = result
-            response.status(500).json(sentresponse);
+            response.status(500).json(sentResponse);
 
         }
 
