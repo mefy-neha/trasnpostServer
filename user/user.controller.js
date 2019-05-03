@@ -111,7 +111,7 @@ router.get('/userById', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else {
-            sentResponse.error = true;
+            sentResponse.error = false;
             sentResponse.message = "User Detail";
             sentResponse.result = result
             response.status(500).json(sentResponse);
