@@ -10,7 +10,8 @@ var app = express();
 const userRoute = require('./user/user.controller');
 const companyRoute = require('./company/company.controller');
 const contractorRoute = require('./contractor/contractor.controller');
-const fileRoute = require('./file/file.controller')
+const fileRoute = require('./file/file.controller');
+const accountRoute = require ('./account/account.controller')
 
 
 
@@ -44,7 +45,10 @@ app.listen(port, () => {
 /********ROUTES*******/
 app.use('/user', userRoute);
 app.use('/company', companyRoute);
-app.use('/contractor',contractorRoute)
-app.use('/file',fileRoute)
+app.use('/contractor',contractorRoute);
+app.use('/file',fileRoute);
+app.use('/account',accountRoute);
+
+
 
 

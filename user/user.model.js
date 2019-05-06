@@ -10,7 +10,9 @@ email: {
     unique: true,
     sparse: true
 },
-
+adminId:{
+    type:String
+},
 organisation:{
     type: String,
     enum: ['lalbaba', 'patro']

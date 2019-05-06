@@ -59,7 +59,7 @@ router.get('/list', (request, response) => {
             response.status(500).json(sentresponse);
         }
         else {
-            sentresponse.error = true;
+            sentresponse.error = false;
             sentresponse.message = "ALL Company List";
             sentResponse.result = result
             response.status(500).json(sentresponse);
@@ -84,7 +84,7 @@ router.get('/companyById', (request, response) => {
             response.status(500).json(sentresponse);
         }
         else {
-            sentresponse.error = true;
+            sentresponse.error = false;
             sentresponse.message = "Contract Detail";
             sentResponse.result = result
             response.status(500).json(sentresponse);
@@ -107,7 +107,7 @@ router.delete('/delete',(request,response)=>{
             response.status(500).json(sentresponse);
         }
         else {
-            sentresponse.error = true;
+            sentresponse.error = false;
             sentresponse.message = "Contract Deleted";
             sentResponse.result = result
             response.status(500).json(sentresponse);

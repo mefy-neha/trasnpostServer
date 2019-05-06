@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-var uniqueValidator = require('mongoose-unique-validator');
 var schema = mongoose.Schema;
-const userSchema = mongoose.Schema({
+const accountSchema = mongoose.Schema({
 accountName: {
     type: String
 },
@@ -13,14 +12,22 @@ description:{
     type: String,
    
 },
-
 accountCode: {
     type: String
 },
 subAccount: {
     type: Boolean,
 },
-
+userId: {
+    type: schema.ObjectId,
+    ref: 'user'
+},
+accountAgainst:{
+    type:String                 /***************ACCOUNT AGAINST BY WHICH PERSON ID */
+},
+organisation:{
+    type:String
+},
 createdDate: {
     type: Date,
     default: Date.now
@@ -35,5 +42,12 @@ enabled: {
 }
 
 })
-userSchema.plugin(uniqueValidator);
-const user = module.exports = mongoose.model('user', userSchema)
+accountSchema.pre('findOne', function (next) {
+    this.populate('userId');
+    next();
+});
+accountSchema.pre('find', function (next) {
+    this.populate('userId');
+    next();
+});
+const account = module.exports = mongoose.model('account', accountSchema)

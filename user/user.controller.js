@@ -7,11 +7,12 @@ var path = require('path');
 var fs = require('fs');
 var gm = require('gm').subClass({ imageMagick: true });
 const user = require('./user.model');
+var nodemailer = require('nodemailer');
 
 
 
-/*************************REGISTRATION *************************/
-router.post('/create', (request, response) => {
+/************************* ADMIN REGISTRATION *************************/
+router.post('/Admincreate', (request, response) => {
     let registrationResponse = {};
     let data = new user({
         email: (request.body.email).toLowerCase(),
@@ -19,7 +20,6 @@ router.post('/create', (request, response) => {
         password: encryptPassword(request.body.password),
         role: request.body.role,
         organisation: request.body.organisation
-
     });
     console.log(data);
     data.save((error, result) => {
@@ -32,7 +32,7 @@ router.post('/create', (request, response) => {
             console.log(result);
             registrationResponse.error = false;
             registrationResponse.user = result;
-            registrationResponse.message = `registration is  successfull.`;
+            registrationResponse.message = `Admin is created  successfull.`;
             response.status(200).json(registrationResponse);
 
         }
@@ -40,6 +40,55 @@ router.post('/create', (request, response) => {
     });
 })
 /************************************END ******************************************** */
+
+/************************* USER REGISTRATION *************************/
+router.post('/userCreate', (request, response) => {
+    let registrationResponse = {};
+    let data = new user({
+        email: (request.body.email).toLowerCase(),
+        name: request.body.name,
+        password: request.body.password,
+        role: request.body.role,
+        organisation: request.body.organisation,
+        adminId:request.body.adminId
+    });
+    console.log(data);
+    data.save((error, result) => {
+        console.log('user error', error);
+        console.log('user result', result);
+
+        if (error) {
+            console.log(error);
+            registrationResponse.error = true;
+            registrationResponse.message = `Error :` + error.code == 11000 ? error.message : " email already exist";
+            response.status(500).json(registrationResponse);
+        } else {
+            sendEmail(result.email, result.password);
+        console.log('user result result', result.email,result.password);
+
+            user.findOneAndUpdate({ email:result.email }, { password:encryptPassword(result.password) }, { new: true }, (err, res) => {
+                console.log('err', err);
+                console.log('resss', res) 
+            // console.log(result);
+            if(err){
+                registrationResponse.err = true;
+                registrationResponse.message = "Something Went wrong";
+                response.status(500).json(registrationResponse);
+            }
+            else{
+            registrationResponse.err = false;
+            registrationResponse.user = res;
+            registrationResponse.message = `User is created  successfull.`;
+            response.status(200).json(registrationResponse);
+            }
+            })
+
+        }
+
+    });
+})
+/************************************END ******************************************** */
+
 
 
 /************************************** LOGIN API ******************************** */
@@ -79,8 +128,8 @@ router.post('/login', (request, response) => {
 router.get('/list', (request, response) => {
     let sentResponse = {};
     user.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentresponse.error = true;
             sentresponse.message = `Error :` + error.message;
@@ -102,8 +151,8 @@ router.get('/userById', (request, response) => {
     let userId = request.query.userId;
     let sentResponse = {};
     user.findOne({ _id: userId }, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
 
         if (error) {
             sentResponse.error = true;
@@ -122,12 +171,12 @@ router.get('/userById', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let userId=request.query.userId
-    let sentResponse={}
-    user.remove({_id:userId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let userId = request.query.userId
+    let sentResponse = {}
+    user.remove({ _id: userId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentresponse.error = true;
             sentresponse.message = `Error :` + error.message + " Does not exist";
@@ -144,6 +193,51 @@ router.delete('/delete',(request,response)=>{
     })
 })
 /************************************END ******************************************** */
+/**************************** NODEMAILER EMAIL SENT TO ADMIN ***************************/
+function sendEmail(email, password) {
+    console.log(email, password)
+    let sentresponse = {};
+    // console.log("destination email:- email" + email);
+    // console.log("destination code", code);
+    var mailOptions, smtpTransporter;
+    console.log("--------------------------------------------------", email, password);
+    smtpTransporter = nodemailer.createTransport({
+        tls: {
+            rejectUnauthorized: false
+        },
+        host: "smtp.ipage.com",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: "ranisunshine007@gmail.com", // generated ethereal user
+            pass: "nehakeshri1996" // generated ethereal password
+        }
+    });
+    mailOptions = {
+        from: '"Mefy 👻" <ranisunshine007@gmail.com>',
+        to: email,
+        subject: 'Welcome To MEFY ',
+        html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password 
+    };
+
+    smtpTransporter.sendMail(mailOptions, function (error, response) {
+        if (error) {
+            console.log('errorr../////', error);
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.mesage;
+        } else {
+            console.log('Email sent: ' + info.response);
+            sentresponse.error = false;
+            sentresponse.message = "EMail sent successfully";
+            sentresponse.result = info;
+            response.status(200).json(sentresponse)
+        }
+
+    });
+    return smtpTransporter, password;
+
+}
+/********************************* ENDS ***************************************** */
 
 
 module.exports = router;
