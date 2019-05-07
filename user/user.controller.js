@@ -117,7 +117,7 @@ router.post('/login', (request, response) => {
             } else {
                 userLoginResponse.error = true;
                 userLoginResponse.message = "Invalid Credentials";
-                response.status(500).json(userLoginResponse);
+                response.status(200).json(userLoginResponse);
             }
         }
     });
@@ -139,7 +139,7 @@ router.get('/list', (request, response) => {
             sentresponse.error = true;
             sentresponse.message = "User List";
             sentResponse.result = result
-            response.status(500).json(sentresponse);
+            response.status(200).json(sentresponse);
 
         }
 
@@ -153,7 +153,6 @@ router.get('/userById', (request, response) => {
     user.findOne({ _id: userId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
-
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + "User Does not exist";
@@ -163,7 +162,7 @@ router.get('/userById', (request, response) => {
             sentResponse.error = false;
             sentResponse.message = "User Detail";
             sentResponse.result = result
-            response.status(500).json(sentResponse);
+            response.status(200).json(sentResponse);
 
         }
 
