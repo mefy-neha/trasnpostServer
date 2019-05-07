@@ -60,5 +60,77 @@ router.post('/create', (request, response) => {
 })
 /************************************END ******************************************** */
 
+/************************** ACCOUNT LIST ********************************************** */
+router.get('/list', (request, response) => {
+    let sentResponse = {};
+    account.find({}, (error, result) => {
+        console.log('error',error);
+        console.log('result',result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "All Account List";
+            sentResponse.result = result
+            response.status(500).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+/************************** CoMPANY DETAIL BY ID ********************************************** */
+router.get('/accountById', (request, response) => {
+
+    let sentResponse = {};
+    let accountId = request.query.accountId
+    account.findOne({ _id: accountId }, (error, result) => {
+        console.log('error',error);
+        console.log('result',result);
+
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Account Detail";
+            sentResponse.result = result
+            response.status(500).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+/******************************* DELETE BY ID *******************************/
+router.delete('/delete',(request,response)=>{
+    let accountId=request.query.accountId
+    let sentResponse={}
+    account.remove({_id:accountId},(error,result)=>{
+        console.log('error',error);
+        console.log('result',result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentresponse);
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.message = "Account Deleted";
+            sentResponse.result = result
+            response.status(500).json(sentresponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+
+
 
 module.exports = router;

@@ -50,7 +50,7 @@ router.post('/userCreate', (request, response) => {
         password: request.body.password,
         role: request.body.role,
         organisation: request.body.organisation,
-        adminId:request.body.adminId
+        superAdminId:request.body.superAdminId
     });
     console.log(data);
     data.save((error, result) => {

@@ -10,7 +10,7 @@ email: {
     unique: true,
     sparse: true
 },
-adminId:{
+superAdminId:{
     type:String
 },
 organisation:{

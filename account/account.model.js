@@ -18,6 +18,10 @@ accountCode: {
 subAccount: {
     type: Boolean,
 },
+// adminId:{
+//     type: schema.ObjectId,
+//     ref: 'user'
+// },
 userId: {
     type: schema.ObjectId,
     ref: 'user'
