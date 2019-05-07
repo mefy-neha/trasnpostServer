@@ -19,7 +19,8 @@ router.post('/Admincreate', (request, response) => {
         name: request.body.name,
         password: encryptPassword(request.body.password),
         role: request.body.role,
-        organisation: request.body.organisation
+        organisation: request.body.organisation,
+        is_active:'active'
     });
     console.log(data);
     data.save((error, result) => {
@@ -50,7 +51,8 @@ router.post('/userCreate', (request, response) => {
         password: request.body.password,
         role: request.body.role,
         organisation: request.body.organisation,
-        superAdminId:request.body.superAdminId
+        superAdminId:request.body.superAdminId,
+        is_active:'active'
     });
     console.log(data);
     data.save((error, result) => {
@@ -237,6 +239,30 @@ function sendEmail(email, password) {
 
 }
 /********************************* ENDS ***************************************** */
+/********************************GET USERLIST BY SUPERADMIN ************************/
+router.get('/userBySuperAdmin', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "User Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/********************************* ENDS ***************************************** */
+
 
 
 module.exports = router;

@@ -13,6 +13,9 @@ email: {
 superAdminId:{
     type:String
 },
+is_active:{
+    type:String
+},
 organisation:{
     type: String,
     enum: ['lalbaba', 'patro']
