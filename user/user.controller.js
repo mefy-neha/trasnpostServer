@@ -262,6 +262,28 @@ router.get('/userBySuperAdmin', (request, response) => {
     })
 })
 /********************************* ENDS ***************************************** */
+/************************** STATUS CHANGED ************************************* */
+router.put('/deactive',(request,response)=>{
+    let userId=request.query.userId;
+    let sentResponse = {};
+    user.findByIdAndUpdate({_id:userId}, {$set:{ is_active:'deactive'}},{ new: true }).exec(function (error, result) {
+        console.log('error',error);
+        console.log('result',result)
+    if(error){
+    sentResponse.error = true;
+    sentResponse.message = `Error :` + error.message + "User Does not exist";
+    response.status(500).json(sentResponse);
+}
+else{
+           sentResponse.error = false;
+            sentResponse.message = "User deactive now";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+}
+
+    })
+})
+/********************************* ENDS ***************************************** */
 
 
 
