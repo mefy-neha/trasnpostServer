@@ -1,29 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const company = require('./company.model');
+const contact = require('./contact.model');
 
 /*************************COMPANY CREATION *************************/
 router.post('/create',(request,response)=>{
-    let companyResponse = {};
+    let contactResponse = {};
     
-    let data = new company({
+    let data = new contact({
         email: (request.body.email).toLowerCase(),
-        companyName: request.body.companyName,
-        regNo: request.body.regNo,
+        company_name: request.body.company_name,
+        contactType: request.body.contactType,
         regId:request.body.regId,
-        gstNo: request.body.gstNo,
-        gstId:request.body.gstId,
-        tradeLicenseNo: request.body.tradeLicenseNo,
-        tradeLicenseId:request.body.tradeLicenseId,
-        invoiceNo: request.body.invoiceNo,
-        invoiceId:request.body.invoiceId,
-        panCard: request.body.panCard,
-        panId:request.body.panId,
-        address: request.body.address,
-        companyLogo: request.body.companyLogo,
-        currency: request.body.currency,
         phoneNumber: request.body.phoneNumber,
-        userId:request.body.userId
+        website:request.body.website,
+        adminId:request.body.adminId
     });
     console.log(data);
     data.save((error, result) => {
@@ -31,15 +21,15 @@ router.post('/create',(request,response)=>{
         console.log('result',result);
         if (error) {
             console.log(error);
-            companyResponse.error = true;
-            companyResponse.message = `Error :`+error.message
-            response.status(500).json(companyResponse);
+            contactResponse.error = true;
+            contactResponse.message = `Error :`+error.message
+            response.status(500).json(contactResponse);
         } else {
             console.log(result);
-            companyResponse.error = false;
-            companyResponse.user = result;
-            companyResponse.message = `Company Created  successfull.`;
-            response.status(200).json(companyResponse);
+            contactResponse.error = false;
+            contactResponse.user = result;
+            contactResponse.message = `Contact Created  successfull.`;
+            response.status(200).json(contactResponse);
 
         }
 
@@ -50,7 +40,7 @@ router.post('/create',(request,response)=>{
 /************************** COMPANY LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    company.find({}, (error, result) => {
+    contact.find({}, (error, result) => {
         console.log('error',error);
         console.log('result',result);
         if (error) {
@@ -60,7 +50,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentresponse.error = false;
-            sentresponse.message = "ALL Company List";
+            sentresponse.message = "ALL Contact List";
             sentResponse.result = result
             response.status(200).json(sentresponse);
 
@@ -70,22 +60,22 @@ router.get('/list', (request, response) => {
 })
 /************************************END ******************************************** */
 /************************** CoMPANY DETAIL BY ID ********************************************** */
-router.get('/companyById', (request, response) => {
+router.get('/contactById', (request, response) => {
 
     let sentResponse = {};
-    let companyId = request.query.companyId
-    company.findOne({ _id: companyId }, (error, result) => {
+    let contactId = request.query.contactId
+    contact.findOne({ _id: contactId }, (error, result) => {
         console.log('error',error);
         console.log('result',result);
 
         if (error) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "Company Does not exist";
+            sentResponse.message = `Error :` + error.message + "Contact Does not exist";
             response.status(500).json(sentResponse);
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Company Detail";
+            sentResponse.message = "Contact Detail";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -96,11 +86,11 @@ router.get('/companyById', (request, response) => {
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete',(request,response)=>{
-    let companyId=request.query.companyId
+    let contactId=request.query.contactId
     let sentResponse={}
     console.log('error',error);
         console.log('result',result);
-    company.remove({_id:companyId},(error,result)=>{
+    contact.remove({_id:contactId},(error,result)=>{
         if (error) {
             sentresponse.error = true;
             sentresponse.message = `Error :` + error.message + " Does not exist";
@@ -108,7 +98,7 @@ router.delete('/delete',(request,response)=>{
         }
         else {
             sentresponse.error = false;
-            sentresponse.message = "Company Deleted";
+            sentresponse.message = "Contact Deleted";
             sentResponse.result = result
             response.status(200).json(sentresponse);
 
@@ -118,20 +108,20 @@ router.delete('/delete',(request,response)=>{
 })
 /************************************END ******************************************** */
 /************************** USER DETAIL BY ID ********************************************** */
-router.get('/companyByUserId', (request, response) => {
-    let userId = request.query.userId;
+router.get('/contactByUserId', (request, response) => {
+    let adminId = request.query.adminId;
     let sentResponse = {};
-    company.find({ userId: userId }, (error, result) => {
+    contact.find({ adminId: adminId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            sentResponse.message = `Error :` + error.message + "Contact Does not exist";
             response.status(500).json(sentResponse);
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Company List";
+            sentResponse.message = "Contact List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

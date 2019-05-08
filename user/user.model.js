@@ -28,9 +28,6 @@ role: {
     type: String,
     enum: ['superAdmin', 'admin', 'accounts']
 },
-file:{
-    type : Object
-},
 createdDate: {
     type: Date,
     default: Date.now

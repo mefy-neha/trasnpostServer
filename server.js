@@ -12,6 +12,8 @@ const companyRoute = require('./company/company.controller');
 const contractorRoute = require('./contractor/contractor.controller');
 const fileRoute = require('./file/file.controller');
 const accountRoute = require ('./account/account.controller')
+const contactRoute = require ('./contact/contact.controller')
+
 
 
 
@@ -28,7 +30,7 @@ mongoose.connection.on('connected', () => {
 
 
 //port no
-const port = 5042;
+const port = 4052;
 
 //middleware
 app.use(cors());
@@ -48,6 +50,7 @@ app.use('/company', companyRoute);
 app.use('/contractor',contractorRoute);
 app.use('/file',fileRoute);
 app.use('/account',accountRoute);
+app.use('/contact',contactRoute)
 
 
 

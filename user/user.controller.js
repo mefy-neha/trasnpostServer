@@ -284,6 +284,42 @@ else{
     })
 })
 /********************************* ENDS ***************************************** */
+/************************** RESET PASSWORD ************************************************/
+router.put('/resetPassword', (request, response) => {
+    let resetPasswordResponse = {};
+    let email = request.body.email;
+    let password = encryptPassword(request.body.password);
+    user.findOne({
+        email: email
+    }, (error, result) => {
+        if (error || result === null) {
+            resetPasswordResponse.error = true;
+            resetPasswordResponse.message = "User does not exist";
+            response.status(500).json(resetPasswordResponse);
+        } else if (result.password == password) {
+            console.log('old password', result.password, password)
+            resetPasswordResponse.error = true;
+            resetPasswordResponse.message = "old password is not valid,set new password";
+            response.status(500).json(resetPasswordResponse);
+
+        } else {
+            user.findOneAndUpdate({email:email}, {
+                password: password
+            }, {
+                    new: true
+                })
+                .then(res => console.log('find by id and update', res))
+                .catch(error => console.log(error))
+            return response.status(200).json({
+                error: false,
+                message: 'Password Reset Successfully'
+            });
+
+        }
+    })
+
+})
+
 
 
 
