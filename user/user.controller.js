@@ -138,7 +138,7 @@ router.get('/list', (request, response) => {
             response.status(500).json(sentresponse);
         }
         else {
-            sentresponse.error = true;
+            sentresponse.error = false;
             sentresponse.message = "User List";
             sentResponse.result = result
             response.status(200).json(sentresponse);
@@ -171,7 +171,7 @@ router.get('/userById', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/******************************* DELETE BY ID *******************************/
+/******************************* DELETE BY ID(USERID) *******************************/
 router.delete('/delete', (request, response) => {
     let userId = request.query.userId
     let sentResponse = {}
@@ -184,7 +184,7 @@ router.delete('/delete', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else {
-            sentResponse.error = true;
+            sentResponse.error = false;
             sentResponse.message = "User Deleted";
             sentResponse.result = result
             response.status(500).json(sentResponse);

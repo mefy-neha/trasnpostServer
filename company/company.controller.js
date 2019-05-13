@@ -54,15 +54,15 @@ router.get('/list', (request, response) => {
         console.log('error',error);
         console.log('result',result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message;
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "ALL Company List";
+            sentResponse.error = false;
+            sentResponse.message = "ALL Company List";
             sentResponse.result = result
-            response.status(200).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
@@ -130,11 +130,48 @@ router.get('/companyByUserId', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else {
+            console.log('hhh',result[0].userId.organisation)
+
             sentResponse.error = false;
             sentResponse.message = "Company List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
+        }
+
+    })
+})
+/************************************END ******************************************** */
+/************************** USER DETAIL BY SUPERADMINID ********************************************** */
+router.get('/companyBySuperAdminId', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    company.find({ userId: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if( result!= null && Object.keys(result).length != 0) {
+            let companylisty=[]
+            // for (let i = 0; i <= result.length; i++){
+
+            // }
+            console.log(result.userId.organisation)
+
+            sentResponse.error = false;
+            sentResponse.message = "Company List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+        else{
+            sentResponse.error = false;
+            sentResponse.message = "No any list";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
         }
 
     })
