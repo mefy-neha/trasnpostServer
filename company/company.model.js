@@ -65,6 +65,10 @@ const companySchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'user'
     },
+    superAdminId: {
+        type: schema.ObjectId,
+        ref: 'user'
+    },
     createdDate: {
         type: Date,
         default: Date.now
