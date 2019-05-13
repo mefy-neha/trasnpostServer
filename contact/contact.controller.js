@@ -4,13 +4,11 @@ const contact = require('./contact.model');
 
 /*************************COMPANY CREATION *************************/
 router.post('/create',(request,response)=>{
-    let contactResponse = {};
-    
+    let contactResponse = {};    
     let data = new contact({
         email: (request.body.email).toLowerCase(),
         company_name: request.body.company_name,
         contactType: request.body.contactType,
-        regId:request.body.regId,
         phoneNumber: request.body.phoneNumber,
         website:request.body.website,
         adminId:request.body.adminId
@@ -44,15 +42,15 @@ router.get('/list', (request, response) => {
         console.log('error',error);
         console.log('result',result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message;
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "ALL Contact List";
+            sentResponse.error = false;
+            sentResponse.message = "ALL Contact List";
             sentResponse.result = result
-            response.status(200).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
@@ -88,19 +86,19 @@ router.get('/contactById', (request, response) => {
 router.delete('/delete',(request,response)=>{
     let contactId=request.query.contactId
     let sentResponse={}
-    console.log('error',error);
-        console.log('result',result);
     contact.remove({_id:contactId},(error,result)=>{
+        console.log('error',error);
+        console.log('result',result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message + " Does not exist";
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "Contact Deleted";
+            sentResponse.error = false;
+            sentResponse.message = "Contact Deleted";
             sentResponse.result = result
-            response.status(200).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 

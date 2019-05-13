@@ -253,7 +253,7 @@ router.get('/userBySuperAdmin', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "User Detail";
+            sentResponse.message = " List of User Detail";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

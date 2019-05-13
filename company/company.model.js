@@ -92,14 +92,7 @@ companySchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
-// companySchema.pre('findOne', function (next) {
-//     this.populate('companyLogo');
-//     next();
-// });
-// companySchema.pre('find', function (next) {
-//     this.populate('companyLogo');
-//     next();
-// });
+
 
 companySchema.plugin(uniqueValidator);
 const company = module.exports = mongoose.model('company', companySchema)
