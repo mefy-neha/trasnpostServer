@@ -13,6 +13,8 @@ const contractorRoute = require('./contractor/contractor.controller');
 const fileRoute = require('./file/file.controller');
 const accountRoute = require ('./account/account.controller')
 const contactRoute = require ('./contact/contact.controller')
+const fleetRoute = require ('./fleet/fleet.controller')
+
 
 
 
@@ -51,6 +53,8 @@ app.use('/contractor',contractorRoute);
 app.use('/file',fileRoute);
 app.use('/account',accountRoute);
 app.use('/contact',contactRoute)
+app.use('/fleet',fleetRoute)
+
 
 
 

@@ -187,7 +187,7 @@ router.delete('/delete', (request, response) => {
             sentResponse.error = false;
             sentResponse.message = "User Deleted";
             sentResponse.result = result
-            response.status(500).json(sentResponse);
+            response.status(200).json(sentResponse);
 
         }
 

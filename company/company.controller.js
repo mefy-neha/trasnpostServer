@@ -120,7 +120,7 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************** USER DETAIL BY ID ********************************************** */
+/************************** COMPANY DETAIL BY ADMINID ********************************************** */
 router.get('/companyByAdminId', (request, response) => {
     let adminId = request.query.adminId;
     let sentResponse = {};
@@ -143,7 +143,7 @@ router.get('/companyByAdminId', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************** USER DETAIL BY SUPERADMINID ********************************************** */
+/************************** COMPANY DETAIL BY SUPERADMINID ********************************************** */
 router.get('/companyBySuperAdminId', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};

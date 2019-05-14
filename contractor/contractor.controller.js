@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const contractor = require('./contractor.model');
+const user = require('../user/user.model');
+
 
 /*************************CONTRACTOR CREATION *************************/
 router.post('/create', (request, response) => {
@@ -23,7 +25,8 @@ router.post('/create', (request, response) => {
         companyLogo: request.body.companyLogo,
         currency: request.body.currency,
         phoneNumber: request.body.phoneNumber,
-        userId: request.body.userId
+        userId: request.body.userId,
+        superAdminId: request.body.superAdminId
     });
     console.log(data);
     data.save((error, result) => {
@@ -54,15 +57,15 @@ router.get('/list', (request, response) => {
         console.log('error',error);
         console.log('result',result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message;
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "ALL Company List";
+            sentResponse.error = false;
+            sentResponse.message = "ALL Contract List";
             sentResponse.result = result
-            response.status(500).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
@@ -70,24 +73,24 @@ router.get('/list', (request, response) => {
 })
 /************************************END ******************************************** */
 /************************** CoMPANY DETAIL BY ID ********************************************** */
-router.get('/companyById', (request, response) => {
+router.get('/contractById', (request, response) => {
 
     let sentResponse = {};
     let contractorId = request.query.contractorId
-    company.findOne({ _id: contractorId }, (error, result) => {
+    contractor.findOne({ _id: contractorId }, (error, result) => {
         console.log('error',error);
         console.log('result',result);
 
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message + " Does not exist";
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "Contract Detail";
+            sentResponse.error = false;
+            sentResponse.message = "Contract Detail";
             sentResponse.result = result
-            response.status(500).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
@@ -102,19 +105,83 @@ router.delete('/delete',(request,response)=>{
         console.log('error',error);
         console.log('result',result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message + " Does not exist";
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "Contract Deleted";
+            sentResponse.error = false;
+            sentResponse.message = "Contract Deleted";
             sentResponse.result = result
-            response.status(500).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
     })
+})
+/************************************END ******************************************** */
+/************************** CONTRACT DETAIL BY ADMINID ********************************************** */
+router.get('/contractByAdminId', (request, response) => {
+    let adminId = request.query.adminId;
+    let sentResponse = {};
+    contractor.find({ userId: adminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Contract List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+/************************** CONTRACT DETAIL BY SUPERADMINID ********************************************** */
+router.get('/contractBySuperAdminId', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.findOne({ superAdminId: superAdminId }, (error, result) => {
+        console.log('superAdminId error', error);
+        console.log('superAdminId result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            contractor.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something Went Wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else if (result != null && Object.keys(result).length != 0) {
+                    sentResponse.error = false;
+                    sentResponse.message = "Contract List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "No any list";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+                }
+
+            })
+        }
+    })
+
 })
 /************************************END ******************************************** */
 
