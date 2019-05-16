@@ -30,11 +30,11 @@ userId: {
     type: schema.ObjectId,
     ref: 'user'
 },
-contactPerson:{
+contactPersonId:{
     type: schema.ObjectId,
     ref: 'contact'
 },
-accountName:{
+accountId:{
     type: schema.ObjectId,
     ref: 'account'                /***************ACCOUNT AGAINST BY WHICH PERSON ID */
 },
