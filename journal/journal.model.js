@@ -9,6 +9,10 @@ date: {
 reference: {
     type: String,
 },
+organisation:{
+    type: String,
+    enum: ['lalbaba', 'patro']
+},
 journalNumber:{
     type: Number
 },
@@ -39,10 +43,10 @@ accountId:{
     type: schema.ObjectId,
     ref: 'account'                /***************ACCOUNT AGAINST BY WHICH PERSON ID */
 },
-companyId:{
-    type: schema.ObjectId,
-    ref: 'company'
-},
+// companyId:{
+//     type: schema.ObjectId,
+//     ref: 'company'
+// },
 debit:{
     type:String
 },

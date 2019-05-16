@@ -13,7 +13,7 @@ router.post('/create', (request, response) => {
     console.log('requesssst',request.body)
     let data = new account({
         accountName: request.body.accountName,  //
-        accountTypeId:request.body.accountTypeId,
+        accountType:request.body.accountType,
         name:request.body.name,
         description: request.body.description,
         accountCode: request.body.accountCode,
@@ -22,54 +22,21 @@ router.post('/create', (request, response) => {
         // accountAgainst: request.body.accountAgainst,
         userId: request.body.userId
     });
-    console.log('dataaa',data);
+    // console.log('dataaa',data);
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
-        console.log('user result', result);
+        // console.log('user result', result);
         if (error || result == null) {
             accountResponse.error = true;
             accountResponse.message = `Error :` + " User Does not exist";
             response.status(500).json(accountResponse);
         }
         else {
-            accountType.findByIdAndUpdate({ _id: data.accountTypeId }, { $push: { accountName: { [data.accountName]: data.name } } }, { upsert: false, multi: true }).exec(function (error, result) {
-                console.log('ress', result)
-                console.log('errr', error)
-                if (error) {
-                    console.log(error);
-                    accountResponse.error = true;
-                    accountResponse.message = `Error :`;+'Account type does not exist'
-                    response.status(500).json(accountResponse);
-                }
-                else {
-                    // accountResponse.error = false;
-                    // accountResponse.result = result;
-                    // accountResponse.message = `Account added.`;
-                    // response.status(200).json(accountResponse);
-                    data.save((error, result) => {
-                        console.log('account error', error);
-                        console.log('account result', result);
-                        if (error) {
-                            console.log(error);
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + "Something Went Wrong";
-                            response.status(500).json(accountResponse);
-                        } else {
-                            console.log(result);
+            console.log(result);
                             accountResponse.error = false;
                             accountResponse.user = result;
                             accountResponse.message = `Account Creation is  successfull.`;
                             response.status(200).json(accountResponse);
-        
-                        }
-        
-                    });
-                }
-    
-            })
-          
-
-
         }
 
 
@@ -152,7 +119,7 @@ router.post('/accountType', (request, response) => {
     let accountResponse = {};
     console.log('account request', request);
     let accountTypeData = new accountType({
-        accountName: request.body.accountName
+        superAdminId:request.body.superAdminId
     });
     accountTypeData.save((error, result) => {
         console.log('account error', error);
@@ -178,7 +145,8 @@ router.post('/accountType', (request, response) => {
 /************************** ACCOUNT LIST ********************************************** */
 router.get('/accountType', (request, response) => {
     let sentResponse = {};
-    accountType.find({}, (error, result) => {
+   let superAdminId=request.query.superAdminId
+    accountType.findOne({superAdminId:superAdminId}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -220,8 +188,125 @@ router.get('/accountByUserId', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+router.put('/add',(request,response)=>{
+    let accountTypes=request.body.accountType;
+    let accountName=request.body.accountName
+    let superAdminId=request.body.superAdminId
+    let sentResponse = {};
+    let accountResponse = {};
+// console.log(request.body)
+
+accountType.findOne({superAdminId:superAdminId}, (error, result) => {
+    console.log('error', error);
+    console.log('result', result);
+    if (error) {
+        sentResponse.error = true;
+        sentResponse.message = `Error :` + error.message;
+        response.status(500).json(sentResponse);
+    }
+    else {
+            // console.log('heyyy')
+            switch(accountTypes){
+                case 'Asset':
+                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Asset: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                    console.log('ress', result)
+                    console.log('errr', error) 
+                   
+                    if (error) {
+                        console.log(error);
+                        accountResponse.error = true;
+                        accountResponse.message = `Error :`;+'Account type does not exist'
+                        response.status(500).json(accountResponse);
+                    }
+                    else{
+                        accountResponse.error = false;
+                        // accountResponse.result = result;
+                        accountResponse.message = `Sub Account Added.`;
+                        response.status(200).json(accountResponse);
+                    }
+                })
+                break;
+                case 'Liability':
+                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Liability: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                    console.log('ress', result)
+                    console.log('errr', error)
+                    let accountResponse = {};
+                    if (error) {
+                        console.log(error);
+                        accountResponse.error = true;
+                        accountResponse.message = `Error :`;+'Account type does not exist'
+                        response.status(500).json(accountResponse);
+                    }
+                    else{
+                        accountResponse.error = false;
+                        // accountResponse.result = result;
+                        accountResponse.message = `Sub Account Added.`;
+                        response.status(200).json(accountResponse);
+                    }
+                })
+                break;
+                case 'Expense':
+                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Expense: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                    console.log('ress', result)
+                    console.log('errr', error)
+                    let accountResponse = {};
+                    if (error) {
+                        console.log(error);
+                        accountResponse.error = true;
+                        accountResponse.message = `Error :`;+'Account type does not exist'
+                        response.status(500).json(accountResponse);
+                    }
+                    else{
+                        accountResponse.error = false;
+                        // accountResponse.result = result;
+                        accountResponse.message = `Sub Account Added.`;
+                        response.status(200).json(accountResponse);
+                    }
+                })
+                break;
+                case 'Revenue':
+                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Revenue: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                    console.log('ress', result)
+                    console.log('errr', error)
+                    let accountResponse = {};
+                    if (error) {
+                        console.log(error);
+                        accountResponse.error = true;
+                        accountResponse.message = `Error :`;+'Account type does not exist'
+                        response.status(500).json(accountResponse);
+                    }
+                    else{
+                        accountResponse.error = false;
+                        // accountResponse.result = result;
+                        accountResponse.message = `Sub Account Added.`;
+                        response.status(200).json(accountResponse);
+                    }
+                })
+                break;
+                case 'Equity':
+                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Equity: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                    console.log('ress', result)
+                    console.log('errr', error)
+                    let accountResponse = {};
+                    if (error) {
+                        console.log(error);
+                        accountResponse.error = true;
+                        accountResponse.message = `Error :`;+'Account type does not exist'
+                        response.status(500).json(accountResponse);
+                    }
+                    else{
+                        accountResponse.error = false;
+                        // accountResponse.result = result;
+                        accountResponse.message = `Sub Account Added.`;
+                        response.status(200).json(accountResponse);
+                    }
+                })
+                break;
+
+            }
+        }
+})
 
 
-
-
+})
 module.exports = router;

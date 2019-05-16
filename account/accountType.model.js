@@ -6,9 +6,19 @@ const accountTypeSchema = mongoose.Schema({
     //     type: String,
     //     enum:['Asset','Liability','Expense','Revenue','Equity']
     // },
-    accountName:[
-        
-    ],
+    superAdminId:{
+        type: schema.ObjectId,
+        ref: 'user'
+    },
+    Asset:[],
+
+    Liability:[],
+
+    Expense:[],
+
+    Revenue:[],
+
+    Equity:[],
     createdDate: {
         type: Date,
         default: Date.now
@@ -23,5 +33,12 @@ const accountTypeSchema = mongoose.Schema({
     }
 
 })
-
+accountTypeSchema.pre('findOne', function (next) {
+    this.populate('superAdminId');
+    next();
+});
+accountTypeSchema.pre('find', function (next) {
+    this.populate('superAdminId');
+    next();
+});
 const accountType = module.exports = mongoose.model('accountType', accountTypeSchema)

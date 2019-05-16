@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const accountSchema = mongoose.Schema({
-accountTypeId: {
-    type: schema.ObjectId,
-        ref: 'accountType'
+accountType: {
+    type: String,
 },
 accountName:{
     type: String,    
@@ -23,7 +22,7 @@ subAccount: {
     type: Boolean,
     enum: [true, false]
 },
-// adminId:{
+// superAdminId:{
 //     type: schema.ObjectId,
 //     ref: 'user'
 // },
@@ -35,7 +34,8 @@ accountAgainst:{
     type:String                 /***************ACCOUNT AGAINST BY WHICH PERSON ID */
 },
 organisation:{
-    type:String
+    type:String,
+    enum: ['lalbaba', 'patro']
 },
 createdDate: {
     type: Date,

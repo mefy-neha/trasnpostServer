@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const contact = require('./contact.model');
+const user = require('../user/user.model');
+
 
 /*************************COMPANY CREATION *************************/
 router.post('/create',(request,response)=>{
@@ -62,7 +64,7 @@ router.get('/contactById', (request, response) => {
 
     let sentResponse = {};
     let contactId = request.query.contactId
-    contact.findOne({ _id: contactId }, (error, result) => {
+    contact.findById({ _id: contactId }, (error, result) => {
         console.log('error',error);
         console.log('result',result);
 
@@ -106,12 +108,22 @@ router.delete('/delete',(request,response)=>{
 })
 /************************************END ******************************************** */
 /************************** CONTACT DETAIL BY ADMINID ********************************************** */
-router.get('/contactById', (request, response) => {
+router.get('/contactByAdminId', (request, response) => {
     let adminId = request.query.adminId;
     let sentResponse = {};
+    user.findById({ _id: adminId }, (error, result) => {
+        console.log('user error', error);
+        console.log('user result', result);
+        if (error || result == null) {
+            accountResponse.error = true;
+            accountResponse.message = `Error :` + " User Does not exist";
+            response.status(500).json(accountResponse);
+        }
+        else if(result.role=='admin'){
+            
     contact.find({ adminId: adminId }, (error, result) => {
-        console.log('error', error);
-        console.log('result', result);
+        console.log(' admin error', error);
+        console.log(' admin result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + "Contact Does not exist";
@@ -126,6 +138,31 @@ router.get('/contactById', (request, response) => {
         }
 
     })
+}
+else{
+    let superAdminId={}
+     superAdminId=result.superAdminId._id
+    contact.find({ adminId: superAdminId }, (error, result) => {
+        console.log(' superAdminId error', error);
+        console.log(' superAdminId result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "Contact Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Contact List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+    
+}
+})
+    
 })
 /************************************END ******************************************** */
 module.exports = router;

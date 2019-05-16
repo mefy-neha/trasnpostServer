@@ -11,7 +11,8 @@ email: {
     sparse: true
 },
 superAdminId:{
-    type:String
+    type: schema.ObjectId,
+    ref: 'user'
 },
 is_active:{
     type:String
@@ -42,5 +43,13 @@ enabled: {
 }
 
 })
+userSchema.pre('findOne', function (next) {
+    this.populate('superAdminId');
+    next();
+});
+userSchema.pre('find', function (next) {
+    this.populate('superAdminId');
+    next();
+});
 userSchema.plugin(uniqueValidator);
 const user = module.exports = mongoose.model('user', userSchema)

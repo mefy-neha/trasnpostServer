@@ -133,15 +133,15 @@ router.get('/list', (request, response) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message;
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "User List";
+            sentResponse.error = false;
+            sentResponse.message = "User List";
             sentResponse.result = result
-            response.status(200).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
@@ -319,7 +319,7 @@ router.put('/resetPassword', (request, response) => {
     })
 
 })
-
+/************************************END ******************************************** */
 
 
 

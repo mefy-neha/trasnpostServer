@@ -18,7 +18,10 @@ contactType:{
     type: String,
     enum: ['customer', 'vendor','employee']
 },
-
+superAdminId:{
+    type: schema.ObjectId,
+    ref: 'user'
+},
 phoneNumber: {
     type: String
 },
