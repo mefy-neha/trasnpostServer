@@ -184,5 +184,28 @@ router.get('/contractBySuperAdminId', (request, response) => {
 
 })
 /************************************END ******************************************** */
+/************************** CONTRACT DETAIL BY USERID ********************************************** */
+router.get('/contractByUserId', (request, response) => {
+    let userId = request.query.userId;
+    let sentResponse = {};
+    contractor.find({ userId: userId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "CONTRACT List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 
 module.exports = router;

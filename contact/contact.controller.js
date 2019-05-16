@@ -105,8 +105,8 @@ router.delete('/delete',(request,response)=>{
     })
 })
 /************************************END ******************************************** */
-/************************** USER DETAIL BY ID ********************************************** */
-router.get('/contactByUserId', (request, response) => {
+/************************** CONTACT DETAIL BY ADMINID ********************************************** */
+router.get('/contactById', (request, response) => {
     let adminId = request.query.adminId;
     let sentResponse = {};
     contact.find({ adminId: adminId }, (error, result) => {
