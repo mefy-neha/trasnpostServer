@@ -2,11 +2,13 @@ const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const accountTypeSchema = mongoose.Schema({
 
-    accountType: {
-        type: String,
-        enum:['Asset','Liability','Expense','Revenue','Equity']
-    },
-
+    // type: {
+    //     type: String,
+    //     enum:['Asset','Liability','Expense','Revenue','Equity']
+    // },
+    accountName:[
+        
+    ],
     createdDate: {
         type: Date,
         default: Date.now

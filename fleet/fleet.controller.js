@@ -13,14 +13,14 @@ router.post('/create', (request, response) => {
         ownership: request.body.ownership,
         userId: request.body.userId,
         superAdminId: request.body.superAdminId,
-        rac: {
-            rac_number: request.body.rac ? (request.body.rac.rac_number) : null,
-            rac_doc: request.body.rac ? (request.body.rac.rac_doc) : null,
-            valid_upto: request.body.rac ? (request.body.rac.valid_upto) : null,
+        rc: {
+            number: request.body.rc ? (request.body.rc.number) : null,
+            doc: request.body.rac ? (request.body.rc.doc) : null,
+            valid_upto: request.body.rc ? (request.body.rc.valid_upto) : null,
         },
         insurance: {
-            insurance_number: request.body.insurance ? (request.body.insurance.insurance_number) : null,
-            insurance_doc: request.body.insurance ? (request.body.insurance.insurance_doc) : null,
+            number: request.body.insurance ? (request.body.insurance.number) : null,
+            doc: request.body.insurance ? (request.body.insurance.doc) : null,
             valid_upto: request.body.insurance ? (request.body.insurance.valid_upto) : null,
         }
 

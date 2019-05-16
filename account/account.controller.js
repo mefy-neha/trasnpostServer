@@ -10,18 +10,20 @@ const accountType = require('./accountType.model')
 
 router.post('/create', (request, response) => {
     let accountResponse = {};
+    console.log('requesssst',request.body)
     let data = new account({
-        accountName: request.body.accountName,
-        accountType: request.body.accountType,
+        accountName: request.body.accountName,  //
+        accountTypeId:request.body.accountTypeId,
+        name:request.body.name,
         description: request.body.description,
         accountCode: request.body.accountCode,
         organisation: request.body.organisation,
-        subAccount: request.body.subAccount,
-        accountAgainst: request.body.accountAgainst,
+        subAccount: true,
+        // accountAgainst: request.body.accountAgainst,
         userId: request.body.userId
     });
-    console.log(data);
-    user.findById({ _id: userId }, (error, result) => {
+    console.log('dataaa',data);
+    user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
         if (error || result == null) {
@@ -30,29 +32,43 @@ router.post('/create', (request, response) => {
             response.status(500).json(accountResponse);
         }
         else {
-            if (result.role === 'accounts') {
-                data.save((error, result) => {
-                    console.log('account error', error);
-                    console.log('account result', result);
-                    if (error) {
-                        console.log(error);
-                        accountResponse.error = true;
-                        accountResponse.message = `Error :` + " Role must be Accounts/Account creaton failed";
-                        response.status(500).json(accountResponse);
-                    } else {
-                        console.log(result);
-                        accountResponse.error = false;
-                        accountResponse.user = result;
-                        accountResponse.message = `Account Creation is  successfull.`;
-                        response.status(200).json(accountResponse);
+            accountType.findByIdAndUpdate({ _id: data.accountTypeId }, { $push: { accountName: { [data.accountName]: data.name } } }, { upsert: false, multi: true }).exec(function (error, result) {
+                console.log('ress', result)
+                console.log('errr', error)
+                if (error) {
+                    console.log(error);
+                    accountResponse.error = true;
+                    accountResponse.message = `Error :`;+'Account type does not exist'
+                    response.status(500).json(accountResponse);
+                }
+                else {
+                    // accountResponse.error = false;
+                    // accountResponse.result = result;
+                    // accountResponse.message = `Account added.`;
+                    // response.status(200).json(accountResponse);
+                    data.save((error, result) => {
+                        console.log('account error', error);
+                        console.log('account result', result);
+                        if (error) {
+                            console.log(error);
+                            accountResponse.error = true;
+                            accountResponse.message = `Error :` + "Something Went Wrong";
+                            response.status(500).json(accountResponse);
+                        } else {
+                            console.log(result);
+                            accountResponse.error = false;
+                            accountResponse.user = result;
+                            accountResponse.message = `Account Creation is  successfull.`;
+                            response.status(200).json(accountResponse);
+        
+                        }
+        
+                    });
+                }
+    
+            })
+          
 
-                    }
-
-                });
-            }
-            else {
-
-            }
 
         }
 
@@ -65,8 +81,8 @@ router.post('/create', (request, response) => {
 router.get('/list', (request, response) => {
     let sentResponse = {};
     account.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -89,8 +105,8 @@ router.get('/accountById', (request, response) => {
     let sentResponse = {};
     let accountId = request.query.accountId
     account.findOne({ _id: accountId }, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
 
         if (error) {
             sentResponse.error = true;
@@ -109,12 +125,12 @@ router.get('/accountById', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let accountId=request.query.accountId
-    let sentResponse={}
-    account.remove({_id:accountId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let accountId = request.query.accountId
+    let sentResponse = {}
+    account.remove({ _id: accountId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentresponse.error = true;
             sentresponse.message = `Error :` + error.message + " Does not exist";
@@ -132,10 +148,11 @@ router.delete('/delete',(request,response)=>{
 })
 /************************************END ******************************************** */
 /**************************** CREATION OF ACCOUNT TYPE ************************/
-router.post('/accountType',(request,response)=>{
+router.post('/accountType', (request, response) => {
     let accountResponse = {};
+    console.log('account request', request);
     let accountTypeData = new accountType({
-        accountType: request.body.accountType   
+        accountName: request.body.accountName
     });
     accountTypeData.save((error, result) => {
         console.log('account error', error);
@@ -143,7 +160,7 @@ router.post('/accountType',(request,response)=>{
         if (error) {
             console.log(error);
             accountResponse.error = true;
-            accountResponse.message = `Error :` ;
+            accountResponse.message = `Error :`;
             response.status(500).json(accountResponse);
         } else {
             console.log(result);
@@ -162,8 +179,8 @@ router.post('/accountType',(request,response)=>{
 router.get('/accountType', (request, response) => {
     let sentResponse = {};
     accountType.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -180,6 +197,34 @@ router.get('/accountType', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************************END ******************************************** */
+// router.put('/add', (request, response) => {
+//     // let type = request.body.type 
+//     let accountTypeId = request.body.accountTypeId
+//     let accountResponse = {};
+//     let accountName = request.body.accountName
+//     let name = request.body.name
+//     console.log('request', accountTypeId, accountName,name)
+//         accountType.findByIdAndUpdate({ _id: accountTypeId }, { $push: { accountName: { [accountName]: name } } }, { upsert: false, multi: true }).exec(function (error, result) {
+//             console.log('ress', result)
+//             console.log('errr', error)
+//             if (error) {
+//                 console.log(error);
+//                 accountResponse.error = true;
+//                 accountResponse.message = `Error :`;+'Account type does not exist'
+//                 response.status(500).json(accountResponse);
+//             }
+//             else {
+//                 accountResponse.error = false;
+//                 accountResponse.result = result;
+//                 accountResponse.message = `Account added.`;
+//                 response.status(200).json(accountResponse);
+//             }
+
+//         })
+//     })
+
+
 
 
 module.exports = router;

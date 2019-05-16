@@ -17,11 +17,11 @@ ownership:{
     type: String,
     enum: ['owned', 'contract']
 },
-rac: {
-    rac_number: {
+rc: {
+    number: {
         type: String,
     },
-    rac_doc: {
+    doc: {
         type: schema.ObjectId,
         ref: 'file'
     },
@@ -30,10 +30,10 @@ rac: {
     }
 },
 insurance: {
-    insurance_number: {
+    number: {
         type: String
     },
-    insurance_doc: {
+    doc: {
         type: schema.ObjectId,
         ref: 'file'
 

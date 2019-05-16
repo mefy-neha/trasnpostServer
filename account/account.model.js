@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const accountSchema = mongoose.Schema({
-accountName: {
-    type: String
+accountTypeId: {
+    type: schema.ObjectId,
+        ref: 'accountType'
 },
-accountType: {
+accountName:{
+    type: String,    
+},
+name: {
     type: String,
 },
 
@@ -17,6 +21,7 @@ accountCode: {
 },
 subAccount: {
     type: Boolean,
+    enum: [true, false]
 },
 // adminId:{
 //     type: schema.ObjectId,
