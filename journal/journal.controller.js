@@ -7,23 +7,23 @@ const user = require('../user/user.model');
 
 router.post('/create', (request, response) => {
     let journalResponse = {};
-    journal.find({}, (error, result) => {
+    console.log('companyId',request.body.companyId)
+    journal.find({companyId:request.body.companyId}, (error, result) => {
         console.log('error', error);
-        console.log('length', result.length)
+        console.log('length', result)
         if (error) {
             journalResponse.error = true;
-            journalResponse.message = `Error :` + error.message;
+            journalResponse.message = `Error :` + error.message +'Copmany does not exist';
             response.status(500).json(journalResponse);
         }
         else {
             let data = new journal({
                 date: request.body.date,
-                journalNumber: result.length,
-                refrence: request.body.refrence,
+                journalNumber: result.length+1,
+                reference: request.body.reference,
                 description: request.body.description,
                 notes: request.body.notes,
-                currency: request.body.currency,
-                journalType: true,
+                journalType: false,
                 contactPersonId: request.body.contactPersonId,
                 userId: request.body.userId,
                 accountId: request.body.accountId,
@@ -65,6 +65,29 @@ router.post('/create', (request, response) => {
 
 
         }
+    })
+})
+/************************************END ******************************************** */
+/************************** JOURNAL DETAIL BY USERID ********************************************** */
+router.get('/journalByUserId', (request, response) => {
+    let userId = request.query.userId;
+    let sentResponse = {};
+    journal.find({ userId: userId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Journal List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
     })
 })
 /************************************END ******************************************** */

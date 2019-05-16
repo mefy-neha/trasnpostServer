@@ -197,32 +197,29 @@ router.get('/accountType', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************************END ******************************************** */
-// router.put('/add', (request, response) => {
-//     // let type = request.body.type 
-//     let accountTypeId = request.body.accountTypeId
-//     let accountResponse = {};
-//     let accountName = request.body.accountName
-//     let name = request.body.name
-//     console.log('request', accountTypeId, accountName,name)
-//         accountType.findByIdAndUpdate({ _id: accountTypeId }, { $push: { accountName: { [accountName]: name } } }, { upsert: false, multi: true }).exec(function (error, result) {
-//             console.log('ress', result)
-//             console.log('errr', error)
-//             if (error) {
-//                 console.log(error);
-//                 accountResponse.error = true;
-//                 accountResponse.message = `Error :`;+'Account type does not exist'
-//                 response.status(500).json(accountResponse);
-//             }
-//             else {
-//                 accountResponse.error = false;
-//                 accountResponse.result = result;
-//                 accountResponse.message = `Account added.`;
-//                 response.status(200).json(accountResponse);
-//             }
+/************************** ACCOUNT DETAIL BY USERID ********************************************** */
+router.get('/accountByUserId', (request, response) => {
+    let userId = request.query.userId;
+    let sentResponse = {};
+    account.find({ userId: userId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Account List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
 
-//         })
-//     })
+        }
+
+    })
+})
+/************************************END ******************************************** */
 
 
 

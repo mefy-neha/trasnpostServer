@@ -6,7 +6,7 @@ date: {
     type: String
 },
 
-refrence: {
+reference: {
     type: String,
 },
 journalNumber:{
@@ -17,7 +17,8 @@ notes:{
    
 },
 currency: {
-    type: String
+    type: String,
+    default:'Rs'
 },
 journalType: {
     type: Boolean,
