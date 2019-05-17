@@ -13,12 +13,11 @@ router.post('/create', (request, response) => {
     console.log('requesssst',request.body)
     let data = new account({
         accountName: request.body.accountName,  //
-        accountType:request.body.accountType,
+        accountType:request.body.accountType,  //(super parent account)
         name:request.body.name,
         description: request.body.description,
         accountCode: request.body.accountCode,
         organisation: request.body.organisation,
-        subAccount: true,
         // accountAgainst: request.body.accountAgainst,
         userId: request.body.userId
     });
@@ -33,13 +32,15 @@ router.post('/create', (request, response) => {
         }
         else {
             console.log(result);
+            data.save((error, result) => {
                             accountResponse.error = false;
                             accountResponse.user = result;
                             accountResponse.message = `Account Creation is  successfull.`;
                             response.status(200).json(accountResponse);
+                        })
         }
 
-
+   
     })
 })
 /************************************END ******************************************** */
@@ -119,7 +120,7 @@ router.post('/accountType', (request, response) => {
     let accountResponse = {};
     console.log('account request', request);
     let accountTypeData = new accountType({
-        superAdminId:request.body.superAdminId
+        organisation:request.body.organisation
     });
     accountTypeData.save((error, result) => {
         console.log('account error', error);
@@ -145,8 +146,9 @@ router.post('/accountType', (request, response) => {
 /************************** ACCOUNT LIST ********************************************** */
 router.get('/accountType', (request, response) => {
     let sentResponse = {};
-   let superAdminId=request.query.superAdminId
-    accountType.findOne({superAdminId:superAdminId}, (error, result) => {
+    let organisation=request.query.organisation
+    if(organisation=='lalbaba'){
+    accountType.findOne({organisation:organisation}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -163,6 +165,26 @@ router.get('/accountType', (request, response) => {
         }
 
     })
+}
+else{
+    accountType.findOne({organisation:organisation}, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "All Account type List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    }) 
+}
 })
 /************************************END ******************************************** */
 /************************** ACCOUNT DETAIL BY USERID ********************************************** */
@@ -192,23 +214,14 @@ router.put('/add',(request,response)=>{
     let accountTypes=request.body.accountType;
     let accountName=request.body.accountName
     let superAdminId=request.body.superAdminId
+    let organisation=request.body.organisation
     let sentResponse = {};
     let accountResponse = {};
 // console.log(request.body)
-
-accountType.findOne({superAdminId:superAdminId}, (error, result) => {
-    console.log('error', error);
-    console.log('result', result);
-    if (error) {
-        sentResponse.error = true;
-        sentResponse.message = `Error :` + error.message;
-        response.status(500).json(sentResponse);
-    }
-    else {
             // console.log('heyyy')
             switch(accountTypes){
                 case 'Asset':
-                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Asset: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                accountType.findOneAndUpdate({ organisation: organisation }, { $push: { Asset: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
                     console.log('ress', result)
                     console.log('errr', error) 
                    
@@ -227,7 +240,7 @@ accountType.findOne({superAdminId:superAdminId}, (error, result) => {
                 })
                 break;
                 case 'Liability':
-                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Liability: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                accountType.findOneAndUpdate({ organisation: organisation }, { $push: { Liability: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
                     console.log('ress', result)
                     console.log('errr', error)
                     let accountResponse = {};
@@ -246,7 +259,7 @@ accountType.findOne({superAdminId:superAdminId}, (error, result) => {
                 })
                 break;
                 case 'Expense':
-                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Expense: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                accountType.findOneAndUpdate({ organisation: organisation }, { $push: { Expense: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
                     console.log('ress', result)
                     console.log('errr', error)
                     let accountResponse = {};
@@ -265,7 +278,7 @@ accountType.findOne({superAdminId:superAdminId}, (error, result) => {
                 })
                 break;
                 case 'Revenue':
-                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Revenue: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                accountType.findOneAndUpdate({ organisation: organisation }, { $push: { Revenue: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
                     console.log('ress', result)
                     console.log('errr', error)
                     let accountResponse = {};
@@ -284,7 +297,7 @@ accountType.findOne({superAdminId:superAdminId}, (error, result) => {
                 })
                 break;
                 case 'Equity':
-                accountType.findOneAndUpdate({ superAdminId: superAdminId }, { $push: { Equity: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
+                accountType.findOneAndUpdate({ organisation: organisation }, { $push: { Equity: accountName} }, { upsert: false, multi: true }).exec(function (error, result) {
                     console.log('ress', result)
                     console.log('errr', error)
                     let accountResponse = {};
@@ -304,9 +317,5 @@ accountType.findOne({superAdminId:superAdminId}, (error, result) => {
                 break;
 
             }
-        }
-})
-
-
 })
 module.exports = router;

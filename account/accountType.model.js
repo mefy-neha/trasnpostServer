@@ -6,6 +6,10 @@ const accountTypeSchema = mongoose.Schema({
     //     type: String,
     //     enum:['Asset','Liability','Expense','Revenue','Equity']
     // },
+    organisation:{
+        type: String,
+        enum: ['lalbaba', 'patro']
+    },
     superAdminId:{
         type: schema.ObjectId,
         ref: 'user'
