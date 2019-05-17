@@ -14,6 +14,11 @@ const accountTypeSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'user'
     },
+    subAccount:[{
+     accountType:String,
+     subAccount:String,
+     account:String
+    }],
     Asset:[],
 
     Liability:[],

@@ -18,10 +18,15 @@ description:{
 accountCode: {
     type: String
 },
-subAccount: {
+childAccount: {
     type: Boolean,
     enum: [true, false]
 },
+subAccount:[{
+    accountType:String,
+    subAccount:String,
+    account:String
+   }],
 // superAdminId:{
 //     type: schema.ObjectId,
 //     ref: 'user'
