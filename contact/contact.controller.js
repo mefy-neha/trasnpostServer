@@ -5,24 +5,24 @@ const user = require('../user/user.model');
 
 
 /*************************COMPANY CREATION *************************/
-router.post('/create',(request,response)=>{
-    let contactResponse = {};    
+router.post('/create', (request, response) => {
+    let contactResponse = {};
     let data = new contact({
         email: (request.body.email).toLowerCase(),
         company_name: request.body.company_name,
         contactType: request.body.contactType,
         phoneNumber: request.body.phoneNumber,
-        website:request.body.website,
-        adminId:request.body.adminId
+        website: request.body.website,
+        adminId: request.body.adminId
     });
     console.log(data);
     data.save((error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             console.log(error);
             contactResponse.error = true;
-            contactResponse.message = `Error :`+error.message
+            contactResponse.message = `Error :` + error.message
             response.status(500).json(contactResponse);
         } else {
             console.log(result);
@@ -41,8 +41,8 @@ router.post('/create',(request,response)=>{
 router.get('/list', (request, response) => {
     let sentResponse = {};
     contact.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -65,8 +65,8 @@ router.get('/contactById', (request, response) => {
     let sentResponse = {};
     let contactId = request.query.contactId
     contact.findById({ _id: contactId }, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
 
         if (error) {
             sentResponse.error = true;
@@ -85,12 +85,12 @@ router.get('/contactById', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let contactId=request.query.contactId
-    let sentResponse={}
-    contact.remove({_id:contactId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let contactId = request.query.contactId
+    let sentResponse = {}
+    contact.remove({ _id: contactId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
@@ -119,29 +119,27 @@ router.get('/contactByAdminId', (request, response) => {
             accountResponse.message = `Error :` + " User Does not exist";
             response.status(500).json(accountResponse);
         }
-        else if(result.role=='admin'){
-            
-    contact.find({ adminId: adminId }, (error, result) => {
-        console.log(' admin error', error);
-        console.log(' admin result', result);
-        if (error) {
-            sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "Contact Does not exist";
-            response.status(500).json(sentResponse);
-        }
-        else {
-            sentResponse.error = false;
-            sentResponse.message = "Contact List";
-            sentResponse.result = result
-            response.status(200).json(sentResponse);
+        contact.find({ adminId: adminId }, (error, result) => {
+            console.log(' admin error', error);
+            console.log(' admin result', result);
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Contact Does not exist";
+                response.status(500).json(sentResponse);
+            }
+            else {
+                sentResponse.error = false;
+                sentResponse.message = "Contact List";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
 
-        }
+            }
+
+        })
+
 
     })
-}
 
-})
-    
 })
 /************************************END ******************************************** */
 module.exports = router;
