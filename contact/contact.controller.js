@@ -139,28 +139,7 @@ router.get('/contactByAdminId', (request, response) => {
 
     })
 }
-else{
-    let superAdminId={}
-     superAdminId=result.superAdminId._id
-    contact.find({ adminId: superAdminId }, (error, result) => {
-        console.log(' superAdminId error', error);
-        console.log(' superAdminId result', result);
-        if (error) {
-            sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "Contact Does not exist";
-            response.status(500).json(sentResponse);
-        }
-        else {
-            sentResponse.error = false;
-            sentResponse.message = "Contact List";
-            sentResponse.result = result
-            response.status(200).json(sentResponse);
 
-        }
-
-    })
-    
-}
 })
     
 })
