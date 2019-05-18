@@ -7,9 +7,6 @@ accountType: {
 accountName:{
     type: String,    
 },
-name: {
-    type: String,
-},
 
 description:{
     type: String,
@@ -18,26 +15,14 @@ description:{
 accountCode: {
     type: String
 },
-childAccount: {
-    type: Boolean,
-    enum: [true, false]
+parentaccount:{
+    type: String
 },
-subAccount:[{
-    accountType:String,
-    subAccount:String,
-    account:String
-   }],
-// superAdminId:{
-//     type: schema.ObjectId,
-//     ref: 'user'
-// },
 userId: {
     type: schema.ObjectId,
     ref: 'user'
 },
-accountAgainst:{
-    type:String                 /***************ACCOUNT AGAINST BY WHICH PERSON ID */
-},
+
 organisation:{
     type:String,
     enum: ['lalbaba', 'patro']
@@ -64,4 +49,5 @@ accountSchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
+// enum:['Asset','Liability','Expense','Revenue','Equity']
 const account = module.exports = mongoose.model('account', accountSchema)
