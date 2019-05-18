@@ -15,7 +15,7 @@ description:{
 accountCode: {
     type: String
 },
-parentaccount:{
+parentAccount:{
     type: String
 },
 userId: {

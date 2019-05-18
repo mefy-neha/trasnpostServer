@@ -15,7 +15,7 @@ router.post('/create', (request, response) => {
         description: request.body.description,
         accountCode: request.body.accountCode,
         organisation: request.body.organisation,
-        parentaccount: request.body.parentaccount?request.body.parentaccount:null,   
+        parentAccount: request.body.parentAccount?request.body.parentAccount:null,   
         userId: request.body.userId
     });
     // console.log('dataaa',data);
@@ -129,8 +129,8 @@ router.delete('/delete', (request, response) => {
 router.get('/accountType', (request, response) => {
     console.log('request',)
     let accountResponse = {};
-    let parentaccount =request.query.parentaccount?request.query.parentaccount:null 
-        account.find({parentaccount:parentaccount}).sort({accountType:1,accountName:1}).exec(function(error,result){ 
+    let parentAccount =request.query.parentAccount?request.query.parentAccount:null 
+        account.find({parentAccount:parentAccount}).sort({accountType:1,accountName:1}).exec(function(error,result){ 
     console.log('account request', request);
         console.log('account error', error);
         console.log('account result', result);
