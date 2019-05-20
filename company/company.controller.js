@@ -10,40 +10,91 @@ router.post('/create', (request, response) => {
 
     let data = new company({
         email: (request.body.email).toLowerCase(),
-        companyName: request.body.companyName,
-        regNo: request.body.regNo,
-        regId: request.body.regId,
-        gstNo: request.body.gstNo,
-        gstId: request.body.gstId,
+        organisation: request.body.organisation,
+        road_registration_certificate: request.body.road_registration_certificate,
+        gst: request.body.gst,
+        tradeLicense_A: request.body.tradeLicense_A,
+        tradeLicense_B: request.body.tradeLicense_B,
         tradeLicenseNo: request.body.tradeLicenseNo,
         tradeLicenseId: request.body.tradeLicenseId,
-        invoiceNo: request.body.invoiceNo,
-        invoiceId: request.body.invoiceId,
-        panCard: request.body.panCard,
+        invoice: request.body.invoice,
+        pan: request.body.pan,
+        tan: request.body.tan,
         panId: request.body.panId,
-        address: request.body.address,
+        balance_sheet: request.body.balance_sheet,
+        professional_tax: request.body.professional_tax,
+        pf: request.body.pf,
+        esi: request.body.esi,
+        itr: request.body.itr,
+        address:request.body.address,
         companyLogo: request.body.companyLogo,
         currency: request.body.currency,
         phoneNumber: request.body.phoneNumber,
         userId: request.body.userId,
-        superAdminId: request.body.superAdminId
+        // superAdminId: request.body.superAdminId
     });
     console.log(data);
-    data.save((error, result) => {
-        console.log('error', error);
-        console.log('result', result);
+    user.findById({ _id: data.userId }, (error, result) => {
+        console.log('user error', error);
+        console.log('user result', result);
+        if (error || result == null) {
+            fleetResponse.error = true;
+            fleetResponse.message = `Error :` + " User Does not exist";
+            response.status(500).json(fleetResponse);
+        }
         if (error) {
             console.log(error);
             companyResponse.error = true;
             companyResponse.message = `Error :` + error.message
             response.status(500).json(companyResponse);
-        } else {
-            console.log(result);
-            companyResponse.error = false;
-            companyResponse.user = result;
-            companyResponse.message = `Company Created  successfull.`;
-            response.status(200).json(companyResponse);
-
+        } 
+            else {
+                if(result.role=='superAdmin'){
+                    console.log('role superadmin',result._id)
+                    data.superAdminId=result._id
+                                  
+                data.save((error, result) => {
+                    console.log('company error', error);
+                    console.log('company result', result);
+                    if (error) {
+                        console.log(error);
+                        companyResponse.error = true;
+                        companyResponse.message = `Error :` + " Company Creation Failed";
+                        response.status(500).json(companyResponse);
+                    }
+                   else {
+                        companyResponse.error = false;
+                        companyResponse.user = result;
+                        companyResponse.message = `Company Created  successfull.`;
+                        response.status(200).json(companyResponse);
+    
+                    }
+    
+                });
+            }
+            else{
+                console.log('role admin',)
+                data.superAdminId=result.superAdminId._id
+                data.save((error, result) => {
+                    console.log('company error', error);
+                    console.log('company result', result);
+                    if (error) {
+                        console.log(error);
+                        companyResponse.error = true;
+                        companyResponse.message = `Error :` + "Company Creation Failed";
+                        response.status(500).json(companyResponse);
+                    }
+                   else {
+                        companyResponse.error = false;
+                        companyResponse.user = result;
+                        companyResponse.message = `Company Created  successfull.`;
+                        response.status(200).json(companyResponse);
+    
+                    }
+    
+                }); 
+            }
+        
         }
 
     });

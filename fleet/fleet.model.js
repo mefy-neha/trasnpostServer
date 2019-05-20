@@ -2,59 +2,230 @@ const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const fleetSchema = mongoose.Schema({
 
-truck_number: {
-    type: String
-},
-userId: {
-    type: schema.ObjectId,
-    ref: 'user'
-},
-superAdminId: {
-    type: schema.ObjectId,
-    ref: 'user'
-},
-ownership:{
-    type: String,
-    enum: ['owned', 'contract']
-},
-rc: {
-    number: {
+    truck_number: {
+        type: String
+    },
+    userId: {
+        type: schema.ObjectId,
+        ref: 'user'
+    },
+    superAdminId: {
+        type: schema.ObjectId,
+        ref: 'user'
+    },
+    ownership: {
         type: String,
+        enum: ['owned', 'contract']
     },
-    doc: {
-        type: schema.ObjectId,
-        ref: 'file'
+    rc: {
+        number: {
+            type: String,
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
+        valid_upto: {
+            type: String
+        }
     },
-    valid_upto: {
-        type: String
-    }
-},
-insurance: {
-    number: {
-        type: String
-    },
-    doc: {
-        type: schema.ObjectId,
-        ref: 'file'
+    vehicle_insurance: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
 
+        },
+        valid_upto: {
+            type: String
+        }
     },
-    valid_upto: {
-        type: String
-    }
-},
+    product_insurance: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
 
-createdDate: {
-    type: Date,
-    default: Date.now
-},
-updatedDate: {
-    type: Date,
-    default: Date.now
-},
-enabled: {
-    type: Number,
-    default: 1
-}
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    explosive: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    calibration_chart: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    national_permit: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    national_permit_A: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    national_permit_B: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    road_tax: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    pollution: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    sco: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    abs: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    hydro_testing: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    fitness: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    others: [{
+        name: {
+            type: String
+        },
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+
+        },
+        valid_upto: {
+            type: String
+        }
+    }],
+    createdDate: {
+        type: Date,
+        default: Date.now
+    },
+    updatedDate: {
+        type: Date,
+        default: Date.now
+    },
+    enabled: {
+        type: Number,
+        default: 1
+    }
 
 })
 fleetSchema.pre('findOne', function (next) {

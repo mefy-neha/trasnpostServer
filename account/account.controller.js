@@ -130,8 +130,42 @@ router.get('/accountType', (request, response) => {
     console.log('request',)
     let accountResponse = {};
     let parentAccount =request.query.parentAccount?request.query.parentAccount:null 
+    let accountType = request.query.accountType?request.query.parentAccount:''
+    console.log('response',parentAccount,accountType)
+    console.log('responseffghf',accountType)
+
         account.find({parentAccount:parentAccount}).sort({accountType:1,accountName:1}).exec(function(error,result){ 
-    console.log('account request', request);
+        console.log('account error', error);
+        console.log('account result', result);
+        if (error) {
+            console.log(error);
+            accountResponse.error = true;
+            accountResponse.message = `Error :` + error.message;;
+            response.status(500).json(accountResponse);
+        } else {
+            console.log(result);
+            accountResponse.error = false;
+            accountResponse.result = result;
+            accountResponse.message = `list of account.`;accountType:1,
+            response.status(200).json(accountResponse);
+
+        }
+    })
+    
+
+    });
+    
+
+
+/************************************END ******************************************** */
+/**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt ************************/
+router.get('/accountByType', (request, response) => {
+    console.log('request',)
+    let accountResponse = {};
+    let parentAccount =request.query.parentAccount?request.query.parentAccount:null 
+    let accountType = request.query.accountType
+    console.log('response',parentAccount,accountType)
+        account.find({ $and: [{parentAccount:parentAccount},{accountType:accountType}]}).sort({accountType:1,accountName:1}).exec(function(error,result){ 
         console.log('account error', error);
         console.log('account result', result);
         if (error) {
@@ -155,6 +189,7 @@ router.get('/accountType', (request, response) => {
 
 
 /************************************END ******************************************** */
+
 
 /************************** ACCOUNT DETAIL BY USERID ********************************************** */
 router.get('/accountByUserId', (request, response) => {

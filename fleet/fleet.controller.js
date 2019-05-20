@@ -12,17 +12,21 @@ router.post('/create', (request, response) => {
         truck_number: request.body.truck_number,
         ownership: request.body.ownership,
         userId: request.body.userId,
-        superAdminId: request.body.superAdminId,
-        rc: {
-            number: request.body.rc ? (request.body.rc.number) : null,
-            doc: request.body.rac ? (request.body.rc.doc) : null,
-            valid_upto: request.body.rc ? (request.body.rc.valid_upto) : null,
-        },
-        insurance: {
-            number: request.body.insurance ? (request.body.insurance.number) : null,
-            doc: request.body.insurance ? (request.body.insurance.doc) : null,
-            valid_upto: request.body.insurance ? (request.body.insurance.valid_upto) : null,
-        }
+        rc:request.body.rc,
+        vehicle_insurance:request.body.vehicle_insurance,
+        explosive:request.body.explosive,
+        calibration_chart:request.body.calibration_chart,
+        national_permit:request.body.national_permit,
+        national_permit_A:request.body.national_permit_A,
+        national_permit_B:request.body.national_permit_B,
+        road_tax:request.body.road_tax,
+        pollution:request.body.pollution,
+        sco:request.body.sco,
+        abs:request.body.abs,
+        hydro_testing:request.body.hydro_testing,
+        fitness:request.body.fitness,
+        others:request.body.others,
+        // others2:request.body.others2
 
     });
     console.log(data);
@@ -35,6 +39,10 @@ router.post('/create', (request, response) => {
             response.status(500).json(fleetResponse);
         }
         else {
+            if(result.role=='superAdmin'){
+                console.log('role superadmin',result._id)
+                data.superAdminId=result._id
+                              
             data.save((error, result) => {
                 console.log('fleet error', error);
                 console.log('fleet result', result);
@@ -43,7 +51,8 @@ router.post('/create', (request, response) => {
                     fleetResponse.error = true;
                     fleetResponse.message = `Error :` + " Something Went Wrong";
                     response.status(500).json(fleetResponse);
-                } else {
+                }
+               else {
                     fleetResponse.error = false;
                     fleetResponse.user = result;
                     fleetResponse.message = `Fleet Created   successfull.`;
@@ -52,6 +61,29 @@ router.post('/create', (request, response) => {
                 }
 
             });
+        }
+        else{
+            console.log('role admin',)
+            data.superAdminId=result.superAdminId._id
+            data.save((error, result) => {
+                console.log('fleet error', error);
+                console.log('fleet result', result);
+                if (error) {
+                    console.log(error);
+                    fleetResponse.error = true;
+                    fleetResponse.message = `Error :` + " Something Went Wrong";
+                    response.status(500).json(fleetResponse);
+                }
+               else {
+                    fleetResponse.error = false;
+                    fleetResponse.user = result;
+                    fleetResponse.message = `Fleet Created   successfull.`;
+                    response.status(200).json(fleetResponse);
+
+                }
+
+            }); 
+        }
         }
 
 

@@ -3,46 +3,119 @@ var schema = mongoose.Schema;
 var uniqueValidator = require('mongoose-unique-validator');
 const companySchema = mongoose.Schema({
 
-    companyName: {
-        type: String
-    },
-    regId: {
-        type: schema.ObjectId,
-        ref: 'file'
-    },
-    regNo: {
+    organisation: {
         type: String,
+        enum: ['lalbaba', 'patro']
     },
-    gstNo: {
-        type: String
+    road_registration_certificate: {
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        }, number: {
+            type: String,
+        },
     },
-    gstId: {
-        type: schema.ObjectId,
-        ref: 'file'
+    gst: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        }
     },
-    tradeLicenseNo: {
-        type: String
+    tradeLicense_A: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
     },
-    tradeLicenseId: {
-        type: schema.ObjectId,
-        ref: 'file'
+    tradeLicense_B: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
     },
-    invoiceNo: {
-        type: String
+    invoice: {
+        number: {
+            type: String
 
-    },
-    invoiceId: {
-        type: schema.ObjectId,
-        ref: 'file'
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
 
+        }
     },
-    panId: {
-        type: schema.ObjectId,
-        ref: 'file'
+    pan: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        }
     },
-    panCard: {
+tan:{
+    number: {
         type: String
     },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+},
+balance_sheet:{
+    number: {
+        type: String
+    },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+},
+professional_tax:{
+    number: {
+        type: String
+    },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+},
+pf:{
+    number: {
+        type: String
+    },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+},
+esi:{
+    number: {
+        type: String
+    },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+},
+itr:[{
+    financial_year: {
+        type: String
+    },
+    doc: {
+        type: schema.ObjectId,
+        ref: 'file'
+    }
+}],
     address: {
         type: String
     },
@@ -66,9 +139,12 @@ const companySchema = mongoose.Schema({
         ref: 'user'
     },
     superAdminId: {
-        type: schema.ObjectId,
-        ref: 'user'
+        type: String
+        
     },
+    // others:[{
+
+    // }],
     createdDate: {
         type: Date,
         default: Date.now
