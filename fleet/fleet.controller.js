@@ -26,7 +26,6 @@ router.post('/create', (request, response) => {
         hydro_testing:request.body.hydro_testing,
         fitness:request.body.fitness,
         others:request.body.others,
-        // others2:request.body.others2
 
     });
     console.log(data);

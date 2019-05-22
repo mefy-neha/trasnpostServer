@@ -12,6 +12,9 @@ const driverSchema = mongoose.Schema({
         type: String,
         default: 'driver'
     },
+    role:{
+        type: String
+    },
     organisation: {
         type: String,
         enum: ['lalbaba', 'patro']
@@ -32,6 +35,9 @@ const driverSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     training_certificate: {
@@ -41,6 +47,9 @@ const driverSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     police_verification: {
@@ -50,6 +59,9 @@ const driverSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     picture: {
@@ -72,9 +84,9 @@ const driverSchema = mongoose.Schema({
             ref: 'file'
 
         },
-        // valid_upto: {
-        //     type: String
-        // }
+        valid_upto: {
+            type: String
+        }
     }],
     superAdminId: {
         type: String

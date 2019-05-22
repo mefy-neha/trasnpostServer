@@ -12,6 +12,9 @@ const employeeSchema = mongoose.Schema({
         type: String,
         enum: ['lalbaba', 'patro']
     },
+    role:{
+        type: String
+    },
     phoneNumber:{
         type:String
     },
@@ -49,9 +52,9 @@ const employeeSchema = mongoose.Schema({
             ref: 'file'
 
         },
-        // valid_upto: {
-        //     type: String
-        // }
+        valid_upto: {
+            type: String
+        }
     }],
     userId: {
         type: schema.ObjectId,

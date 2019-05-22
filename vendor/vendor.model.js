@@ -11,6 +11,9 @@ const vendorSchema = mongoose.Schema({
         type: String,
         default:'vendor'
     },
+    role:{
+        type: String
+    },
     organisation: {
         type: String,
         enum: ['lalbaba', 'patro']
@@ -42,6 +45,9 @@ const vendorSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     pan: {
@@ -51,6 +57,9 @@ const vendorSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     tan: {
@@ -60,6 +69,9 @@ const vendorSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     others: [{
@@ -74,9 +86,9 @@ const vendorSchema = mongoose.Schema({
             ref: 'file'
 
         },
-        // valid_upto: {
-        //     type: String
-        // }
+        valid_upto: {
+            type: String
+        }
     }],
     picture: {
         type: schema.ObjectId,
