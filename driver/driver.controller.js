@@ -106,14 +106,14 @@ router.get('/driverlist', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
     user.findById({ _id: superAdminId }, (error, result) => {
-        console.log('error', error);
+        console.log('error...........', error);
         console.log('result', result);
-        if (error) {
+        if (error || result==null) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            sentResponse.message = `Error :` + error+ '  ' + "User Does not exist";
             response.status(500).json(sentResponse);
         }
-
+else{
         console.log('role superadmin')
         driver.find({ superAdminId: superAdminId }, (error, result) => {
             console.log('error', error);
@@ -132,6 +132,7 @@ router.get('/driverlist', (request, response) => {
             }
 
         })
+    }
     })
 })
 /************************************END ******************************************** */

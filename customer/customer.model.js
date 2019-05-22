@@ -14,6 +14,9 @@ const customerSchema = mongoose.Schema({
         type: String,
         default:'customer'
     },
+    role:{
+        type: String
+    },
     organisation: {
         type: String,
         enum: ['lalbaba', 'patro']
@@ -45,6 +48,9 @@ const customerSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     pan: {
@@ -54,6 +60,9 @@ const customerSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     tan: {
@@ -63,6 +72,9 @@ const customerSchema = mongoose.Schema({
         doc: {
             type: schema.ObjectId,
             ref: 'file'
+        },
+        valid_upto: {
+            type: String
         }
     },
     others: [{
@@ -77,9 +89,9 @@ const customerSchema = mongoose.Schema({
             ref: 'file'
 
         },
-        // valid_upto: {
-        //     type: String
-        // }
+        valid_upto: {
+            type: String
+        }
     }],
     picture: {
         type: schema.ObjectId,

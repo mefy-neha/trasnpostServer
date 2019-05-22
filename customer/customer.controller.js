@@ -20,7 +20,6 @@ router.post('/create', (request, response) => {
         others:request.body.others,
         website: request.body.website,
         userId: request.body.userId,
-        organisation: request.body.organisation,
     });
     console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {
@@ -28,37 +27,63 @@ router.post('/create', (request, response) => {
         console.log('result result', result);
         if (error) {
             console.log(error);
-            employeeResponse.error = true;
-            employeeResponse.message = `Error :` + " User does not exist";
-            response.status(500).json(employeeResponse);
+            customerResponse.error = true;
+            customerResponse.message = `Error :` + " User does not exist";
+            response.status(500).json(customerResponse);
         }
         else{
-    data.save((error, result) => {
-        console.log('Customer error', error);
-        console.log('Customer result', result);
-        if (error) {
-            console.log(error);
-            customerResponse.error = true;
-            customerResponse.message = `Error :` + error.code == 11000 ? error.message : " creation failed";
-            response.status(500).json(customerResponse);
-        } else {
+            data.role = result.role,
+            data.organisation = result.organisation
+        if (result.role == 'superAdmin') {
+            console.log('superAdmin')
+            data.superAdminId = result._id
+            data.save((error, result) => {
+                console.log('Customer error', error);
+                console.log('Customer result', result);
+                if (error) {
+                    console.log(error);
+                    customerResponse.error = true;
+                    customerResponse.message = `Error :` + " creation failed";
+                    response.status(500).json(customerResponse);
+                } else {
 
-            customerResponse.err = false;
-            customerResponse.user = res;
-            customerResponse.message = `Customer is created  successfull.`;
-            response.status(200).json(customerResponse);
+                    customerResponse.error = false;
+                    customerResponse.result = result;
+                    customerResponse.message = `Customer is created  successfull.`;
+                    response.status(200).json(customerResponse);
+                }
+            })
         }
-    })
-}
+        else {
+            console.log('admin,other')
+            data.superAdminId = result.superAdminId._id
+            data.save((error, result) => {
+                console.log('Customer error', error);
+                console.log('Customer result', result);
+                if (error) {
+                    console.log(error);
+                    customerResponse.error = true;
+                    customerResponse.message = `Error :` + " creation failed";
+                    response.status(500).json(customerResponse);
+                } else {
+
+                    customerResponse.error = false;
+                    customerResponse.result = result;
+                    customerResponse.message = `Customer is created  successfull.`;
+                    response.status(200).json(customerResponse);
+                }
+            })
+        }
+        }
+
     })
 });
 
 /************************************END ******************************************** */
-/************************** CUSTOMER DETAIL BY USERID ********************************************** */
-router.get('/customerByUserId', (request, response) => {
-    let userId = request.query.userId;
+/************************** CUSTOMER DETAIL  ********************************************** */
+router.get('/list', (request, response) => {
     let sentResponse = {};
-    customer.find({ userId: userId }, (error, result) => {
+    customer.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -97,6 +122,41 @@ router.delete('/delete', (request, response) => {
 
         }
 
+    })
+})
+/************************************END ******************************************** */
+/************************** CUSTOMER DETAIL BY SUPERADMINID ********************************************** */
+router.get('/customerlist', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.findById({ _id: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error || result==null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error +'  '+ "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else{
+        console.log('role superadmin')
+        customer.find({ superAdminId: superAdminId }, (error, result) => {
+            console.log('error', error);
+            console.log('result', result);
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Something went wrong";
+                response.status(500).json(sentResponse);
+            }
+            else {
+                sentResponse.error = false;
+                sentResponse.message = "Custometr List";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
+
+            }
+
+        })
+    }
     })
 })
 /************************************END ******************************************** */
