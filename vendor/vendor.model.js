@@ -72,6 +72,9 @@ const vendorSchema = mongoose.Schema({
         },
         valid_upto: {
             type: String
+        },
+        valid_upto: {
+            type: String
         }
     },
     others: [{
