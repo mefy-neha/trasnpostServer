@@ -19,60 +19,60 @@ router.post('/create', (request, response) => {
         picture: request.body.picture,
         userId: request.body.userId,
         organisation: request.body.organisation,
-        role:request.body.role,
-        superAdminId:request.body.superAdminId
+        role: request.body.role,
+        superAdminId: request.body.superAdminId
     });
     console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
-        if (error || result ==null) {
+        if (error || result == null) {
             console.log(error);
             driverResponse.error = true;
             driverResponse.message = `Error :` + " User does not exist";
             response.status(500).json(driverResponse);
         } else {
-            data.role=result.role,
-            data.organisation=result.organisation
-            if(result.role=='superAdmin'){
+            data.role = result.role,
+                data.organisation = result.organisation
+            if (result.role == 'superAdmin') {
                 console.log('superAdmin')
-                data.superAdminId=result._id         
-               data.save((error, result) => {
-                console.log('Driver error', error);
-                console.log('Driver result', result);
-                if (error) {
-                    console.log(error);
-                    driverResponse.error = true;
-                    driverResponse.message = `Error :` + " creation failed";
-                    response.status(500).json(driverResponse);
-                } else {
-
-                    driverResponse.error = false;
-                    driverResponse.result = result;
-                    driverResponse.message = `Driver is created  successfull.`;
-                    response.status(200).json(driverResponse);
-                }
-            })
-            }
-            else{
-                console.log('admin,other')
-                data.superAdminId=result.superAdminId._id       
+                data.superAdminId = result._id
                 data.save((error, result) => {
-                 console.log('Driver error', error);
-                 console.log('Driver result', result);
-                 if (error) {
-                     console.log(error);
-                     driverResponse.error = true;
-                     driverResponse.message = `Error :` + " creation failed";
-                     response.status(500).json(driverResponse);
-                 } else {
- 
-                     driverResponse.error = false;
-                     driverResponse.result = result;
-                     driverResponse.message = `Driver is created  successfull.`;
-                     response.status(200).json(driverResponse);
-                 }
-             })
+                    console.log('Driver error', error);
+                    console.log('Driver result', result);
+                    if (error) {
+                        console.log(error);
+                        driverResponse.error = true;
+                        driverResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(driverResponse);
+                    } else {
+
+                        driverResponse.error = false;
+                        driverResponse.result = result;
+                        driverResponse.message = `Driver is created  successfull.`;
+                        response.status(200).json(driverResponse);
+                    }
+                })
+            }
+            else {
+                console.log('admin,other')
+                data.superAdminId = result.superAdminId._id
+                data.save((error, result) => {
+                    console.log('Driver error', error);
+                    console.log('Driver result', result);
+                    if (error) {
+                        console.log(error);
+                        driverResponse.error = true;
+                        driverResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(driverResponse);
+                    } else {
+
+                        driverResponse.error = false;
+                        driverResponse.result = result;
+                        driverResponse.message = `Driver is created  successfull.`;
+                        response.status(200).json(driverResponse);
+                    }
+                })
             }
         }
     })
@@ -113,85 +113,26 @@ router.get('/driverlist', (request, response) => {
             sentResponse.message = `Error :` + error.message + "User Does not exist";
             response.status(500).json(sentResponse);
         }
-    
-            console.log('role superadmin')
-            driver.find({ superAdminId: superAdminId }, (error, result) => {
-                console.log('error', error);
-                console.log('result', result);
-                if (error) {
-                    sentResponse.error = true;
-                    sentResponse.message = `Error :` + error.message + "Something went wrong";
-                    response.status(500).json(sentResponse);
-                }
-                else {
-                    sentResponse.error = false;
-                    sentResponse.message = "Driver List";
-                    sentResponse.result = result
-                    response.status(200).json(sentResponse);
 
-                }
+        console.log('role superadmin')
+        driver.find({ superAdminId: superAdminId }, (error, result) => {
+            console.log('error', error);
+            console.log('result', result);
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Something went wrong";
+                response.status(500).json(sentResponse);
+            }
+            else {
+                sentResponse.error = false;
+                sentResponse.message = "Driver List";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
 
-            })
+            }
 
-        
-        // else if (result.role == 'admin') {
-        //     console.log('role admin')
-        //     driver.find({}, (error, result) => {
-        //         console.log('error', error);
-        //         console.log('result', result);
-        //         if (error) {
-        //             sentResponse.error = true;
-        //             sentResponse.message = `Error :` + error.message + "Something went wrong";
-        //             response.status(500).json(sentResponse);
-        //         }
-        //         else {
-        //             sentResponse.error = false;
-        //             sentResponse.message = "Driver List";
-        //             sentResponse.result = result
-        //             response.status(200).json(sentResponse);
-
-        //         }
-
-        //     })
-
-        // }
-        // else {
-        //     console.log('role accountant')
-        //     sentResponse.message = " You don't have access";
-        // }
-
-
-
-
+        })
     })
-
-
-
-
-
-
-
-
-
-
-
-    // driver.find({ superAdminId: superAdminId }, (error, result) => {
-    //     console.log('error', error);
-    //     console.log('result', result);
-    //     if (error) {
-    //         sentResponse.error = true;
-    //         sentResponse.message = `Error :` + error.message + "User Does not exist";
-    //         response.status(500).json(sentResponse);
-    //     }
-    //     else {
-    //         sentResponse.error = false;
-    //         sentResponse.message = "Driver List";
-    //         sentResponse.result = result
-    //         response.status(200).json(sentResponse);
-
-    //     }
-
-    // })
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
