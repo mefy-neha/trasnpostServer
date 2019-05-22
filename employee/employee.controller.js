@@ -11,11 +11,9 @@ router.post('/create', (request, response) => {
         phoneNumber: request.body.phoneNumber,
         aadhar: request.body.aadhar,
         voterId: request.body.voterId,
-        others:request.body.others,
-        others:request.body.others,
+        others: request.body.others,
         picture: request.body.picture,
         userId: request.body.userId,
-        organisation: request.body.organisation,
     });
     console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {
@@ -26,36 +24,63 @@ router.post('/create', (request, response) => {
             employeeResponse.error = true;
             employeeResponse.message = `Error :` + " User does not exist";
             response.status(500).json(employeeResponse);
-        } else {
-            data.save((error, result) => {
-                console.log('user error', error);
-                console.log('user result', result);
-                if (error) {
-                    console.log(error);
-                    employeeResponse.error = true;
-                    employeeResponse.message = `Error :` + " creation failed";
-                    response.status(500).json(employeeResponse);
-                } else {
-                    employeeResponse.error = false;
-                    employeeResponse.result = result;
-                    employeeResponse.message = `Employee is created  successfull.`;
-                    response.status(200).json(employeeResponse);
-                }
-            })
+        }
+        else {
+            data.role = result.role,
+                data.organisation = result.organisation
+            if (result.role == 'superAdmin') {
+                console.log('superAdmin')
+                data.superAdminId = result._id
+                data.save((error, result) => {
+                    console.log('Employee error', error);
+                    console.log('Employee result', result);
+                    if (error) {
+                        console.log(error);
+                        employeeResponse.error = true;
+                        employeeResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(employeeResponse);
+                    } else {
+
+                        employeeResponse.error = false;
+                        employeeResponse.result = result;
+                        employeeResponse.message = `Employee is created  successfull.`;
+                        response.status(200).json(employeeResponse);
+                    }
+                })
+            }
+            else {
+                console.log('admin,other')
+                data.superAdminId = result.superAdminId._id
+                data.save((error, result) => {
+                    console.log('Employee error', error);
+                    console.log('Employee result', result);
+                    if (error) {
+                        console.log(error);
+                        employeeResponse.error = true;
+                        employeeResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(employeeResponse);
+                    } else {
+                        employeeResponse.error = false;
+                        employeeResponse.result = result;
+                        employeeResponse.message = `Employee is created  successfull.`;
+                        response.status(200).json(employeeResponse);
+                    }
+                })
+            }
         }
     })
 });
+
 /************************************END ******************************************** */
 /************************** EMPLOYEE DETAIL BY USERID ********************************************** */
-router.get('/employeeByUserId', (request, response) => {
-    let userId = request.query.userId;
+router.get('/list', (request, response) => {
     let sentResponse = {};
-    employee.find({ userId: userId }, (error, result) => {
+    employee.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            sentResponse.message = `Error :` + error.message + "Something went wrong";
             response.status(500).json(sentResponse);
         }
         else {
@@ -89,6 +114,41 @@ router.delete('/delete', (request, response) => {
 
         }
 
+    })
+})
+/************************************END ******************************************** */
+/************************** EMPLOYEE DETAIL BY SUPERADMINID ********************************************** */
+router.get('/employeelist', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.findById({ _id: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error + '  ' + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            console.log('role superadmin')
+            employee.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something went wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Employee List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+
+            })
+        }
     })
 })
 /************************************END ******************************************** */
