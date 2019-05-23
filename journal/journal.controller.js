@@ -167,140 +167,40 @@ router.post('/create', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************** JOURNAL DETAIL BY USERID ********************************************** */
-router.get('/journalByUserId', (request, response) => {
-    let userId = request.query.userId;
+
+/************************** JOURNAL LIST BY SUPERADMIN OR ADMIN ********************************************** */
+router.get('/journalList', (request, response) => {
+    let superAdminId = request.query.superAdminId;
     let sentResponse = {};
-    journal.find({ userId: userId }, (error, result) => {
-        console.log('error', error);
+    user.findById({ _id: superAdminId }, (error, result) => {
+        console.log('error...........', error);
         console.log('result', result);
-        if (error) {
+        if (error || result==null) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            sentResponse.message = `Error :` + error+ '  ' + "User Does not exist";
             response.status(500).json(sentResponse);
         }
-        else {
-            sentResponse.error = false;
-            sentResponse.message = "Journal List";
-            sentResponse.result = result
-            response.status(200).json(sentResponse);
+else{
+        console.log('role superadmin')
+        journal.find({ superAdminId: superAdminId }, (error, result) => {
+            console.log('error', error);
+            console.log('result', result);
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Something went wrong";
+                response.status(500).json(sentResponse);
+            }
+            else {
+                sentResponse.error = false;
+                sentResponse.message = "Driver List";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
 
-        }
+            }
 
+        })
+    }
     })
-})
-/************************************END ******************************************** */
-/************************** JOURNAL DETAIL BY SUPERADMINID ********************************************** */
-router.get('/journal', (request, response) => {
-
-    let sentResponse = {};
-    let journalResponse = {};
-    let userId = request.query.userId;
-    user.findById({ _id: userId }, (error, result) => {
-        console.log('user error', error);
-        console.log('user result', result);
-        if (error || result == null) {
-            journalResponse.error = true;
-            journalResponse.message = `Error :` + " User Does not exist";
-            response.status(500).json(journalResponse);
-        }
-        else if (result.role == 'superAdmin') {
-            console.log('superAdmin')
-            let superAdmin = {}
-            superAdmin = result._id
-            console.log('iddddd', superAdmin)
-            journal.find({ userId: superAdmin }, (error, result) => {
-                console.log('error', error);
-                console.log('lengthsuperadmin', result.length)
-
-                console.log('length', result)
-                if (error) {
-                    journalResponse.error = true;
-                    journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
-                    response.status(500).json(journalResponse);
-                }
-                else {
-                    sentResponse.error = false;
-                    sentResponse.message = "Journal List";
-                    sentResponse.result = result
-                    response.status(200).json(sentResponse);
-                }
-
-
-            })
-        }
-        else {
-            superAdmin = result.superAdminId._id
-            console.log('iddddd', superAdmin)
-
-            journal.find({ userId: superAdmin }, (error, result) => {
-                console.log('error', error);
-                console.log('lengthrolleeeee', result.length)
-
-                console.log('length', result)
-                if (error) {
-                    journalResponse.error = true;
-                    journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
-                    response.status(500).json(journalResponse);
-                }
-                else {
-                    sentResponse.error = false;
-                    sentResponse.message = "Journal List";
-                    sentResponse.result = result
-                    response.status(200).json(sentResponse);
-                }
-
-
-            })
-        }
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // journal.find({ userId: userId }, (error, result) => {
-    //     console.log('error', error);
-    //     console.log('result', result);
-    //     if (error) {
-    //         sentResponse.error = true;
-    //         sentResponse.message = `Error :` + error.message + "User Does not exist";
-    //         response.status(500).json(sentResponse);
-    //     }
-    //     else {
-    //         sentResponse.error = false;
-    //         sentResponse.message = "Journal List";
-    //         sentResponse.result = result
-    //         response.status(200).json(sentResponse);
-
-    //     }
-
-    // })
 })
 /************************************END ******************************************** */
 
