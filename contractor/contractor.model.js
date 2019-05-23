@@ -53,7 +53,8 @@ const contractorSchema = mongoose.Schema({
         ref: 'file'
     },
     currency: {
-        type: String
+        type: String,
+        default:'INR'
     },
     phoneNumber: {
         type: String

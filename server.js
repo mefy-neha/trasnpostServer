@@ -18,6 +18,8 @@ const driverRoute = require('./driver/driver.controller')
 const employeeRoute = require('./employee/employee.controller')
 const customerRoute = require('./customer/customer.controller')
 const vendorRoute = require('./vendor/vendor.controller')
+const periodRoute = require('./period/period.controller')
+
 
 
 
@@ -64,6 +66,8 @@ app.use('/driver',driverRoute);
 app.use('/vendor',vendorRoute);
 app.use('/customer',customerRoute);
 app.use('/employee',employeeRoute);
+app.use('/period',periodRoute);
+
 
 
 

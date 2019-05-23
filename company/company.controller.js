@@ -28,7 +28,6 @@ router.post('/create', (request, response) => {
         itr: request.body.itr,
         address:request.body.address,
         companyLogo: request.body.companyLogo,
-        currency: request.body.currency,
         phoneNumber: request.body.phoneNumber,
         userId: request.body.userId,
         // superAdminId: request.body.superAdminId

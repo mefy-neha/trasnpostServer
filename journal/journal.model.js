@@ -13,6 +13,15 @@ organisation:{
     type: String,
     enum: ['lalbaba', 'patro']
 },
+status:{
+    type: String,
+},
+posted:{
+    type:Boolean
+},
+period:{
+    type: String,
+},
 journalNumber:{
     type: Number
 },
@@ -20,9 +29,12 @@ notes:{
     type: String,
    
 },
+total:{
+    type: String, 
+},
 currency: {
     type: String,
-    default:'Rs'
+    default:'INR'
 },
 journalType: {
     type: Boolean,
@@ -47,6 +59,10 @@ accountId:{
 //     type: schema.ObjectId,
 //     ref: 'company'
 // },
+superAdminId: {
+    type: String
+
+},
 debit:{
     type:String
 },
