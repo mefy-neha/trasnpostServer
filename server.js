@@ -13,12 +13,14 @@ const contractorRoute = require('./contractor/contractor.controller');
 const fileRoute = require('./file/file.controller');
 const accountRoute = require ('./account/account.controller');
 const fleetRoute = require ('./fleet/fleet.controller');
-const journalRoute = require('./journal/journal.controller')
-const driverRoute = require('./driver/driver.controller')
-const employeeRoute = require('./employee/employee.controller')
-const customerRoute = require('./customer/customer.controller')
-const vendorRoute = require('./vendor/vendor.controller')
-const periodRoute = require('./period/period.controller')
+const journalRoute = require('./journal/journal.controller');
+const driverRoute = require('./driver/driver.controller');
+const employeeRoute = require('./employee/employee.controller');
+const customerRoute = require('./customer/customer.controller');
+const vendorRoute = require('./vendor/vendor.controller');
+const periodRoute = require('./period/period.controller');
+const routesRoute = require('./routes/routes.controller');
+
 
 
 
@@ -67,6 +69,7 @@ app.use('/vendor',vendorRoute);
 app.use('/customer',customerRoute);
 app.use('/employee',employeeRoute);
 app.use('/period',periodRoute);
+app.use('/routes',routesRoute)
 
 
 

@@ -15,6 +15,7 @@ organisation:{
 },
 status:{
     type: String,
+    enum: ['publish', '']
 },
 posted:{
     type:Boolean
@@ -30,6 +31,9 @@ notes:{
    
 },
 total:{
+    type: String, 
+},
+total_amount:{
     type: String, 
 },
 currency: {

@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const vendor = require('./vendor.model');
+const routes = require('./routes.model');
 const user = require('../user/user.model');
+
+
 
 /************************* VENDOR Creation *************************/
 router.post('/create', (request, response) => {
-    let vendorResponse = {};
-    let data = new vendor({
-        name: request.body.name,
-        phoneNumber: request.body.phoneNumber,
-        aadhar: request.body.aadhar,
-        gst: request.body.gst,
-        pan: request.body.pan,
-        tan: request.body.tan,
-        others: request.body.others,
-        picture: request.body.picture,
+    let routeResponse = {};
+    let data = new routes({
+        from_location: request.body.from_location,
+        to_location: request.body.to_location,
+        stopage: request.body.stopage?request.body.stopage:null,
+        total_km: request.body.total_km,
+        diesel_expenses: request.body.diesel_expenses,
+        driver_expenses: request.body.driver_expenses,
+        others_expenses: request.body.others_expenses?request.body.others_expenses:null,
         userId: request.body.userId,
     });
     console.log(data);
@@ -23,30 +24,29 @@ router.post('/create', (request, response) => {
         console.log('result result', result);
         if (error) {
             console.log(error);
-            vendorResponse.error = true;
-            vendorResponse.message = `Error :` + " User does not exist";
-            response.status(500).json(vendorResponse);
+            routeResponse.error = true;
+            routeResponse.message = `Error :` + " User does not exist";
+            response.status(500).json(routeResponse);
         }
         else {
-            data.role = result.role,
                 data.organisation = result.organisation
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
                 data.save((error, result) => {
-                    console.log('Vendor error', error);
-                    console.log('Vendor result', result);
+                    console.log('Routes error', error);
+                    console.log('Routes result', result);
                     if (error) {
                         console.log(error);
-                        vendorResponse.error = true;
-                        vendorResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(vendorResponse);
+                        routeResponse.error = true;
+                        routeResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(routeResponse);
                     } else {
 
-                        vendorResponse.error = false;
-                        vendorResponse.result = result;
-                        vendorResponse.message = `Vendor is created  successfull.`;
-                        response.status(200).json(vendorResponse);
+                        routeResponse.error = false;
+                        routeResponse.result = result;
+                        routeResponse.message = `Routes is created  successfull.`;
+                        response.status(200).json(routeResponse);
                     }
                 })
             }
@@ -54,18 +54,18 @@ router.post('/create', (request, response) => {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
                 data.save((error, result) => {
-                    console.log('Customer error', error);
-                    console.log('Customer result', result);
+                    console.log('Routes error', error);
+                    console.log('Routes result', result);
                     if (error) {
                         console.log(error);
-                        vendorResponse.error = true;
-                        vendorResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(vendorResponse);
+                        routeResponse.error = true;
+                        routeResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(routeResponse);
                     } else {
-                        vendorResponse.error = false;
-                        vendorResponse.result = result;
-                        vendorResponse.message = `Vendor is created  successfull.`;
-                        response.status(200).json(vendorResponse);
+                        routeResponse.error = false;
+                        routeResponse.result = result;
+                        routeResponse.message = `Routes is created  successfull.`;
+                        response.status(200).json(routeResponse);
                     }
                 })
             }
@@ -74,11 +74,10 @@ router.post('/create', (request, response) => {
     })
 });
 /************************** END ********************************************** */
-
-/************************** VENDOR DETAIL  ********************************************** */
+/************************** routes DETAIL  ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    vendor.find({}, (error, result) => {
+    routes.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -88,7 +87,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Vendor List";
+            sentResponse.message = "Routes List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -99,19 +98,19 @@ router.get('/list', (request, response) => {
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete', (request, response) => {
-    let vendorId = request.query.vendorId
+    let routeId = request.query.routeId
     let sentResponse = {}
-    vendor.remove({ _id: vendorId }, (error, result) => {
+    routes.remove({ _id: routeId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + " Vendor not exist";
+            sentResponse.message = `Error :` + error.message + " Routes not exist";
             response.status(500).json(sentResponse);
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Vendor Deleted";
+            sentResponse.message = "Routes Deleted";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -120,8 +119,8 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************** VENDOR DETAIL BY SUPERADMINID ********************************************** */
-router.get('/vendorlist', (request, response) => {
+/************************** Routes DETAIL BY SUPERADMINID ********************************************** */
+router.get('/routeslist', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
     user.findById({ _id: superAdminId }, (error, result) => {
@@ -134,9 +133,9 @@ router.get('/vendorlist', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            vendor.find({ superAdminId: superAdminId }, (error, result) => {
-                console.log('error', error);
-                console.log('result', result);
+            routes.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('routes', error);
+                console.log('routes', result);
                 if (error) {
                     sentResponse.error = true;
                     sentResponse.message = `Error :` + error.message + "Something went wrong";
@@ -144,7 +143,7 @@ router.get('/vendorlist', (request, response) => {
                 }
                 else {
                     sentResponse.error = false;
-                    sentResponse.message = "Vendor List";
+                    sentResponse.message = "Routes List";
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
@@ -154,5 +153,7 @@ router.get('/vendorlist', (request, response) => {
         }
     })
 })
+
 /************************************END ******************************************** */
+
 module.exports = router;
