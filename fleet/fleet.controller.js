@@ -14,6 +14,7 @@ router.post('/create', (request, response) => {
         userId: request.body.userId,
         rc:request.body.rc,
         vehicle_insurance:request.body.vehicle_insurance,
+        product_insurance:request.body.product_insurance,
         explosive:request.body.explosive,
         calibration_chart:request.body.calibration_chart,
         national_permit:request.body.national_permit,
@@ -112,7 +113,7 @@ router.delete('/delete',(request,response)=>{
     })
 })
 /************************************END ******************************************** */
-/************************** Fleet LIST ********************************************** */
+/************************** FLEET LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
     fleet.find({}, (error, result) => {
@@ -134,26 +135,38 @@ router.get('/list', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************** FLEET DETAIL BY USERID ********************************************** */
-router.get('/fleetByUserId', (request, response) => {
-    let userId = request.query.userId;
+/************************** FLEET DETAIL BY SUPERADMINID ********************************************** */
+router.get('/fleetlist', (request, response) => {
+    let superAdminId = request.query.superAdminId;
     let sentResponse = {};
-    fleet.find({ userId: userId }, (error, result) => {
+    user.findById({ _id: superAdminId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
-        if (error) {
+        if (error || result == null) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            sentResponse.message = `Error :` + error + '  ' + "User Does not exist";
             response.status(500).json(sentResponse);
         }
         else {
-            sentResponse.error = false;
-            sentResponse.message = "Fleet List";
-            sentResponse.result = result
-            response.status(200).json(sentResponse);
+            console.log('role superadmin')
+            fleet.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something went wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Fleet List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
 
+                }
+
+            })
         }
-
     })
 })
 /************************************END ******************************************** */
