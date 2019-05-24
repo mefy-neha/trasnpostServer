@@ -9,13 +9,8 @@ date: {
 reference: {
     type: String,
 },
-organisation:{
-    type: String,
-    enum: ['lalbaba', 'patro']
-},
 status:{
-    type: String,
-    default: 'publish'
+    type: String
 },
 posted:{
     type:Boolean
@@ -23,12 +18,8 @@ posted:{
 period:{
     type: String,
 },
-journalNumber:{
-    type: Number
-},
 notes:{
     type: String,
-   
 },
 total:{
     type: String, 
@@ -37,9 +28,10 @@ currency: {
     type: String,
     default:'INR'
 },
-// description:{
-//     type: String
-// },
+userId: {
+    type: schema.ObjectId,
+    ref: 'user'
+},
 denomination: [{
     type: {
         type: String
@@ -51,6 +43,13 @@ denomination: [{
         type: String
     }
 }],
+total_amount:{
+    type: String, 
+},
+superAdminId: {
+    type: String
+
+},
 detail:[{
     contactPersonId:{
         type: schema.ObjectId,
@@ -70,31 +69,6 @@ detail:[{
         type: String
     }
 }],
-total_amount:{
-    type: String,         //for total of denomination amount
-},
-userId: {
-    type: schema.ObjectId,
-    ref: 'user'
-},
-// contactPersonId:{
-//     type: schema.ObjectId,
-//     ref: 'contact'
-// },
-// accountId:{
-//     type: schema.ObjectId,
-//     ref: 'account'                /***************ACCOUNT AGAINST BY WHICH PERSON ID */
-// },
-superAdminId: {
-    type: String
-
-},
-// debit:{
-//     type:String
-// },
-// credit:{
-//     type:String
-// },
 createdDate: {
     type: Date,
     default: Date.now
@@ -141,4 +115,4 @@ journalSchema.pre('find', function (next) {
     this.populate('companyId');
     next();
 });
-const journal = module.exports = mongoose.model('journal', journalSchema)
+const journal1 = module.exports = mongoose.model('journal1', journalSchema)
