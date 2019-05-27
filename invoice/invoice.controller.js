@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const consignment = require('./consignment.model');
+const invoice = require('./invoice.model');
 const user = require('../user/user.model');
 
 /************************************BANK CREATION ******************************************** */
 router.post('/create', (request, response) => {
     let consignmentResponse = {};
-    let data = new consignment({
+    let data = new invoice({
         tl_number: request.body.tl_number,
         location_number: request.body.location_number,
         challan_number: request.body.challan_number,
@@ -119,7 +119,7 @@ router.get('/consignmentList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            consignment.find({ superAdminId: superAdminId }, (error, result) => {
+            invoice.find({ superAdminId: superAdminId }, (error, result) => {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
