@@ -21,13 +21,7 @@ const vendorRoute = require('./vendor/vendor.controller');
 const periodRoute = require('./period/period.controller');
 const routesRoute = require('./routes/routes.controller');
 const bankRoute = require('./bank/bank.controller');
-
-
-
-
-
-
-
+const consignmentRoute = require('./consignment/consignment.contrioller');
 
 
 
@@ -73,6 +67,8 @@ app.use('/employee',employeeRoute);
 app.use('/period',periodRoute);
 app.use('/routes',routesRoute);
 app.use('/bank',bankRoute);
+app.use('/consignment',consignmentRoute);
+
 
 
 
