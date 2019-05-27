@@ -54,8 +54,8 @@ router.post('/create', (request, response) => {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
                 data.save((error, result) => {
-                    console.log('Customer error', error);
-                    console.log('Customer result', result);
+                    console.log('Vendor error', error);
+                    console.log('Vendor result', result);
                     if (error) {
                         console.log(error);
                         vendorResponse.error = true;
