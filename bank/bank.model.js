@@ -8,9 +8,9 @@ const bankSchema = mongoose.Schema({
     branch_name: {
         type: String
     },
-    account_holder_name: {
-        type: String
-    },
+    // account_holder_name: {
+    //     type: String
+    // },
     ifsc: {
         type: String,
     },

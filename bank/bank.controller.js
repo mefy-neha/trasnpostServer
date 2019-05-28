@@ -9,7 +9,7 @@ router.post('/create', (request, response) => {
     let data = new bank({
         bank_name: request.body.bank_name,
         branch_name: request.body.branch_name,
-        account_holder_name: request.body.account_holder_name,
+        // account_holder_name: request.body.account_holder_name,
         ifsc: request.body.ifsc,
         account_number: request.body.account_number,
         address: request.body.address,
