@@ -5,24 +5,22 @@ const user = require('../user/user.model');
 
 /************************************BANK CREATION ******************************************** */
 router.post('/create', (request, response) => {
-    let consignmentResponse = {};
+    let invoiceResponse = {};
     let data = new invoice({
-        tl_number: request.body.tl_number,
-        location_number: request.body.location_number,
-        challan_number: request.body.challan_number,
-        challan_doc: request.body.challan_doc?request.body.challan_doc:null,
-        challan_date: request.body.challan_date,
-        consignor: request.body.consignor,
-        consignee:request.body.consignee,
-        reference_number: request.body.reference_number,
-        truck_number: request.body.truck_number,
-        origin_place: request.body.origin_place,
-        destination: request.body.destination,
-        authorize_person: request.body.authorize_person,
-        driver_license_number: request.body.driver_license_number,
-        driver_name:request.body.driver_name,
-        quantity: request.body.quantity,
-        advance_payment: request.body.advance_payment,
+        customerId: request.body.customerId,
+        work_order: request.body.work_order,
+        invoice_date: request.body.invoice_date,
+        terms: request.body.terms ,
+        due_date: request.body.due_date,
+        sub_total: request.body.sub_total,
+        total: request.body.total,
+        amount_paid:'0',
+        status: 'unpaid',
+        adjustment: request.body.adjustment,
+        gst: request.body.gst,
+        items_details: request.body.items_details,
+        terms_condition: request.body.terms_condition?request.body.terms_condition:null,
+        customer_notes: request.body.customer_notes?request.body.customer_notes:null,
         userId: request.body.userId
     })
     console.log('dataaaa', data)
@@ -31,48 +29,79 @@ router.post('/create', (request, response) => {
         console.log('result result', result);
         if (error) {
             console.log(error);
-            consignmentResponse.error = true;
-            consignmentResponse.message = `Error :` + " User does not exist";
-            response.status(500).json(consignmentResponse);
+            invoiceResponse.error = true;
+            invoiceResponse.message = `Error :` + " User does not exist";
+            response.status(500).json(invoiceResponse);
         }
         else {
-                // data.organisation = result.organisation
+            // data.organisation = result.organisation
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
-                data.save((error, result) => {
-                    console.log('Consignment error', error);
-                    console.log('Consignment result', result);
+                invoice.find({ superAdminId:  data.superAdminId }, (error, list) => {
+                    console.log('list error', error);
+                    console.log('list result', list);
                     if (error) {
                         console.log(error);
-                        consignmentResponse.error = true;
-                        consignmentResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(consignmentResponse);
+                        invoiceResponse.error = true;
+                        invoiceResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(invoiceResponse);
                     } else {
+                        console.log('listttt of invoice',list.length)
+                        let y ={}
+                        y=list.length + 1
+                        data.invoice_number= 'INV-00'+y
+                        data.save((error, result) => {
+                            console.log('Invoice error', error);
+                            console.log('Invoice result', result);
+                            if (error) {
+                                console.log(error);
+                                invoiceResponse.error = true;
+                                invoiceResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(invoiceResponse);
+                            } else {
 
-                        consignmentResponse.error = false;
-                        consignmentResponse.result = result;
-                        consignmentResponse.message = `Consignment is created  successfull.`;
-                        response.status(200).json(consignmentResponse);
+                                invoiceResponse.error = false;
+                                invoiceResponse.result = result;
+                                invoiceResponse.message = `Invoice is created  successfull.`;
+                                response.status(200).json(invoiceResponse);
+                            }
+                        })
                     }
                 })
             }
             else {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
-                data.save((error, result) => {
-                    console.log('Consignment error', error);
-                    console.log('Consignment result', result);
+                invoice.find({ superAdminId:  data.superAdminId }, (error, list) => {
+                    console.log('list error', error);
+                    console.log('list result', list);
                     if (error) {
                         console.log(error);
-                        consignmentResponse.error = true;
-                        consignmentResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(consignmentResponse);
+                        invoiceResponse.error = true;
+                        invoiceResponse.message = `Error :` + " creation failed";
+                        response.status(500).json(invoiceResponse);
                     } else {
-                        consignmentResponse.error = false;
-                        consignmentResponse.result = result;
-                        consignmentResponse.message = `Consignment is created  successfull.`;
-                        response.status(200).json(consignmentResponse);
+                        console.log('listttt of invoice',list.length)
+                        let x ={}
+                        x =list.length + 1
+                        data.invoice_number= 'INV-00'+x
+                        data.save((error, result) => {
+                            console.log('Invoice error', error);
+                            console.log('Invoice result', result);
+                            if (error) {
+                                console.log(error);
+                                invoiceResponse.error = true;
+                                invoiceResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(invoiceResponse);
+                            } else {
+
+                                invoiceResponse.error = false;
+                                invoiceResponse.result = result;
+                                invoiceResponse.message = `Invoice is created  successfull.`;
+                                response.status(200).json(invoiceResponse);
+                            }
+                        })
                     }
                 })
             }
@@ -86,9 +115,9 @@ router.post('/create', (request, response) => {
 /************************** BANK LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    consignment.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+    invoice.find({}, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -96,7 +125,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "ALL Consignment List";
+            sentResponse.message = "ALL Invoice List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -106,7 +135,7 @@ router.get('/list', (request, response) => {
 })
 /************************************END ******************************************** */
 /************************** BANK DETAIL BY SUPERADMINID ********************************************** */
-router.get('/consignmentList', (request, response) => {
+router.get('/invoiceList', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
     user.findById({ _id: superAdminId }, (error, result) => {
@@ -129,7 +158,7 @@ router.get('/consignmentList', (request, response) => {
                 }
                 else {
                     sentResponse.error = false;
-                    sentResponse.message = "Consignment List";
+                    sentResponse.message = "Invoice List";
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
@@ -141,12 +170,12 @@ router.get('/consignmentList', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let consignmentId=request.query.consignmentId
-    let sentResponse={}
-    invoice.remove({_id:consignmentId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let consignmentId = request.query.consignmentId
+    let sentResponse = {}
+    invoice.remove({ _id: consignmentId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
@@ -154,7 +183,7 @@ router.delete('/delete',(request,response)=>{
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Consignment Deleted";
+            sentResponse.message = "Invoice Deleted";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -163,4 +192,8 @@ router.delete('/delete',(request,response)=>{
     })
 })
 /************************************END ******************************************** */
+/************************************UPDATION OF INVOICE ******************************************** */
+
+/************************************END ******************************************** */
+
 module.exports = router;
