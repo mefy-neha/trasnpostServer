@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
-const invoiceSchema = mongoose.Schema({
+const payentSchema = mongoose.Schema({
 
-    customerId: {
+    vendorId: {
         type: schema.ObjectId,
-        ref: 'customer'
+        ref: 'vendor'
     },
     invoice_number:{
         type:String
@@ -151,20 +151,20 @@ const invoiceSchema = mongoose.Schema({
     }
 })
 
-invoiceSchema.pre('findOne', function (next) {
+payentSchema.pre('findOne', function (next) {
     this.populate('userId');
     next();
 });
-invoiceSchema.pre('find', function (next) {
+payentSchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
-invoiceSchema.pre('findOne', function (next) {
-    this.populate('customerId');
+payentSchema.pre('findOne', function (next) {
+    this.populate('vendorId');
     next();
 });
-invoiceSchema.pre('find', function (next) {
-    this.populate('customerId');
+payentSchema.pre('find', function (next) {
+    this.populate('vendorId');
     next();
 });
-const invoice = module.exports = mongoose.model('invoice', invoiceSchema)
+const payment = module.exports = mongoose.model('payment', payentSchema)
