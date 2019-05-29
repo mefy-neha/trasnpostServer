@@ -5,12 +5,11 @@ const user = require('../user/user.model');
 
 /************************************PERIOD CREATION ******************************************** */
 
-
 router.post('/create', (request, response) => {
     let periodResponse = {};
     let data = new period({
         period_name: request.body.period_name,
-        period_status: request.body.period_status?request.body.period_status:null,
+        period_status: request.body.period_status ? request.body.period_status : null,
         from: request.body.from,
         to: request.body.to,
         userId: request.body.userId
@@ -22,56 +21,57 @@ router.post('/create', (request, response) => {
         console.log('result result', result);
         if (error) {
             console.log(error);
-            customerResponse.error = true;
-            customerResponse.message = `Error :` + " User does not exist";
-            response.status(500).json(customerResponse);
-        }
-        else{
-            data.role = result.role,
-            data.organisation = result.organisation
-        if (result.role == 'superAdmin') {
-            console.log('superAdmin')
-            data.superAdminId = result._id
-            data.save((error, result) => {
-                console.log('Period error', error);
-                console.log('Period result', result);
-                if (error || result == null) {
-                    periodResponse.error = true;
-                    periodResponse.message = `Error :` + "Creation failed";
-                    response.status(500).json(periodResponse);
-                } else {
-
-                    periodResponse.error = false;
-                    periodResponse.result = result;
-                    periodResponse.message = `Period is created  successfull.`;
-                    response.status(200).json(periodResponse);
-                }
-            })
+            periodResponse.error = true;
+            periodResponse.message = `Error :` + " User does not exist";
+            response.status(500).json(periodResponse);
         }
         else {
-            console.log('admin,other')
-            data.superAdminId = result.superAdminId._id
-            data.save((error, result) => {
-                console.log('Customer error', error);
-                console.log('Customer result', result);
-                if (error || result == null) {
-                    periodResponse.error = true;
-                    periodResponse.message = `Error :` + "Creation failed";
-                    response.status(500).json(periodResponse);
-                } else {
+            data.role = result.role,
+                data.organisation = result.organisation
+            if (result.role == 'superAdmin') {
+                console.log('superAdmin')
+                data.superAdminId = result._id
+                data.save((error, result) => {
+                    console.log('Period error', error);
+                    console.log('Period result', result);
+                    if (error || result == null) {
+                        periodResponse.error = true;
+                        periodResponse.message = `Error :` + "Creation failed";
+                        response.status(500).json(periodResponse);
+                    } else {
 
-                    periodResponse.error = false;
-                    periodResponse.result = result;
-                    periodResponse.message = `Period is created  successfull.`;
-                    response.status(200).json(periodResponse);
-                }
-            })
-        }
+                        periodResponse.error = false;
+                        periodResponse.result = result;
+                        periodResponse.message = `Period is created  successfull.`;
+                        response.status(200).json(periodResponse);
+                    }
+                })
+            }
+            else {
+                console.log('admin,other')
+                data.superAdminId = result.superAdminId._id
+                data.save((error, result) => {
+                    console.log('Customer error', error);
+                    console.log('Customer result', result);
+                    if (error || result == null) {
+                        periodResponse.error = true;
+                        periodResponse.message = `Error :` + "Creation failed";
+                        response.status(500).json(periodResponse);
+                    } else {
+
+                        periodResponse.error = false;
+                        periodResponse.result = result;
+                        periodResponse.message = `Period is created  successfull.`;
+                        response.status(200).json(periodResponse);
+                    }
+                })
+            }
         }
 
     })
 
 })
+/************************************END ******************************************** */
 
 /************************** BANK DETAIL BY SUPERADMINID ********************************************** */
 router.get('/periodList', (request, response) => {
@@ -107,14 +107,5 @@ router.get('/periodList', (request, response) => {
         }
     })
 })
-/************************************END ******************************************** */
-
-
-
-
-
-
-
-
 /************************************END ******************************************** */
 module.exports = router;
