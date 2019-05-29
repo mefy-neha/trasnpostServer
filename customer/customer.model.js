@@ -78,7 +78,7 @@ const customerSchema = mongoose.Schema({
         }
     },
     others: [{
-        name: {
+        doc_name: {
             type: String
         },
         number: {

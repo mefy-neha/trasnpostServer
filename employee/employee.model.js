@@ -41,7 +41,7 @@ const employeeSchema = mongoose.Schema({
             ref: 'file'
     },
     others: [{
-        name: {
+        doc_name: {
             type: String
         },
         number: {

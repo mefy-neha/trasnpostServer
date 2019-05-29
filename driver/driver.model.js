@@ -73,7 +73,7 @@ const driverSchema = mongoose.Schema({
         ref: 'user'
     },
     others: [{
-        name: {
+        doc_name: {
             type: String
         },
         number: {

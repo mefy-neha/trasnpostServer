@@ -78,7 +78,7 @@ const vendorSchema = mongoose.Schema({
         }
     },
     others: [{
-        name: {
+       doc_name: {
             type: String
         },
         number: {
