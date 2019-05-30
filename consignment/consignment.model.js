@@ -27,6 +27,9 @@ const consignmentSchema = mongoose.Schema({
     consignee: {                            //id
         type: String
     },
+    consignment_date: {                            //id
+        type: String
+    },
     reference_number: {
         type: String
     },

@@ -15,6 +15,7 @@ router.post('/create', (request, response) => {
         challan_date: request.body.challan_date,
         consignor: request.body.consignor,
         consignee:request.body.consignee,
+        consignment_date:request.body.consignment_date,
         reference_number: request.body.reference_number,
         truck_number: request.body.truck_number,
         origin_place: request.body.origin_place,
