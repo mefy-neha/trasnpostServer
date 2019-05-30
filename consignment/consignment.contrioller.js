@@ -8,6 +8,7 @@ router.post('/create', (request, response) => {
     let consignmentResponse = {};
     let data = new consignment({
         tl_number: request.body.tl_number,
+        product:request.body.product,
         location_number: request.body.location_number,
         challan_number: request.body.challan_number,
         challan_doc: request.body.challan_doc?request.body.challan_doc:null,
