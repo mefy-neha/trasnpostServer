@@ -17,6 +17,9 @@ const fleetSchema = mongoose.Schema({
         type: String,
         enum: ['owned', 'contract']
     },
+    capcity:{
+        type: String
+    },
     rc: {
         number: {
             type: String,
