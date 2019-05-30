@@ -65,8 +65,7 @@ const driverSchema = mongoose.Schema({
         }
     },
     picture: {
-        type: schema.ObjectId,
-        ref: 'file'
+        type: String
     },
     userId: {
         type: schema.ObjectId,
