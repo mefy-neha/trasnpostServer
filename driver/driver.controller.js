@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const driver = require('./driver.model');
 const user = require('../user/user.model');
+const customer = require('../customer/customer.model');
+const vendor = require('../vendor/vendor.model');
+const employee = require('../employee/employee.model');
+
 
 
 
@@ -159,4 +163,42 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+router.get('/all',(request,response)=>{
+    let sentResponse={};
+    let superAdminId=request.query.superAdminId
+    driver.find({superAdminId:superAdminId},(err1,res1)=>{
+        if(err1){
+
+        }
+else{
+    customer.find({superAdminId:superAdminId},(err2,res2)=>{
+        if(err1){
+
+        }
+        else{
+            employee.find({superAdminId:superAdminId},(err3,res3)=>{
+                if(err1){
+        
+                }
+                else{
+                    vendor.find({superAdminId:superAdminId},(err3,res3)=>{
+                        if(err1){
+                
+                        }
+                        else{
+                            sentResponse.error = false;
+                            sentResponse.message = "Driver Deleted";
+                            sentResponse.result =res1+res2+res3
+                            response.status(200).json(sentResponse);
+                        }
+                    })
+                }
+            })
+        }
+})
+}
+    })
+
+})
+
 module.exports = router;
