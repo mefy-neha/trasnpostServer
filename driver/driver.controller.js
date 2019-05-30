@@ -16,7 +16,7 @@ router.post('/create', (request, response) => {
         training_certificate: request.body.training_certificate,
         police_verification: request.body.police_verification,
         others: request.body.others,
-        picture: request.body.picture,
+        picture: request.body.picture?request.body.picture:null,
         userId: request.body.userId,
         organisation: request.body.organisation,
         role: request.body.role,
