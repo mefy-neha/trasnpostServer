@@ -14,7 +14,7 @@ router.post('/create', (request, response) => {
         pan: request.body.pan,
         tan: request.body.tan,
         others: request.body.others,
-        picture: request.body.picture,
+        picture: request.body.picture?request.body.picture:null,
         userId: request.body.userId,
     });
     console.log(data);

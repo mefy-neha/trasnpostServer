@@ -12,7 +12,7 @@ router.post('/create', (request, response) => {
         aadhar: request.body.aadhar,
         voterId: request.body.voterId,
         others: request.body.others,
-        picture: request.body.picture,
+        picture: request.body.picture?request.body.picture:null,
         userId: request.body.userId,
     });
     console.log(data);

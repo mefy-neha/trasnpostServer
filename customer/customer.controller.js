@@ -14,7 +14,7 @@ router.post('/create', (request, response) => {
         gst: request.body.gst,
         pan: request.body.pan,
         tan: request.body.tan,
-        picture: request.body.picture,
+        picture: request.body.picture?request.body.picture:null,
         userId: request.body.userId,
         company_name: request.body.company_name,
         others:request.body.others,
