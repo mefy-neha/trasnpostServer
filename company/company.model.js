@@ -71,7 +71,7 @@ tan:{
         ref: 'file'
     }
 },
-balance_sheet:{
+balance_sheet:[{
     number: {
         type: String
     },
@@ -79,7 +79,7 @@ balance_sheet:{
         type: schema.ObjectId,
         ref: 'file'
     }
-},
+}],
 professional_tax:{
     number: {
         type: String
