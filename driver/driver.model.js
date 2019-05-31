@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
+// var uniqueValidator = require('mongoose-unique-validator');
 const driverSchema = mongoose.Schema({
 
     name: {
@@ -8,9 +9,9 @@ const driverSchema = mongoose.Schema({
     phoneNumber: {
         type: String
     },
-    contactType: {
+    contact_type: {
         type: String,
-        default: 'driver'
+        enum: ['driver', 'vendor','customer','employee']
     },
     role:{
         type: String
@@ -18,6 +19,17 @@ const driverSchema = mongoose.Schema({
     organisation: {
         type: String,
         enum: ['lalbaba', 'patro']
+    },
+    email: {
+        type: String,
+        // unique: true,
+        // sparse: true
+    },
+    company_name:{
+        type:String
+    },
+    website:{
+        type:String
     },
     aadhar: {
         number: {
@@ -62,6 +74,51 @@ const driverSchema = mongoose.Schema({
         },
         valid_upto: {
             type: String
+        }
+    },
+    gst: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    pan: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    tan: {
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
+        valid_upto: {
+            type: String
+        }
+    },
+    voterId:{
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
         }
     },
     picture: {
@@ -116,5 +173,5 @@ driverSchema.pre('find', function (next) {
     next();
 });
 
-
+// driverSchema.plugin(uniqueValidator);
 const driver = module.exports = mongoose.model('driver', driverSchema)

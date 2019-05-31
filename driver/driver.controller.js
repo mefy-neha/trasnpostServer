@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const driver = require('./driver.model');
 const user = require('../user/user.model');
-const customer = require('../customer/customer.model');
-const vendor = require('../vendor/vendor.model');
-const employee = require('../employee/employee.model');
 
 
 
@@ -15,16 +12,21 @@ router.post('/create', (request, response) => {
     let data = new driver({
         name: request.body.name,
         phoneNumber: request.body.phoneNumber,
-        aadhar: request.body.aadhar,
-        licence: request.body.licence,
-        training_certificate: request.body.training_certificate,
-        police_verification: request.body.police_verification,
+        email:request.body.email?request.body.email:null,
+        company_name:request.body.company_name?request.body.company_name:null,
+        website:request.body.website?request.body.website:null,
+        contact_type:request.body.contact_type,
+        gst:request.body.gst?request.body.gst:null,
+        pan:request.body.pan?request.body.pan:null,
+        tan:request.body.tan?request.body.tan:null,
+        voterId:request.body.voterId?request.body.voterId:null,
+        aadhar: request.body.aadhar?request.body.aadhar:null,
+        licence: request.body.licence?request.body.licence:null,
+        training_certificate: request.body.training_certificate?request.body.training_certificate:null,
+        police_verification: request.body.police_verification?request.body.police_verification:null,
         others: request.body.others,
         picture: request.body.picture?request.body.picture:null,
-        userId: request.body.userId,
-        organisation: request.body.organisation,
-        role: request.body.role,
-        superAdminId: request.body.superAdminId
+        userId: request.body.userId
     });
     console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {
@@ -163,42 +165,5 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-router.get('/all',(request,response)=>{
-    let sentResponse={};
-    let superAdminId=request.query.superAdminId
-    driver.find({superAdminId:superAdminId},(err1,res1)=>{
-        if(err1){
-
-        }
-else{
-    customer.find({superAdminId:superAdminId},(err2,res2)=>{
-        if(err1){
-
-        }
-        else{
-            employee.find({superAdminId:superAdminId},(err3,res3)=>{
-                if(err1){
-        
-                }
-                else{
-                    vendor.find({superAdminId:superAdminId},(err3,res3)=>{
-                        if(err1){
-                
-                        }
-                        else{
-                            sentResponse.error = false;
-                            sentResponse.message = "Driver Deleted";
-                            sentResponse.result =res1+res2+res3
-                            response.status(200).json(sentResponse);
-                        }
-                    })
-                }
-            })
-        }
-})
-}
-    })
-
-})
 
 module.exports = router;
