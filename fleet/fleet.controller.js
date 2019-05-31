@@ -13,7 +13,7 @@ router.post('/create', (request, response) => {
         ownership: request.body.ownership,
         userId: request.body.userId,
         rc:request.body.rc,
-        capcity:request.body.capcity,
+        capacity:request.body.capacity,
         vehicle_insurance:request.body.vehicle_insurance,
         product_insurance:request.body.product_insurance,
         explosive:request.body.explosive,
