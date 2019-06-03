@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const company = require('./company.model');
 const user = require('../user/user.model');
+const moment = require('moment');
 
 
 /*************************COMPANY CREATION *************************/
@@ -20,11 +21,11 @@ router.post('/create', (request, response) => {
         invoice: request.body.invoice?request.body.invoice:null,
         pan: request.body.pan?request.body.pan:null,
         tan: request.body.tan?request.body.tan:null,
-        balance_sheet: request.body.balance_sheet?request.body.balance_sheet:null,
+        // balance_sheet: request.body.balance_sheet?request.body.balance_sheet:null,
         professional_tax: request.body.professional_tax?request.body.professional_tax:null,
         pf: request.body.pf?request.body.pf:null,
         esi: request.body.esi?request.body.esi:null,
-        itr: request.body.itr?request.body.itr:null,
+        // itr: request.body.itr?request.body.itr:null,
         address:request.body.address,
         companyLogo: request.body.companyLogo,
         phoneNumber: request.body.phoneNumber,
@@ -32,10 +33,32 @@ router.post('/create', (request, response) => {
         userId: request.body.userId,
         // superAdminId: request.body.superAdminId
     });
-    console.log(data);
+    let new_balance_sheet=[]
+    if(request.body.balance_sheet!=null){
+    for(let i =0;i < request.body.balance_sheet.length; i++){
+         var comingDate = moment(request.body.balance_sheet[i].financial_year).format('YYYY');
+    console.log(comingDate)
+    new_balance_sheet.push({financial_year:comingDate,doc:request.body.balance_sheet[i].doc})
+    }
+    console.log('new_balance_sheet',new_balance_sheet)
+    data.balance_sheet=new_balance_sheet
+}
+let newItr=[]
+if(request.body.itr!=null){
+    for(let j =0; j< request.body.itr.length; j++){
+         var itrDate = moment(request.body.itr[j].financial_year).format('YYYY');
+    console.log(itrDate)
+    newItr.push({financial_year:itrDate,doc:request.body.itr[j].doc})
+    }
+    console.log('newItr',newItr)
+    data.itr=newItr
+}
+  
+    
+    // console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
-        console.log('user result', result);
+        // console.log('user result', result);
         if (error || result == null) {
             fleetResponse.error = true;
             fleetResponse.message = `Error :` + " User Does not exist";

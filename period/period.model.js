@@ -13,7 +13,8 @@ const periodSchema = mongoose.Schema({
     },
     period_status:{
         type:String,
-        enup:['open','closed']
+        enup:['open','closed','unopend'],
+        default:'upopend'
     },
 
     userId: {
