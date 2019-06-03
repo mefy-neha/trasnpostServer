@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const driver = require('./driver.model');
+const contact = require('./contact.model');
 const user = require('../user/user.model');
 
 
@@ -9,7 +9,7 @@ const user = require('../user/user.model');
 /************************* Driver Creation *************************/
 router.post('/create', (request, response) => {
     let driverResponse = {};
-    let data = new driver({
+    let data = new contact({
         name: request.body.name,
         phoneNumber: request.body.phoneNumber,
         email:request.body.email?request.body.email:null,
@@ -88,7 +88,7 @@ router.post('/create', (request, response) => {
 /************************************* LIST OF DRIVER ***************************/
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    driver.find({}, (error, result) => {
+    contact.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -108,7 +108,7 @@ router.get('/list', (request, response) => {
 })
 /************************************END ******************************************** */
 /************************** DRIVER DETAIL BY USERID ********************************************** */
-router.get('/driverlist', (request, response) => {
+router.get('/contactlist', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
     user.findById({ _id: superAdminId }, (error, result) => {
@@ -121,7 +121,7 @@ router.get('/driverlist', (request, response) => {
         }
 else{
         console.log('role superadmin')
-        driver.find({ superAdminId: superAdminId }, (error, result) => {
+        contact.find({ superAdminId: superAdminId }, (error, result) => {
             console.log('error', error);
             console.log('result', result);
             if (error) {
@@ -144,9 +144,9 @@ else{
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete', (request, response) => {
-    let driverId = request.query.driverId
+    let contactId = request.query.contactId
     let sentResponse = {}
-    user.remove({ _id: driverId }, (error, result) => {
+    contact.remove({ _id: contactId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -162,6 +162,42 @@ router.delete('/delete', (request, response) => {
 
         }
 
+    })
+})
+/************************************END ******************************************** */
+/************************** DRIVER DETAIL BY USERID ********************************************** */
+router.get('/listByContactType', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let contact_type = request.query.contact_type;
+    let sentResponse = {};
+    user.findById({ _id: superAdminId }, (error, result) => {
+        console.log('error...........', error);
+        console.log('result', result);
+        if (error || result==null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error+ '  ' + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+else{
+        console.log('role superadmin')
+        contact.find({ $and: [ { superAdminId:superAdminId},{ contact_type:contact_type}]}, (error, result) => {
+            console.log('error', error);
+            console.log('result', result);
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Something went wrong";
+                response.status(500).json(sentResponse);
+            }
+            else {
+                sentResponse.error = false;
+                sentResponse.message = "List by Contact Type";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
+
+            }
+
+        })
+    }
     })
 })
 /************************************END ******************************************** */

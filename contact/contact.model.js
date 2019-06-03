@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
-// var uniqueValidator = require('mongoose-unique-validator');
-const driverSchema = mongoose.Schema({
+const contactSchema = mongoose.Schema({
 
     name: {
         type: String
@@ -21,9 +20,7 @@ const driverSchema = mongoose.Schema({
         enum: ['lalbaba', 'patro']
     },
     email: {
-        type: String,
-        // unique: true,
-        // sparse: true
+        type: String
     },
     company_name:{
         type:String
@@ -164,14 +161,13 @@ const driverSchema = mongoose.Schema({
 
 })
 
-driverSchema.pre('findOne', function (next) {
+contactSchema.pre('findOne', function (next) {
     this.populate('userId');
     next();
 });
-driverSchema.pre('find', function (next) {
+contactSchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
 
-// driverSchema.plugin(uniqueValidator);
-const driver = module.exports = mongoose.model('driver', driverSchema)
+const contact = module.exports = mongoose.model('driver', contactSchema)
