@@ -50,19 +50,15 @@ router.post('/create', (request, response) => {
                                 date: request.body.date,
                                 journalNumber: list.length + 1,
                                 reference: request.body.reference,
-                                // description: request.body.description,
                                 detail: request.body.detail,
                                 notes: request.body.notes,
                                 posted: false,
                                 period: period.period_name,
                                 total: request.body.total,
-                                // contactPersonId: request.body.contactPersonId,
                                 denomination: request.body.denomination ? request.body.denomination : null,
                                 total_amount: request.body.total_amount,
                                 userId: request.body.userId,
-                                // accountId: request.body.accountId,
-                                // debit: request.body.debit ? request.body.debit : null,
-                                // credit: request.body.credit ? request.body.credit : null,
+                              
                             });
                             data.superAdminId = superAdmin;
                             data.organisation = org

@@ -143,9 +143,22 @@ itr:[{
         type: String
         
     },
-    // others:[{
+    others: [{
+        doc_name: {
+            type: String
+        },
+        number: {
+            type: String
+        },
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
 
-    // }],
+        },
+        valid_upto: {
+            type: String
+        }
+    }],
     createdDate: {
         type: Date,
         default: Date.now
