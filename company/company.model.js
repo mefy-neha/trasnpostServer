@@ -72,7 +72,7 @@ tan:{
     }
 },
 balance_sheet:[{
-    number: {
+    financial_year: {
         type: String
     },
     doc: {
