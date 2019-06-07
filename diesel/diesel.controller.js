@@ -276,5 +276,40 @@ router.put('/updatePrice', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************** PETROL DETAIL BY SUPERADMINID ********************************************** */
+router.get('/petrolList', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.findById({ _id: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error + '  ' + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            console.log('role superadmin')
+            petrol.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something went wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Petrol price  List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+
+            })
+        }
+    })
+})
+/************************************END ******************************************** */
 
 module.exports = router;
