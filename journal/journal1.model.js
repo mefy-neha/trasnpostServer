@@ -5,7 +5,10 @@ const journalSchema = mongoose.Schema({
 date: {
     type: String
 },
-
+organisation:{
+    type: String,
+    enum: ['lalbaba', 'patro']
+},
 reference: {
     type: String,
 },

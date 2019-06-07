@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const period = require('./period.model');
 const user = require('../user/user.model');
+const moment = require('moment');
 
 /************************************PERIOD CREATION ******************************************** */
 
@@ -9,9 +10,13 @@ router.post('/create', (request, response) => {
     let periodResponse = {};
     let data = new period({
         period_name: request.body.period_name,
-        period_status: request.body.period_status ? request.body.period_status : null,
-        from: request.body.from,
-        to: request.body.to,
+        period_status: request.body.period_status,
+        from: request.body.from? moment(request.body.from).format('DD-MM-YYYY'):null,
+        to: request.body.to? moment(request.body.to).format('DD-MM-YYYY'):null,
+        quarter_start: request.body.quarter_start? moment(request.body.quarter_start).format('DD-MM-YYYY'):null,
+        quarter_end: request.body.quarter_end? moment(request.body.quarter_end).format('DD-MM-YYYY'):null,
+        fiscle_year: request.body.fiscle_year,
+        assessment_year: request.body.assessment_year,     
         userId: request.body.userId
     })
     console.log('dataaaa', data)

@@ -170,4 +170,4 @@ contactSchema.pre('find', function (next) {
     next();
 });
 
-const contact = module.exports = mongoose.model('driver', contactSchema)
+const contact = module.exports = mongoose.model('contact', contactSchema)

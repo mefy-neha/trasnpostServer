@@ -4,7 +4,7 @@ const invoiceSchema = mongoose.Schema({
 
     customerId: {
         type: schema.ObjectId,
-        ref: 'customer'
+        ref: 'contact'
     },
     invoice_number:{
         type:String

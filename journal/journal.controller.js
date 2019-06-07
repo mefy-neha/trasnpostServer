@@ -5,6 +5,7 @@ const journal1 = require('./journal1.model');
 
 const user = require('../user/user.model');
 const period = require('../period/period.model');
+const moment = require('moment');
 
 
 /************************ JOURNAL CREATION (during save)**************************/
@@ -13,8 +14,8 @@ router.post('/create', (request, response) => {
     let journalResponse = {};
     console.log(request.body.userId)
     user.findById({ _id: request.body.userId }, (error, result) => {
-        console.log('user error', error);
-        console.log('user result', result);
+        // console.log('user error', error);
+        // console.log('user result', result);
         if (error || result == null) {
             journalResponse.error = true;
             journalResponse.message = `Error :` + " User Does not exist";
@@ -28,26 +29,17 @@ router.post('/create', (request, response) => {
                 org = result.organisation
             console.log('iddddd', superAdmin)
             journal.find({ superAdminId: superAdmin }, (error, list) => {
-                console.log('error', error);
-                console.log(' journal length', list.length)
+                // console.log('error', error);
+                // console.log(' journal length', list.length)
                 if (error) {
                     journalResponse.error = true;
                     journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
                     response.status(500).json(journalResponse);
                 }
                 else {
-                    period.findOne({ period_status: 'open' }, (error, period) => {
-                        console.log('erroor', error)
-                        console.log('period', period)
-
-                        if (error || period == null) {
-                            journalResponse.error = true;
-                            journalResponse.message = `Error :` + error.message + 'Period does not exist';
-                            response.status(500).json(journalResponse);
-                        }
-                        else {
+                   
                             let data = new journal({
-                                date: request.body.date,
+                                date: request.body.date? moment(request.body.date).format('DD-MM-YYYY'):null,
                                 journalNumber: list.length + 1,
                                 reference: request.body.reference,
                                 detail: request.body.detail,
@@ -62,29 +54,49 @@ router.post('/create', (request, response) => {
                             });
                             data.superAdminId = superAdmin;
                             data.organisation = org
-                            // console.log(data);
-                            data.save((error, result) => {
-                                console.log('Journal error', error);
-                                console.log('Journal result', result);
-                                if (error) {
-                                    console.log(error);
+                            // moment('2010-10-20').isBetween('2010-10-19', '2010-10-25');
+                            period.find({ superAdminId:data.superAdminId  }, (error, period) => {
+                                // console.log('erroor', error)
+                                // console.log('period', period)
+        
+                                if (error || period == null) {
                                     journalResponse.error = true;
-                                    journalResponse.message = `Error :` + "Journal Creation Failed";
+                                    journalResponse.message = `Error :` + error.message + 'Period does not exist';
                                     response.status(500).json(journalResponse);
-                                } else {
-                                    journalResponse.error = false;
-                                    journalResponse.user = result;
-                                    journalResponse.message = `Journal Created  successfull.`;
-                                    response.status(200).json(journalResponse);
-
                                 }
-
-                            });
+                                else if (period && period.length != 0) {
+                                    datetapped(data.date, period).then(result => {
+                                        console.log('result///////', result)
+                                        journalResponse.error = false;
+                                        journalResponse.message = "List of Event of today";
+                                        journalResponse.result = result;
+                                        response.status(200).json(journalResponse);    //200 sent if error not present
+                                    })
                         }
+                            })
+                            console.log(data);
+                            // data.save((error, result) => {
+                            //     console.log('Journal error', error);
+                            //     console.log('Journal result', result);
+                            //     if (error) {
+                            //         console.log(error);
+                            //         journalResponse.error = true;
+                            //         journalResponse.message = `Error :` + "Journal Creation Failed";
+                            //         response.status(500).json(journalResponse);
+                            //     } else {
+                            //         journalResponse.error = false;
+                            //         journalResponse.user = result;
+                            //         journalResponse.message = `Journal Created  successfull.`;
+                            //         response.status(200).json(journalResponse);
+
+                            //     }
+
+                            // });
+                        // }
 
 
 
-                    })
+                    // })
 
 
                 }
@@ -105,20 +117,21 @@ router.post('/create', (request, response) => {
                     response.status(500).json(journalResponse);
                 }
                 else {
+                    
                     // console.log('listing',list)
-                    period.findOne({ period_status: 'open' }, (error, period) => {
-                        console.log('erroor', error)
-                        console.log('period', period)
+                    // period.findOne({ period_status: 'open' }, (error, period) => {
+                    //     console.log('erroor', error)
+                    //     console.log('period', period)
 
-                        if (error || period == null) {
-                            journalResponse.error = true;
-                            journalResponse.message = `Error :` + error.message + 'Period does not exist';
-                            response.status(500).json(journalResponse);
-                        }
-                        else {
+                    //     if (error || period == null) {
+                    //         journalResponse.error = true;
+                    //         journalResponse.message = `Error :` + error.message + 'Period does not exist';
+                    //         response.status(500).json(journalResponse);
+                    //     }
+                    //     else {
 
                             let data = new journal({
-                                date: request.body.date,
+                                date: request.body.date? moment(request.body.date).format('DD-MM-YYYY'):null,
                                 journalNumber: list.length + 1,
                                 reference: request.body.reference,
                                 detail: request.body.detail,
@@ -135,28 +148,47 @@ router.post('/create', (request, response) => {
                             data.superAdminId = superAdmin;
                             data.organisation = org
                             // console.log(data);
-                            data.save((error, result) => {
-                                console.log('Journal error', error);
-                                // console.log('Journal result', result);
-                                if (error) {
-                                    console.log(error);
-                                    journalResponse.error = true;
-                                    journalResponse.message = `Error :` + "Journal Creation Failed";
-                                    response.status(500).json(journalResponse);
-                                } else {
-                                    journalResponse.error = false;
-                                    journalResponse.user = result;
-                                    journalResponse.message = `Journal Created  successfull.`;
-                                    response.status(200).json(journalResponse);
+                                period.find({ superAdminId:  data.superAdminId  }, (error, period) => {
+                        console.log('erroor', error)
+                        console.log('period', period)
 
-                                }
-
-                            });
+                        if (error || period == null) {
+                            journalResponse.error = true;
+                            journalResponse.message = `Error :` + error.message + 'Period does not exist';
+                            response.status(500).json(journalResponse);
                         }
+                        else if (period && period.length != 0) {
+                            datetapped(data.date, period).then(result => {
+                                console.log('result///////', result)
+                                journalResponse.error = false;
+                                journalResponse.message = "List of Event of today";
+                                journalResponse.result = result;
+                                response.status(200).json(journalResponse);    //200 sent if error not present
+                            })
+                }
+            })
+                            // data.save((error, result) => {
+                            //     console.log('Journal error', error);
+                            //     // console.log('Journal result', result);
+                            //     if (error) {
+                            //         console.log(error);
+                            //         journalResponse.error = true;
+                            //         journalResponse.message = `Error :` + "Journal Creation Failed";
+                            //         response.status(500).json(journalResponse);
+                            //     } else {
+                            //         journalResponse.error = false;
+                            //         journalResponse.user = result;
+                            //         journalResponse.message = `Journal Created  successfull.`;
+                            //         response.status(200).json(journalResponse);
+
+                            //     }
+
+                            // });
+                    //     }
 
 
 
-                    })
+                    // })
 
                 }
             })
@@ -167,7 +199,7 @@ router.post('/create', (request, response) => {
 })
 /************************************END ******************************************** */
 
-/******************************CREATION OF JOURNAL AS A SABE AS DRAFT ***************************8 */
+/******************************CREATION OF JOURNAL SAVE AS DRAFT ***************************8 */
 router.post('/draft', (request, response) => {
     let draftRespone = {};
     user.findById({ _id: request.body.userId }, (error, result) => {
@@ -180,7 +212,7 @@ router.post('/draft', (request, response) => {
         }
         else if (result.role == 'superAdmin') {
             let newData = new journal1({
-                date: request.body.date,
+                date: request.body.date? moment(request.body.date).format('DD-MM-YYYY'):null,
                 reference: request.body.reference,
                 detail: request.body.detail,
                 notes: request.body.notes,
@@ -213,7 +245,7 @@ router.post('/draft', (request, response) => {
         }
         else {
             let newData = new journal1({
-                date: request.body.date,
+                date: request.body.date? moment(request.body.date).format('DD-MM-YYYY'):null,
                 reference: request.body.reference,
                 notes: request.body.notes,
                 posted: false,
@@ -285,7 +317,7 @@ router.put('/update', (request, response) => {
                         }
                         else {
                             let journaldata = new journal({
-                                date: (request.body.date ? (request.body.date) : result.date),
+                                date: (request.body.date ? (moment(request.body.date).format('DD-MM-YYYY')) : result.date),
                                 reference: request.body.reference,
                                 notes: (request.body.notes ? (request.body.notes) : result.notes),
                                 posted: false,
@@ -361,5 +393,25 @@ router.get('/journalList', (request, response) => {
 /************************************END ******************************************** */
 
 
-
+function datetapped(startDate, list) {
+    // console.log('dte',startDate, list)
+    let datearray = [];
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {  
+            // console.log('element',element)                //filter list according to current date
+        
+            let fromdate =element.from;
+            let todate = element.to;
+            console.log('datesssss',fromdate, todate,startDate)
+            console.log(moment(startDate).isBetween(fromdate, todate, null, '[]'))
+            // if (moment(startDate).isBetween(fromdate, todate,'date')) {
+            //     console.log('date matched')
+            //     datearray.push(element);
+            //     console.log('datearray',datearray)
+            // }
+        })
+        resolve(datearray)
+    })
+}
 module.exports = router;
+// 2019-06-07T04:12:09.288Z

@@ -2,28 +2,36 @@ const express = require('express');
 const router = express.Router();
 const invoice = require('./invoice.model');
 const user = require('../user/user.model');
-
+const moment = require('moment');
 /************************************BANK CREATION ******************************************** */
 router.post('/create', (request, response) => {
     let invoiceResponse = {};
     let data = new invoice({
         customerId: request.body.customerId,
         work_order: request.body.work_order,
-        invoice_date: request.body.invoice_date,
+        invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('DD-MM-YYYY'):null,
         terms: request.body.terms,
-        due_date: request.body.due_date,
+        due_date: request.body.due_date? moment(request.body.due_date).format('DD-MM-YYYY'):null,
         sub_total: request.body.sub_total,
         total: request.body.total,
         amount_paid: '0',
         status: 'unpaid',
         adjustment: request.body.adjustment,
         gst: request.body.gst,
+        reverse_change:request.body.reverse_change,
         items_details: request.body.items_details,
         terms_condition: request.body.terms_condition ? request.body.terms_condition : null,
         customer_notes: request.body.customer_notes ? request.body.customer_notes : null,
         userId: request.body.userId
     })
     console.log('dataaaa', data)
+    if(request.body.period!=null){
+        data.period={
+            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('DD-MM-YYYY'):null,
+            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('DD-MM-YYYY'):null
+        }
+        console.log('gst',data.period)
+     } 
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('result error', error);
         console.log('result result', result);

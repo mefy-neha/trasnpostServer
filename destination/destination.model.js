@@ -3,7 +3,7 @@ var schema = mongoose.Schema;
 const destinationSchema = mongoose.Schema({
     customerId:{
         type: schema.ObjectId,
-        ref: 'customer'
+        ref: 'contact'
     },
     details:[{
     location_code:{

@@ -2,11 +2,24 @@ const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const periodSchema = mongoose.Schema({
     period_name:{
-        type:String
+        type:String,
+        enum:['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec']
     },
 
     from:{
         type: String
+    },
+    quarter_start:{
+        type: String 
+    },
+    quarter_end:{
+        type: String  
+    },
+    fiscle_year:{
+        type: String  
+    },
+    assessment_year:{
+        type: String 
     },
     to:{
         type:String

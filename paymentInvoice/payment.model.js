@@ -4,7 +4,7 @@ const payentSchema = mongoose.Schema({
 
     vendorId: {
         type: schema.ObjectId,
-        ref: 'vendor'
+        ref: 'contact'
     },
     invoice_number:{
         type:String

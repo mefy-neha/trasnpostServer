@@ -29,7 +29,7 @@ router.post('/create', (request, response) => {
         address:request.body.address,
         companyLogo: request.body.companyLogo,
         phoneNumber: request.body.phoneNumber,
-        others:request.body.others?request.body.others:null,
+        // others:request.body.others?request.body.others:null,
         userId: request.body.userId,
         // superAdminId: request.body.superAdminId
     });
@@ -53,7 +53,16 @@ if(request.body.itr!=null){
     console.log('newItr',newItr)
     data.itr=newItr
 }
-  
+let new_others=[]
+if(request.body.others!=null){
+for(let i =0;i < request.body.others.length; i++){
+     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('MM-YYYY'):null;
+console.log(comingDate)
+new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
+}
+console.log('new_others',new_others)
+data.others=new_others
+}
     
     // console.log(data);
     user.findById({ _id: data.userId }, (error, result) => {

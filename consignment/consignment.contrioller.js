@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const consignment = require('./consignment.model');
 const user = require('../user/user.model');
+const moment = require('moment');
 
 /************************************BANK CREATION ******************************************** */
 router.post('/create', (request, response) => {
@@ -12,10 +13,10 @@ router.post('/create', (request, response) => {
         location_number: request.body.location_number,
         challan_number: request.body.challan_number,
         challan_doc: request.body.challan_doc?request.body.challan_doc:null,
-        challan_date: request.body.challan_date,
+        challan_date:request.body.challan_date? moment(request.body.challan_date).format('DD-MM-YYYY'):null,
         consignor: request.body.consignor,
         consignee:request.body.consignee,
-        consignment_date:request.body.consignment_date,
+        consignment_date:request.body.consignment_date? moment(request.body.consignment_date).format('DD-MM-YYYY'):null,
         reference_number: request.body.reference_number,
         truck_number: request.body.truck_number,
         origin_place: request.body.origin_place,

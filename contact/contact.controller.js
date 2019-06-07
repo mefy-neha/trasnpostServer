@@ -10,6 +10,7 @@ const moment = require('moment');
 
 /************************* Driver Creation *************************/
 router.post('/create', (request, response) => {
+    console.log('request body',request.body)
     let driverResponse = {};
     let data = new contact({
         name: request.body.name,
@@ -18,75 +19,82 @@ router.post('/create', (request, response) => {
         company_name:request.body.company_name?request.body.company_name:null,
         website:request.body.website?request.body.website:null,
         contact_type:request.body.contact_type,
-    //    gst:request.body.gst?request.body.gst:null,
-        // pan:request.body.pan?request.body.pan:null,
-        // tan:request.body.tan?request.body.tan:null,
-        voterId:request.body.voterId?request.body.voterId:null,
-        aadhar: request.body.aadhar?request.body.aadhar:null,
-        // licence: request.body.licence?request.body.licence:null,
-        // training_certificate: request.body.training_certificate?request.body.training_certificate:null,
-        // police_verification: request.body.police_verification?request.body.police_verification:null,
-        // others: request.body.others,
         picture: request.body.picture?request.body.picture:null,
         userId: request.body.userId
     });
     console.log(data);
     if(request.body.gst!=null){
    data.gst={
-       doc:request.body.gst.doc,
-       number:request.body.gst.number,
-       valid_upto:moment(request.body.gst.valid_upto).format('MM-YYYY')
+       doc:request.body.gst.doc?request.body.gst.doc:null,
+       number:request.body.gst.number?request.body.gst.number:null,
+       valid_upto:request.body.gst.valid_upto?moment(request.body.gst.valid_upto).format('MM-YYYY'):null
    }
    console.log('gst',data.gst)
 }  
+if(request.body.aadhar!=null){
+    data.aadhar={
+        doc:request.body.aadhar.doc?request.body.aadhar.doc:null,
+        number:request.body.aadhar.number?request.body.aadhar.number:null,
+    }
+    console.log('gst',data.aadhar)
+ }  
+ if(request.body.voterId!=null){
+    data.voterId={
+        doc:request.body.voterId.doc?request.body.voterId.doc:null,
+        number:request.body.voterId.number?request.body.voterId.number:null,
+    }
+    console.log('gst',data.voterId)
+ }  
    if(request.body.pan!=null){
     data.pan={
-        doc:request.body.pan.doc,
-        number:request.body.pan.number,
-        valid_upto:moment(request.body.pan.valid_upto).format('MM-YYYY')
+        doc:request.body.pan.doc?request.body.pan.doc:null,
+        number:request.body.pan.number?request.body.pan.number:null,
+        valid_upto:request.body.pan.valid_upto?moment(request.body.pan.valid_upto).format('MM-YYYY'):null
     }
     console.log('pan',data.pan)
  }
  if(request.body.tan!=null){
     data.tan={
-        doc:request.body.tan.doc,
-        number:request.body.tan.number,
+        doc:request.body.tan.doc?request.body.tan.doc:null,
+        number:request.body.tan.number?request.body.tan.number:null,
         valid_upto:request.body.tan.valid_upto?moment(request.body.tan.valid_upto).format('MM-YYYY'):null
     }
     console.log('pan',data.tan)
  }
  if(request.body.licence!=null){
     data.licence={
-        doc:request.body.licence.doc,
-        number:request.body.licence.number,
+        doc:request.body.licence.doc?request.body.licence.doc:null,
+        number:request.body.licence.number?request.body.licence.number:null,
         valid_upto:request.body.licence.valid_upto?moment(request.body.licence.valid_upto).format('MM-YYYY'):null
     }
     console.log('pan',data.licence)
  }
  if(request.body.training_certificate!=null){
     data.training_certificate={
-        doc:request.body.training_certificate.doc,
-        number:request.body.training_certificate.number,
+        doc:request.body.training_certificate.doc?request.body.training_certificate.doc:null,
+        number:request.body.training_certificate.number?request.body.training_certificate.number:null,
         valid_upto:request.body.training_certificate.valid_upto?moment(request.body.training_certificate.valid_upto).format('MM-YYYY'):null
     }
     console.log('pan',data.training_certificate)
  }
  if(request.body.police_verification!=null){
     data.police_verification={
-        doc:request.body.police_verification.doc,
-        number:request.body.police_verification.number,
+        doc:request.body.police_verification.doc?request.body.police_verification.doc:null,
+        number:request.body.police_verification.number?request.body.police_verification.number:null,
         valid_upto:request.body.police_verification.valid_upto?moment(request.body.police_verification.valid_upto).format('MM-YYYY'):null
     }
     console.log('pan',data.police_verification)
  }
- if(request.body.others!=null){
-    data.others={
-        doc:request.body.others.doc,
-        number:request.body.others.number,
-        valid_upto:request.body.others.valid_upto?moment(request.body.others.valid_upto).format('MM-YYYY'):null
-    }
-    console.log('pan',data.others)
- }
+let new_others=[]
+if(request.body.others!=null){
+for(let i =0;i < request.body.others.length; i++){
+     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('MM-YYYY'):null;
+console.log(comingDate)
+new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
+}
+console.log('new_others',new_others)
+data.others=new_others
+}
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
