@@ -164,7 +164,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Driver List";
+            sentResponse.message = "Contact List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

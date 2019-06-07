@@ -23,6 +23,8 @@ const invoiceRoute = require('./invoice/invoice.controller');
 const paymentRoute = require('./paymentInvoice/payment.controller');
 const destinationRoute = require('./destination/destination.controller');
 const orderRoute = require('./workOrder/order.controller');
+const dieselRoute = require('./diesel/diesel.controller');
+
 
 
 
@@ -74,6 +76,8 @@ app.use('/invoice',invoiceRoute);
 app.use('/payment',paymentRoute);
 app.use('/destination',destinationRoute);
 app.use('/order',orderRoute);
+app.use('/diesel',dieselRoute);
+
 
 
 
