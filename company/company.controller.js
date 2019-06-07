@@ -56,7 +56,7 @@ if(request.body.itr!=null){
 let new_others=[]
 if(request.body.others!=null){
 for(let i =0;i < request.body.others.length; i++){
-     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('MM-YYYY'):null;
+     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM'):null;
 console.log(comingDate)
 new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
 }

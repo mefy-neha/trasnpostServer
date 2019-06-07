@@ -15,8 +15,7 @@ const fleetSchema = mongoose.Schema({
     },
     ownership: {
         type: String,
-        enum: ['owned', 'contract']
-    },
+    },                           //id of contactr or owner
     capacity:{
         type: String
     },

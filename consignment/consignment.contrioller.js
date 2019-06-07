@@ -13,10 +13,10 @@ router.post('/create', (request, response) => {
         location_number: request.body.location_number,
         challan_number: request.body.challan_number,
         challan_doc: request.body.challan_doc?request.body.challan_doc:null,
-        challan_date:request.body.challan_date? moment(request.body.challan_date).format('DD-MM-YYYY'):null,
+        challan_date:request.body.challan_date? moment(request.body.challan_date).format('YYYY-MM-DD'):null,
         consignor: request.body.consignor,
         consignee:request.body.consignee,
-        consignment_date:request.body.consignment_date? moment(request.body.consignment_date).format('DD-MM-YYYY'):null,
+        consignment_date:request.body.consignment_date? moment(request.body.consignment_date).format('YYYY-MM-DD'):null,
         reference_number: request.body.reference_number,
         truck_number: request.body.truck_number,
         origin_place: request.body.origin_place,
@@ -147,7 +147,7 @@ router.get('/consignmentList', (request, response) => {
 router.delete('/delete',(request,response)=>{
     let consignmentId=request.query.consignmentId
     let sentResponse={}
-    invoice.remove({_id:consignmentId},(error,result)=>{
+    consignment.remove({_id:consignmentId},(error,result)=>{
         console.log('error',error);
         console.log('result',result);
         if (error) {

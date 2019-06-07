@@ -9,9 +9,9 @@ router.post('/create', (request, response) => {
     let data = new invoice({
         customerId: request.body.customerId,
         work_order: request.body.work_order,
-        invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('DD-MM-YYYY'):null,
+        invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('YYYY-MM-DD'):null,
         terms: request.body.terms,
-        due_date: request.body.due_date? moment(request.body.due_date).format('DD-MM-YYYY'):null,
+        due_date: request.body.due_date? moment(request.body.due_date).format('YYYY-MM-DD'):null,
         sub_total: request.body.sub_total,
         total: request.body.total,
         amount_paid: '0',
@@ -27,8 +27,8 @@ router.post('/create', (request, response) => {
     console.log('dataaaa', data)
     if(request.body.period!=null){
         data.period={
-            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('DD-MM-YYYY'):null,
-            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('DD-MM-YYYY'):null
+            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('YYYY-MM-DD'):null,
+            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('YYYY-MM-DD'):null
         }
         console.log('gst',data.period)
      } 

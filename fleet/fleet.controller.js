@@ -36,7 +36,7 @@ router.post('/create', (request, response) => {
         data.rc={
             doc:request.body.rc.doc,
             number:request.body.rc.number,
-            valid_upto:request.body.rc.valid_upto?moment(request.body.rc.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.rc.valid_upto?moment(request.body.rc.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.rc)
      } 
@@ -44,7 +44,7 @@ router.post('/create', (request, response) => {
         data.vehicle_insurance={
             doc:request.body.vehicle_insurance.doc,
             number:request.body.vehicle_insurance.number,
-            valid_upto:request.body.vehicle_insurance.valid_upto?moment(request.body.vehicle_insurance.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.vehicle_insurance.valid_upto?moment(request.body.vehicle_insurance.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.vehicle_insurance)
      } 
@@ -52,7 +52,7 @@ router.post('/create', (request, response) => {
         data.product_insurance={
             doc:request.body.product_insurance.doc,
             number:request.body.product_insurance.number,
-            valid_upto:request.body.product_insurance.valid_upto?moment(request.body.product_insurance.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.product_insurance.valid_upto?moment(request.body.product_insurance.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.product_insurance)
      } 
@@ -60,7 +60,7 @@ router.post('/create', (request, response) => {
         data.explosive={
             doc:request.body.explosive.doc,
             number:request.body.explosive.number,
-            valid_upto:request.body.explosive.valid_upto?moment(request.body.explosive.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.explosive.valid_upto?moment(request.body.explosive.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.explosive)
      } 
@@ -68,7 +68,7 @@ router.post('/create', (request, response) => {
         data.calibration_chart={
             doc:request.body.calibration_chart.doc,
             number:request.body.calibration_chart.number,
-            valid_upto:request.body.calibration_chart.valid_upto?moment(request.body.calibration_chart.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.calibration_chart.valid_upto?moment(request.body.calibration_chart.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.calibration_chart)
      } 
@@ -76,7 +76,7 @@ router.post('/create', (request, response) => {
         data.national_permit={
             doc:request.body.national_permit.doc,
             number:request.body.national_permit.number,
-            valid_upto:request.body.national_permit.valid_upto?moment(request.body.national_permit.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.national_permit.valid_upto?moment(request.body.national_permit.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.national_permit)
      } 
@@ -84,7 +84,7 @@ router.post('/create', (request, response) => {
         data.national_permit_A={
             doc:request.body.national_permit_A.doc,
             number:request.body.national_permit_A.number,
-            valid_upto:request.body.national_permit_A.valid_upto?moment(request.body.national_permit_A.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.national_permit_A.valid_upto?moment(request.body.national_permit_A.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.national_permit_A)
      } 
@@ -92,7 +92,7 @@ router.post('/create', (request, response) => {
         data.national_permit_B={
             doc:request.body.national_permit_B.doc,
             number:request.body.national_permit_B.number,
-            valid_upto:request.body.national_permit_B.valid_upto?moment(request.body.national_permit_B.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.national_permit_B.valid_upto?moment(request.body.national_permit_B.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.national_permit_B)
      } 
@@ -100,7 +100,7 @@ router.post('/create', (request, response) => {
         data.road_tax={
             doc:request.body.road_tax.doc,
             number:request.body.road_tax.number,
-            valid_upto:request.body.road_tax.valid_upto?moment(request.body.road_tax.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.road_tax.valid_upto?moment(request.body.road_tax.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.road_tax)
      } 
@@ -108,7 +108,7 @@ router.post('/create', (request, response) => {
         data.pollution={
             doc:request.body.pollution.doc,
             number:request.body.pollution.number,
-            valid_upto:request.body.pollution.valid_upto?moment(request.body.pollution.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.pollution.valid_upto?moment(request.body.pollution.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.pollution)
      } 
@@ -116,7 +116,7 @@ router.post('/create', (request, response) => {
         data.sco={
             doc:request.body.sco.doc,
             number:request.body.sco.number,
-            valid_upto:request.body.sco.valid_upto?moment(request.body.sco.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.sco.valid_upto?moment(request.body.sco.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.sco)
      }
@@ -124,7 +124,7 @@ router.post('/create', (request, response) => {
         data.hydro_testing={
             doc:request.body.hydro_testing.doc,
             number:request.body.hydro_testing.number,
-            valid_upto:request.body.hydro_testing.valid_upto?moment(request.body.hydro_testing.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.hydro_testing.valid_upto?moment(request.body.hydro_testing.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.hydro_testing)
      }
@@ -132,14 +132,14 @@ router.post('/create', (request, response) => {
         data.fitness={
             doc:request.body.fitness.doc,
             number:request.body.fitness.number,
-            valid_upto:request.body.fitness.valid_upto?moment(request.body.fitness.valid_upto).format('MM-YYYY'):null
+            valid_upto:request.body.fitness.valid_upto?moment(request.body.fitness.valid_upto).format('YYYY-MM'):null
         }
         console.log('gst',data.fitness)
      }
      let new_others=[]
 if(request.body.others!=null){
 for(let i =0;i < request.body.others.length; i++){
-     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('MM-YYYY'):null;
+     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM'):null;
 console.log(comingDate)
 new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
 }
