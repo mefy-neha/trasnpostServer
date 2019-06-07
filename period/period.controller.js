@@ -11,10 +11,10 @@ router.post('/create', (request, response) => {
     let data = new period({
         period_name: request.body.period_name,
         period_status: request.body.period_status,
-        from: request.body.from? moment(request.body.from).format('DD-MM-YYYY'):null,
-        to: request.body.to? moment(request.body.to).format('DD-MM-YYYY'):null,
-        quarter_start: request.body.quarter_start? moment(request.body.quarter_start).format('DD-MM-YYYY'):null,
-        quarter_end: request.body.quarter_end? moment(request.body.quarter_end).format('DD-MM-YYYY'):null,
+        from: request.body.from? moment(request.body.from).format('YYYY-MM-DD'):null,
+        to: request.body.to? moment(request.body.to).format('YYYY-MM-DD'):null,
+        quarter_start: request.body.quarter_start? moment(request.body.quarter_start).format('YYYY-MM-DD'):null,
+        quarter_end: request.body.quarter_end? moment(request.body.quarter_end).format('YYYY-MM-DD'):null,
         fiscle_year: request.body.fiscle_year,
         assessment_year: request.body.assessment_year,     
         userId: request.body.userId
