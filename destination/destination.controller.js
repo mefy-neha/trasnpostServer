@@ -127,9 +127,9 @@ router.get('/destinationList', (request, response) => {
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete', (request, response) => {
-    let invoiceId = request.query.invoiceId
+    let destinationId = request.query.destinationId
     let sentResponse = {}
-    destination.remove({ _id: invoiceId }, (error, result) => {
+    destination.remove({ _id: destinationId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
