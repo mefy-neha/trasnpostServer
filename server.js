@@ -22,6 +22,8 @@ const consignmentRoute = require('./consignment/consignment.contrioller');
 const invoiceRoute = require('./invoice/invoice.controller');
 const paymentRoute = require('./paymentInvoice/payment.controller');
 const destinationRoute = require('./destination/destination.controller');
+const orderRoute = require('./workOrder/order.controller');
+
 
 
 
@@ -71,6 +73,8 @@ app.use('/consignment',consignmentRoute);
 app.use('/invoice',invoiceRoute);
 app.use('/payment',paymentRoute);
 app.use('/destination',destinationRoute);
+app.use('/order',orderRoute);
+
 
 
 
