@@ -65,8 +65,8 @@ router.post('/create', (request, response) => {
                         }
                         else if (period && period.length != 0) {
                             datetapped(data.date, period).then(periodresult => {
-                                // console.log('result///////', periodresult)
-                                data.period = periodresult[0].period_name
+                                console.log('result///////', periodresult)
+                                data.period = periodresult.length!=0?periodresult[0].period_name:null
                                 console.log(data);
                                 data.save((error, result) => {
                                     console.log('Journal error', error);
@@ -140,7 +140,7 @@ router.post('/create', (request, response) => {
                         else if (period && period.length != 0) {
                             datetapped(data.date, period).then(periodresult => {
                                 console.log('result///////', periodresult)
-                                data.period = periodresult[0].period_name
+                                data.period = periodresult.length!=0?periodresult[0].period_name:null
                                 data.save((error, result) => {
                                     console.log('Journal error', error);
                                     // console.log('Journal result', result);
@@ -305,7 +305,7 @@ router.put('/update', (request, response) => {
                                 journalNumber: list.length + 1,
                                 superAdminId: list[0].superAdminId,
                                 organisation: list[0].organisation,
-                                period: periodresult[0].period_name
+                                period: periodresult.length!=0?periodresult[0].period_name:null
                             })
                             journaldata.save((error, result) => {
                                 console.log('error.....', error);
