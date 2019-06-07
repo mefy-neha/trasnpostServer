@@ -15,6 +15,14 @@ const companySchema = mongoose.Schema({
             type: String,
         },
     },
+    msme: {
+        doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        }, number: {
+            type: String,
+        },
+    },
     gst: {
         number: {
             type: String

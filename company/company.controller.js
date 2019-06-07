@@ -14,6 +14,7 @@ router.post('/create', (request, response) => {
         organisation: request.body.organisation,
         road_registration_certificate: request.body.road_registration_certificate?request.body.road_registration_certificate:null,
         gst: request.body.gst?request.body.gst:null,
+        msme: request.body.msme?request.body.msme:null,
         tradeLicense_A: request.body.tradeLicense_A?request.body.tradeLicense_A:null,
         tradeLicense_B: request.body.tradeLicense_B?request.body.tradeLicense_B:null,
         tradeLicenseNo: request.body.tradeLicenseNo?request.body.tradeLicenseNo:null,
