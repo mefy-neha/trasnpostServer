@@ -71,7 +71,7 @@ router.post('/create', (request, response) => {
 
                                 invoiceResponse.error = false;
                                 invoiceResponse.result = result;
-                                invoiceResponse.message = `Payment Invoice is created  successfull.`;
+                                invoiceResponse.message = `Bill is created  successfull.`;
                                 response.status(200).json(invoiceResponse);
                             }
                         })
@@ -106,7 +106,7 @@ router.post('/create', (request, response) => {
 
                                 invoiceResponse.error = false;
                                 invoiceResponse.result = result;
-                                invoiceResponse.message = ` Payment Invoice is created  successfull.`;
+                                invoiceResponse.message = ` Bill is created  successfull.`;
                                 response.status(200).json(invoiceResponse);
                             }
                         })
@@ -166,7 +166,7 @@ router.get('/paymentList', (request, response) => {
                 }
                 else {
                     sentResponse.error = false;
-                    sentResponse.message = " Payment Invoice List";
+                    sentResponse.message = " Bill List";
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
@@ -191,7 +191,7 @@ router.delete('/delete', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Invoice Deleted";
+            sentResponse.message = "Bill Deleted";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
