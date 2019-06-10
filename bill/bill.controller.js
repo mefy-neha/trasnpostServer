@@ -133,7 +133,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "ALL Payment Invoice List";
+            sentResponse.message = "ALL Bill Invoice List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 
@@ -143,7 +143,7 @@ router.get('/list', (request, response) => {
 })
 /************************************END ******************************************** */
 /************************** BANK DETAIL BY SUPERADMINID ********************************************** */
-router.get('/paymentList', (request, response) => {
+router.get('/billList', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
     user.findById({ _id: superAdminId }, (error, result) => {
@@ -179,9 +179,9 @@ router.get('/paymentList', (request, response) => {
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete', (request, response) => {
-    let paymentId = request.query.paymentId
+    let billId = request.query.billId
     let sentResponse = {}
-    bill.remove({ _id: paymentId }, (error, result) => {
+    bill.remove({ _id: billId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
