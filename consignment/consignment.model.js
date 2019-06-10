@@ -4,6 +4,9 @@ const consignmentSchema = mongoose.Schema({
     tl_number: {
         type: String
     },
+    consignmentNumber:{
+        type: String
+    },
     product: {
         type: String
     },

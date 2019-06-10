@@ -9,21 +9,21 @@ router.post('/create', (request, response) => {
     let consignmentResponse = {};
     let data = new consignment({
         tl_number: request.body.tl_number,
-        product:request.body.product,
+        product: request.body.product,
         location_number: request.body.location_number,
         challan_number: request.body.challan_number,
-        challan_doc: request.body.challan_doc?request.body.challan_doc:null,
-        challan_date:request.body.challan_date? moment(request.body.challan_date).format('YYYY-MM-DD'):null,
+        challan_doc: request.body.challan_doc ? request.body.challan_doc : null,
+        challan_date: request.body.challan_date ? moment(request.body.challan_date).format('YYYY-MM-DD') : null,
         consignor: request.body.consignor,
-        consignee:request.body.consignee,
-        consignment_date:request.body.consignment_date? moment(request.body.consignment_date).format('YYYY-MM-DD'):null,
+        consignee: request.body.consignee,
+        consignment_date: request.body.consignment_date ? moment(request.body.consignment_date).format('YYYY-MM-DD') : null,
         reference_number: request.body.reference_number,
         truck_number: request.body.truck_number,
         origin_place: request.body.origin_place,
         destination: request.body.destination,
         authorize_person: request.body.authorize_person,
         driver_license_number: request.body.driver_license_number,
-        driver_name:request.body.driver_name,
+        driver_name: request.body.driver_name,
         quantity: request.body.quantity,
         advance_payment: request.body.advance_payment,
         userId: request.body.userId
@@ -39,43 +39,71 @@ router.post('/create', (request, response) => {
             response.status(500).json(consignmentResponse);
         }
         else {
-                // data.organisation = result.organisation
+            // data.organisation = result.organisation
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
-                data.save((error, result) => {
-                    console.log('Consignment error', error);
-                    console.log('Consignment result', result);
+                consignment.find({ superAdminId: data.superAdmin }, (error, list) => {
+                    console.log('error', error);
+                    console.log(' consignment length', list.length)
                     if (error) {
-                        console.log(error);
-                        consignmentResponse.error = true;
-                        consignmentResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(consignmentResponse);
-                    } else {
+                        journalResponse.error = true;
+                        journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
+                        response.status(500).json(journalResponse);
+                    }
+                    else {
+                        let y = {}
+                        y = list.length + 1
+                        data.consignmentNumber = 'CON-00' + y
+                        data.save((error, result) => {
+                            console.log('Consignment error', error);
+                            console.log('Consignment result', result);
+                            if (error) {
+                                console.log(error);
+                                consignmentResponse.error = true;
+                                consignmentResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(consignmentResponse);
+                            } else {
 
-                        consignmentResponse.error = false;
-                        consignmentResponse.result = result;
-                        consignmentResponse.message = `Consignment is created  successfull.`;
-                        response.status(200).json(consignmentResponse);
+                                consignmentResponse.error = false;
+                                consignmentResponse.result = result;
+                                consignmentResponse.message = `Consignment is created  successfull.`;
+                                response.status(200).json(consignmentResponse);
+                            }
+                        })
                     }
                 })
             }
             else {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
-                data.save((error, result) => {
-                    console.log('Consignment error', error);
-                    console.log('Consignment result', result);
+                consignment.find({ superAdminId:data. superAdminId }, (error, list) => {
+                    console.log('error', error);
+                    console.log(' consignment length', list.length)
                     if (error) {
-                        console.log(error);
-                        consignmentResponse.error = true;
-                        consignmentResponse.message = `Error :` + " creation failed";
-                        response.status(500).json(consignmentResponse);
-                    } else {
-                        consignmentResponse.error = false;
-                        consignmentResponse.result = result;
-                        consignmentResponse.message = `Consignment is created  successfull.`;
-                        response.status(200).json(consignmentResponse);
+                        journalResponse.error = true;
+                        journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
+                        response.status(500).json(journalResponse);
+                    }
+                    else {
+                        let y = {}
+                        y = list.length + 1
+                        data.consignmentNumber = 'CON-00' + y
+                        data.save((error, result) => {
+                            console.log('Consignment error', error);
+                            console.log('Consignment result', result);
+                            if (error) {
+                                console.log(error);
+                                consignmentResponse.error = true;
+                                consignmentResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(consignmentResponse);
+                            } else {
+                                consignmentResponse.error = false;
+                                consignmentResponse.result = result;
+                                consignmentResponse.message = `Consignment is created  successfull.`;
+                                response.status(200).json(consignmentResponse);
+                            }
+                        })
                     }
                 })
             }
@@ -90,8 +118,8 @@ router.post('/create', (request, response) => {
 router.get('/list', (request, response) => {
     let sentResponse = {};
     consignment.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -144,12 +172,12 @@ router.get('/consignmentList', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let consignmentId=request.query.consignmentId
-    let sentResponse={}
-    consignment.remove({_id:consignmentId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let consignmentId = request.query.consignmentId
+    let sentResponse = {}
+    consignment.remove({ _id: consignmentId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
