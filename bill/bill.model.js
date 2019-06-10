@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
-const payentSchema = mongoose.Schema({
+const billSchema = mongoose.Schema({
 
     vendorId: {
         type: schema.ObjectId,
@@ -68,66 +68,19 @@ const payentSchema = mongoose.Schema({
         enum:['yes','no']
     },
     items_details:[{
-        vehicle_number:{
-            type: String     
-        },
-        invoice_number:{
-            type: String  
+        cosignmentId:{
+            type: schema.ObjectId,
+            ref: 'consignment'
         },
         serial_number:{
             type: String,
-        },
-        item:{
+        },  
+        description:{
             type: String
         },
-        date:{
+        amount:{
             type: String
         },
-        ship_to_party:{
-            type: String
-        },
-        material:{
-            type: String       
-        },
-        quantity:{
-            type: String
-        },
-        shortage:{
-            type: String
-        },
-        rtd_p:{
-            type: String
-        },
-        rtd_h:{
-            type: String
-        },
-        rtd_hh:{
-            type: String
-        },
-        rate_p:{
-            type: String
-        },
-        rate_h:{
-            type: String       
-        },
-        rate_hh:{
-            type: String
-        },
-        gross_amount:{
-            type: String
-        },
-        penalty_amount:{
-            type: String
-        },
-        igst:{
-            type: String
-        },
-        cgst:{
-            type: String
-        },
-        s_ugst:{
-            type: String
-        }
     }],
     userId: {
         type: schema.ObjectId,
@@ -151,20 +104,20 @@ const payentSchema = mongoose.Schema({
     }
 })
 
-payentSchema.pre('findOne', function (next) {
+billSchema.pre('findOne', function (next) {
     this.populate('userId');
     next();
 });
-payentSchema.pre('find', function (next) {
+billSchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
-payentSchema.pre('findOne', function (next) {
-    this.populate('vendorId');
+billSchema.pre('findOne', function (next) {
+    this.populate('contact');
     next();
 });
-payentSchema.pre('find', function (next) {
-    this.populate('vendorId');
+billSchema.pre('find', function (next) {
+    this.populate('contact');
     next();
 });
-const payment = module.exports = mongoose.model('payment', payentSchema)
+const bill = module.exports = mongoose.model('bill', billSchema)

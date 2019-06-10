@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const payment = require('./payment.model');
+const bill = require('./bill.model');
 const user = require('../user/user.model');
 const moment = require('moment');
 /************************************BANK CREATION ******************************************** */
 router.post('/create', (request, response) => {
     let invoiceResponse = {};
-    let data = new payment({
+    let data = new bill({
         vendorId: request.body.vendorId,
         work_order: request.body.work_order,
         invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('YYYY-MM-DD'):null,
@@ -46,7 +46,7 @@ router.post('/create', (request, response) => {
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
-                payment.find({ superAdminId: data.superAdminId }, (error, list) => {
+                bill.find({ superAdminId: data.superAdminId }, (error, list) => {
                     console.log('list error', error);
                     console.log('list result', list);
                     if (error) {
@@ -81,7 +81,7 @@ router.post('/create', (request, response) => {
             else {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
-                payment.find({ superAdminId: data.superAdminId }, (error, list) => {
+                bill.find({ superAdminId: data.superAdminId }, (error, list) => {
                     console.log('list error', error);
                     console.log('list result', list);
                     if (error) {
@@ -123,7 +123,7 @@ router.post('/create', (request, response) => {
 /************************** BANK LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    payment.find({}, (error, result) => {
+    bill.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -156,7 +156,7 @@ router.get('/paymentList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            payment.find({ superAdminId: superAdminId }, (error, result) => {
+            bill.find({ superAdminId: superAdminId }, (error, result) => {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
@@ -181,7 +181,7 @@ router.get('/paymentList', (request, response) => {
 router.delete('/delete', (request, response) => {
     let paymentId = request.query.paymentId
     let sentResponse = {}
-    payment.remove({ _id: paymentId }, (error, result) => {
+    bill.remove({ _id: paymentId }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {

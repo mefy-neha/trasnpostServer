@@ -68,66 +68,20 @@ const invoiceSchema = mongoose.Schema({
         enum:['yes','no']
     },
     items_details:[{
-        vehicle_number:{
-            type: String     
-        },
-        invoice_number:{
-            type: String  
+
+        cosignmentId:{
+            type: schema.ObjectId,
+            ref: 'consignment'
         },
         serial_number:{
             type: String,
-        },
-        item:{
+        },  
+        description:{
             type: String
         },
-        date:{
+        amount:{
             type: String
         },
-        ship_to_party:{
-            type: String
-        },
-        material:{
-            type: String       
-        },
-        quantity:{
-            type: String
-        },
-        shortage:{
-            type: String
-        },
-        rtd_p:{
-            type: String
-        },
-        rtd_h:{
-            type: String
-        },
-        rtd_hh:{
-            type: String
-        },
-        rate_p:{
-            type: String
-        },
-        rate_h:{
-            type: String       
-        },
-        rate_hh:{
-            type: String
-        },
-        gross_amount:{
-            type: String
-        },
-        penalty_amount:{
-            type: String
-        },
-        igst:{
-            type: String
-        },
-        cgst:{
-            type: String
-        },
-        s_ugst:{
-            type: String
-        }
     }],
     userId: {
         type: schema.ObjectId,
@@ -160,11 +114,11 @@ invoiceSchema.pre('find', function (next) {
     next();
 });
 invoiceSchema.pre('findOne', function (next) {
-    this.populate('customerId');
+    this.populate('contact');
     next();
 });
 invoiceSchema.pre('find', function (next) {
-    this.populate('customerId');
+    this.populate('contact');
     next();
 });
 const invoice = module.exports = mongoose.model('invoice', invoiceSchema)
