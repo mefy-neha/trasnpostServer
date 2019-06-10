@@ -267,4 +267,47 @@ router.get('/companyBySuperAdminId', (request, response) => {
 
 })
 /************************************END ******************************************** */
+/************************************TENDER ******************************************** */
+router.get('/tender', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let gst=request.query.gst
+    let sentResponse = {};
+    let x=[]
+    company.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if(result) {
+            if(gst=='gst'){
+                x.push(result[0].gst)
+
+            }
+            console.log('xxxx',x)
+
+           
+
+
+
+
+
+
+
+
+            
+            sentResponse.error = false;
+            sentResponse.message = "Company List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+
+
 module.exports = router;
