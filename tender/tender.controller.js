@@ -122,9 +122,9 @@ router.post('/tender', (request, response) => {
     //                 })
     //             }
     //         }
-                // console.log('yyyyy outside', y)
+         // console.log('yyyyy outside', y)
                 sentResponse.error = false;
-                sentResponse.message = "Company List";
+                sentResponse.message = "Tender Document";
                 sentResponse.result1 = x
                 // sentResponse.result2 = y
 
@@ -141,8 +141,6 @@ router.post('/tender', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-
-
 module.exports = router;
    // if (companyData.gst === 'gst'||companyData.balance_sheet == 'balance_sheet'||companyData.itr == 'itr'||companyData.esi == 'esi'||companyData.professional_tax == 'professional_tax' ||companyData.pf == 'pf'||companyData.road_registration_certificate == 'road_registration_certificate'||companyData.tradeLicense_A == 'tradeLicense_A'||companyData.tradeLicense_B == 'tradeLicense_B'||companyData.invoice == 'invoice'||companyData.pan == 'pan'||companyData.tan == 'tan') {
     //     console.log("gst",companyData.gst )
