@@ -19,6 +19,13 @@ router.post('/create', (request, response) => {
         pbta: request.body.pbta?request.body.pbta:null,
         userId: request.body.userId
     })
+    if(request.body.period!=null){
+        data.period={
+            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('YYYY-MM-DD'):null,
+            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('YYYY-MM-DD'):null
+        }
+        console.log('gst',data.period)
+     } 
     console.log('dataaaa', data)
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('result error', error);

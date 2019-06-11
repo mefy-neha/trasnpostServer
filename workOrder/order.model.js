@@ -70,7 +70,14 @@ pbta:{
         type: String  
     }
 },
-   
+period:{
+    start_date:{
+        type:String
+    },
+    end_date:{
+        type:String
+    }
+},  
 userId: {
         type: schema.ObjectId,
         ref: 'user'
