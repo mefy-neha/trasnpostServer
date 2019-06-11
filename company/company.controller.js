@@ -12,6 +12,7 @@ router.post('/create', (request, response) => {
     let data = new company({
         email: (request.body.email).toLowerCase(),
         organisation: request.body.organisation,
+        invoice_number: request.body.invoice_number,
         road_registration_certificate: request.body.road_registration_certificate?request.body.road_registration_certificate:null,
         gst: request.body.gst?request.body.gst:null,
         msme: request.body.msme?request.body.msme:null,
@@ -19,7 +20,7 @@ router.post('/create', (request, response) => {
         tradeLicense_B: request.body.tradeLicense_B?request.body.tradeLicense_B:null,
         tradeLicenseNo: request.body.tradeLicenseNo?request.body.tradeLicenseNo:null,
         tradeLicenseId: request.body.tradeLicenseId?request.body.tradeLicenseId:null,
-        invoice: request.body.invoice?request.body.invoice:null,
+        registration_certificate: request.body.registration_certificate?request.body.registration_certificate:null,
         pan: request.body.pan?request.body.pan:null,
         tan: request.body.tan?request.body.tan:null,
         // balance_sheet: request.body.balance_sheet?request.body.balance_sheet:null,

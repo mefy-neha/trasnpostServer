@@ -7,6 +7,9 @@ const companySchema = mongoose.Schema({
         type: String,
         enum: ['lalbaba', 'patro']
     },
+    invoice_number:{
+        type: String, 
+    },
     road_registration_certificate: {
         doc: {
             type: schema.ObjectId,
@@ -50,7 +53,7 @@ const companySchema = mongoose.Schema({
             ref: 'file'
         },
     },
-    invoice: {
+    registration_certificate: {
         number: {
             type: String
 
