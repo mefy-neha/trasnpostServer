@@ -9,11 +9,11 @@ const fleet = require('../fleet/fleet.model');
 /************************************TENDER ******************************************** */
 router.post('/tender', (request, response) => {
     let superAdminId = request.query.superAdminId;
-    console.log('superAdmin')
+    // console.log('superAdmin')
     let fleetArray = request.body.fleetArray
     // console.log('fleetArray', fleetArray)
     let companyData = request.body.companyData
-    console.log('companydata', companyData)
+    // console.log('companydata', companyData)
 
     let y = []
     let sentResponse = {};
@@ -144,32 +144,38 @@ async function fleetsData(fleet) {
 async function populatefields(fleets) {
     console.log('fleets', fleets)
     let sentResponse = {};
-    let newFleetData = []
+    let newFleetData = {};
     return new Promise(function (resolve, reject) {
         fleet.findOne({ _id: fleets.fleetId }, (error, result) => {
-            console.log("error>>>>>>>>>>>" + error)
-            // console.log("??????????fleet result" , result)
+            // console.log("error>>>>>>>>>>>" + error)
+            console.log("??????????fleet result" , result)
             if (error) {
-                sentResponse.error = true;
-                sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
-                response.status(500).json(sentResponse);
+                // sentResponse.error = true;
+                // sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
+                // response.status(500).json(sentResponse);
             }
             else if (result) {
                 // console.log('resultcoming ',result)
-
-                if (fleets.truck_number == 'truck_number') {
-                    console.log("truck_number")
-                    newFleetData.push({ truck_number: result.truck_number })
+                for (var key in fleets){
+                    // console.log(result[key])
+                    newFleetData[key] = result[key];
+                    delete newFleetData.fleetId;
+                    newFleetData.fleetId=result._id
                 }
-                if (fleets.fitness == 'fitness') {
-                    // console.log("fitnesssssssss")
-                    // console.log('result ka fitness',result.fitness)
-                    newFleetData.push({ fitness: result.fitness })
-                    // console.log('i dont know',newFleetData)
+                   
+                // if (fleets.truck_number == 'truck_number') {
+                //     console.log("truck_number")
+                //     newFleetData.truck_number= result.truck_number 
+                // }
+                // if (fleets.fitness == 'fitness') {
+                //     // console.log("fitnesssssssss")
+                //     // console.log('result ka fitness',result.fitness)
+                //     newFleetData.fitness= result.fitness
+                //     // console.log('i dont know',newFleetData)
 
-                }
+                // }
                 console.log('resolve(newFleetData[0])', newFleetData)
-                resolve(newFleetData[0])
+                resolve(newFleetData)
 
 
             }
