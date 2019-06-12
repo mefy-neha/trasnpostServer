@@ -9,18 +9,19 @@ router.post('/create', (request, response) => {
     let data = new bill({
         vendorId: request.body.vendorId,
         work_order: request.body.work_order,
-        invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('YYYY-MM-DD'):null,
+        bill_date: request.body.bill_date? moment(request.body.bill_date).format('YYYY-MM-DD'):null,
         terms: request.body.terms,
         due_date: request.body.due_date? moment(request.body.due_date).format('YYYY-MM-DD'):null,
         sub_total: request.body.sub_total,
         total: request.body.total,
-        amount_paid: request.body.amount_paid,
+        amount_paid: request.body.amount_paid?request.body.amount_paid:null,
         status: request.body.status,
         adjustment: request.body.adjustment,
-        gst: request.body.gst,
+        tds: request.body.tds,
         items_details: request.body.items_details,
         reverse_change:request.body.reverse_change,
-        terms_condition: request.body.terms_condition ? request.body.terms_condition : null,
+        notes: request.body.notes ? request.body.notes : null,
+        discount: request.body.discount ? request.body.discount : null,
         customer_notes: request.body.customer_notes ? request.body.customer_notes : null,
         userId: request.body.userId
     })

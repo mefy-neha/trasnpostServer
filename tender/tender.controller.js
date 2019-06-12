@@ -13,7 +13,7 @@ router.post('/tender', (request, response) => {
     let fleetArray = request.body.fleetArray
     console.log('fleetArray', fleetArray)
     let companyData = request.body.companyData
-    console.log('companydata', companyData)
+    // console.log('companydata', companyData)
 
     let y = []
     let sentResponse = {};
@@ -28,7 +28,7 @@ router.post('/tender', (request, response) => {
         }
         else if (result) {
             // console.log("result>>>>>>>>>>>>" + result)       
-            if (companyData.gst === 'gst') {
+            if (companyData.gst == 'gst') {
                 console.log("gst")
                 x.push({ gst: result.gst })
             }
@@ -86,14 +86,94 @@ router.post('/tender', (request, response) => {
                 x.push({ balance_sheet: result.balance_sheet })
 
             }
+
             if (fleetArray != null && fleetArray.length != 0) {
                 console.log("fleet>>>>>>>>>>>>>>>>>>>>")
                 fleetsData(fleetArray).then(list => {
-                    console.log(list)
+                       
+            sentResponse.error = false;
+            sentResponse.message = "Tender Document";
+            sentResponse.result1 = x
+            sentResponse.result2 = list
+
+            response.status(200).json(sentResponse);
                 }).catch(error => {
                     console.log(error)
                 })
-                // for (let i = 0; i < fleetArray.length; i++) {
+
+           
+            }
+            
+
+
+        }
+        else {
+            sentResponse.error = true;
+            sentResponse.message = 'Error::' + "Id doesn't exists";
+            response.status(404).json(sentResponse);
+        }
+
+    })
+})
+
+
+async function fleetsData(fleet){
+let fleetdata=[];
+    for (const subs of fleet) {
+        // console.log('substitute data',subs)
+        await Promise.all([populatefields(subs)]).then(function (values) {
+            // console.log('RETUNED VALUESSSS', values);
+            fleetdata.push(values[0]);
+
+            // var data = subs.toObject();
+            // data.product = values[0];
+
+            // x.push(data)       
+        
+        })
+    }
+    return fleetdata;
+}
+
+
+async function populatefields(fleets) {
+    console.log('fleets',fleets)
+    let sentResponse = {};
+    return new Promise(function (resolve, reject) {
+        fleet.findOne({ _id: fleets.fleetId}, (error, result) => {
+                    console.log("error>>>>>>>>>>>" + error)
+                    // console.log("??????????fleet result" , result)
+                    if (error ) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
+                        response.status(500).json(sentResponse);
+                    }
+                    else if(result){
+                       
+                             
+                        resolve(result)
+                    }
+        })
+        })
+}
+/************************************END ******************************************** */
+module.exports = router;
+// if(fleetArray.truck_number=='truck_number'){
+//     console.log("truck_number")
+
+//             newFleetData.push({ truck_number: list.truck_number})
+//             }
+        
+//             if(fleetArray.fitness == 'fitness'){
+//                 console.log('fitness')
+//                 newFleetData.push({ fitness: list.fitness})
+//                 }
+   // if (companyData.gst === 'gst'||companyData.balance_sheet == 'balance_sheet'||companyData.itr == 'itr'||companyData.esi == 'esi'||companyData.professional_tax == 'professional_tax' ||companyData.pf == 'pf'||companyData.road_registration_certificate == 'road_registration_certificate'||companyData.tradeLicense_A == 'tradeLicense_A'||companyData.tradeLicense_B == 'tradeLicense_B'||companyData.invoice == 'invoice'||companyData.pan == 'pan'||companyData.tan == 'tan') {
+    //     console.log("gst",companyData.gst )
+    //     x.push({ gst: result.gst ,balance_sheet:result.balance_sheet})
+
+    // }
+         // for (let i = 0; i < fleetArray.length; i++) {
 
                 //     console.log(fleetArray.length)
 
@@ -127,67 +207,3 @@ router.post('/tender', (request, response) => {
 
                 //     })
                 // }
-            }
-            console.log('****** OUTSIDE *******', y)
-            sentResponse.error = false;
-            sentResponse.message = "Tender Document";
-            sentResponse.result1 = x
-            // sentResponse.result2 = y
-
-            response.status(200).json(sentResponse);
-
-
-        }
-        else {
-            sentResponse.error = true;
-            sentResponse.message = 'Error::' + "Id doesn't exists";
-            response.status(404).json(sentResponse);
-        }
-
-    })
-})
-
-
-async function fleetsData(fleet){
-let fleetdata=[];
-    for (const subs of fleet) {
-        // console.log('substitute data',subs)
-        await Promise.all([populatefields(subs)]).then(function (values) {
-            console.log('RETUNED VALUESSSS', values);
-            fleetdata.push(values[0]);
-
-            // var data = subs.toObject();
-            // data.product = values[0];
-
-            // x.push(data)
-
-        })
-    }
-    return fleetdata;
-}
-
-
-async function populatefields(fleet) {
-    return new Promise(function (resolve, reject) {
-        fleet.findOne({ _id: fleet.fleetId}, (error, result) => {
-                    console.log("error>>>>>>>>>>>" + error)
-                    console.log("result??????????yipeeeee" + result)
-                    if (error ) {
-            //             // console.log("inside error***********")
-            //             sentResponse.error = true;
-            //             sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
-            //             response.status(500).json(sentResponse);
-                    }
-                    else if(result){
-                        resolve(result)
-                    }
-        })
-        })
-}
-/************************************END ******************************************** */
-module.exports = router;
-   // if (companyData.gst === 'gst'||companyData.balance_sheet == 'balance_sheet'||companyData.itr == 'itr'||companyData.esi == 'esi'||companyData.professional_tax == 'professional_tax' ||companyData.pf == 'pf'||companyData.road_registration_certificate == 'road_registration_certificate'||companyData.tradeLicense_A == 'tradeLicense_A'||companyData.tradeLicense_B == 'tradeLicense_B'||companyData.invoice == 'invoice'||companyData.pan == 'pan'||companyData.tan == 'tan') {
-    //     console.log("gst",companyData.gst )
-    //     x.push({ gst: result.gst ,balance_sheet:result.balance_sheet})
-
-    // }

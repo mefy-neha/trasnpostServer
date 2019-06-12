@@ -14,7 +14,7 @@ const billSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'order'
     },
-    invoice_date: {
+    bill_date: {
         type: String
     },
     terms: {
@@ -35,7 +35,7 @@ const billSchema = mongoose.Schema({
     customer_notes: {
         type: String
     },
-    terms_condition: {
+    notes: {
         type: String
     },
     status: {
@@ -47,7 +47,7 @@ const billSchema = mongoose.Schema({
         type: String
         }
     },
-    gst:{
+    tds:{
         rate: {
             type: String
         },
@@ -67,6 +67,10 @@ const billSchema = mongoose.Schema({
     reverse_change:{
         type:String,
         enum:['yes','no']
+    },
+    discount:{
+        type:String,
+        enum:['INR','%']
     },
     items_details:[{
         cosignmentId:{
