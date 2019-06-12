@@ -11,13 +11,13 @@ router.post('/tender', (request, response) => {
     let superAdminId = request.query.superAdminId;
     console.log('superAdmin')
     let fleetArray = request.body.fleetArray
-    console.log('fleetArray', fleetArray)
+    // console.log('fleetArray', fleetArray)
     let companyData = request.body.companyData
-    // console.log('companydata', companyData)
+    console.log('companydata', companyData)
 
     let y = []
     let sentResponse = {};
-    let x = []
+    let newCompanyData = []
     company.findOne({ superAdminId: superAdminId }, (error, result) => {
         // console.log('error', error);
         // console.log('result', result);
@@ -30,80 +30,85 @@ router.post('/tender', (request, response) => {
             // console.log("result>>>>>>>>>>>>" + result)       
             if (companyData.gst == 'gst') {
                 console.log("gst")
-                x.push({ gst: result.gst })
+                newCompanyData.push({ gst: result.gst })
             }
             if (companyData.road_registration_certificate == 'road_registration_certificate') {
                 console.log("road_registration_certificate")
-                x.push({ road_registration_certificate: result.road_registration_certificate })
+                newCompanyData.push({ road_registration_certificate: result.road_registration_certificate })
             }
             if (companyData.tradeLicense_A == 'tradeLicense_A') {
                 console.log("tradeLicense_A")
-                x.push({ tradeLicense_A: result.tradeLicense_A })
+                newCompanyData.push({ tradeLicense_A: result.tradeLicense_A })
 
             }
             if (companyData.tradeLicense_B == 'tradeLicense_B') {
                 console.log("tradeLicense_B")
-                x.push({ tradeLicense_B: result.tradeLicense_B })
+                newCompanyData.push({ tradeLicense_B: result.tradeLicense_B })
 
             }
-            if (companyData.invoice == 'invoice') {
-                console.log("invoice")
-                x.push({ invoice: result.invoice })
+            if (companyData.invoice_number == 'invoice_number') {
+                console.log("invoice_number")
+                newCompanyData.push({ invoice_number: result.invoice_number })
 
             }
             if (companyData.pan == 'pan') {
                 console.log("pan")
-                x.push({ pan: result.pan })
+                newCompanyData.push({ pan: result.pan })
 
             }
             if (companyData.tan == 'tan') {
                 console.log("tan")
-                x.push({ tan: result.tan })
+                newCompanyData.push({ tan: result.tan })
 
             }
             if (companyData.pf == 'pf') {
                 console.log("pf")
-                x.push({ pf: result.pf })
+                newCompanyData.push({ pf: result.pf })
 
             }
             if (companyData.professional_tax == 'professional_tax') {
                 console.log("professional_tax")
-                x.push({ professional_tax: result.professional_tax })
+                newCompanyData.push({ professional_tax: result.professional_tax })
 
             }
             if (companyData.esi == 'esi') {
                 console.log("esi")
-                x.push({ esi: result.esi })
+                newCompanyData.push({ esi: result.esi })
 
             }
             if (companyData.itr == 'itr') {
                 console.log("itr")
-                x.push({ itr: result.itr })
+                newCompanyData.push({ itr: result.itr })
 
             }
             if (companyData.balance_sheet == 'balance_sheet') {
                 console.log("balance_sheet")
-                x.push({ balance_sheet: result.balance_sheet })
+                newCompanyData.push({ balance_sheet: result.balance_sheet })
+
+            }
+            if (companyData.others == 'others') {
+                console.log("others")
+                newCompanyData.push({ balance_sheet: result.others })
 
             }
 
             if (fleetArray != null && fleetArray.length != 0) {
                 console.log("fleet>>>>>>>>>>>>>>>>>>>>")
                 fleetsData(fleetArray).then(list => {
-                       
-            sentResponse.error = false;
-            sentResponse.message = "Tender Document";
-            sentResponse.result1 = x
-            sentResponse.result2 = list
 
-            response.status(200).json(sentResponse);
+                    sentResponse.error = false;
+                    sentResponse.message = "Tender Document";
+                    sentResponse.company = newCompanyData
+                    sentResponse.fleet = list
+
+                    response.status(200).json(sentResponse);
                 }).catch(error => {
                     console.log(error)
                 })
 
-           
+
             }
-            
+
 
 
         }
@@ -117,8 +122,8 @@ router.post('/tender', (request, response) => {
 })
 
 
-async function fleetsData(fleet){
-let fleetdata=[];
+async function fleetsData(fleet) {
+    let fleetdata = [];
     for (const subs of fleet) {
         // console.log('substitute data',subs)
         await Promise.all([populatefields(subs)]).then(function (values) {
@@ -129,7 +134,7 @@ let fleetdata=[];
             // data.product = values[0];
 
             // x.push(data)       
-        
+
         })
     }
     return fleetdata;
@@ -137,24 +142,40 @@ let fleetdata=[];
 
 
 async function populatefields(fleets) {
-    console.log('fleets',fleets)
+    console.log('fleets', fleets)
     let sentResponse = {};
+    let newFleetData = []
     return new Promise(function (resolve, reject) {
-        fleet.findOne({ _id: fleets.fleetId}, (error, result) => {
-                    console.log("error>>>>>>>>>>>" + error)
-                    // console.log("??????????fleet result" , result)
-                    if (error ) {
-                        sentResponse.error = true;
-                        sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
-                        response.status(500).json(sentResponse);
-                    }
-                    else if(result){
-                       
-                             
-                        resolve(result)
-                    }
+        fleet.findOne({ _id: fleets.fleetId }, (error, result) => {
+            console.log("error>>>>>>>>>>>" + error)
+            // console.log("??????????fleet result" , result)
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
+                response.status(500).json(sentResponse);
+            }
+            else if (result) {
+                // console.log('resultcoming ',result)
+
+                if (fleets.truck_number == 'truck_number') {
+                    console.log("truck_number")
+                    newFleetData.push({ truck_number: result.truck_number })
+                }
+                if (fleets.fitness == 'fitness') {
+                    // console.log("fitnesssssssss")
+                    // console.log('result ka fitness',result.fitness)
+                    newFleetData.push({ fitness: result.fitness })
+                    // console.log('i dont know',newFleetData)
+
+                }
+                console.log('resolve(newFleetData[0])', newFleetData)
+                resolve(newFleetData[0])
+
+
+            }
+
         })
-        })
+    })
 }
 /************************************END ******************************************** */
 module.exports = router;
@@ -163,7 +184,7 @@ module.exports = router;
 
 //             newFleetData.push({ truck_number: list.truck_number})
 //             }
-        
+
 //             if(fleetArray.fitness == 'fitness'){
 //                 console.log('fitness')
 //                 newFleetData.push({ fitness: list.fitness})
