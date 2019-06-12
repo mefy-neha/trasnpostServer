@@ -161,6 +161,7 @@ async function fleetfields(fleets) {
                 sentResponse.error = true;
                 sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
                 response.status(500).json(sentResponse);
+                resolve(null)
             }
             else if (result) {
                 // console.log('resultcoming ',result)
@@ -208,6 +209,7 @@ async function driverfields(driver) {
                 sentResponse.error = true;
                 sentResponse.message = `Error :` + error.message + "Driver Does not exist";
                 response.status(500).json(sentResponse);
+                resolve(null)
             }
             else if (result) {
                 // console.log('resultcoming ',result)
