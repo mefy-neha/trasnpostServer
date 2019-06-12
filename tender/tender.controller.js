@@ -153,6 +153,7 @@ async function populatefields(fleets) {
                 // sentResponse.error = true;
                 // sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
                 // response.status(500).json(sentResponse);
+                resolve(null)
             }
             else if (result) {
                 // console.log('resultcoming ',result)
