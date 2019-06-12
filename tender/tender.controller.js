@@ -160,7 +160,9 @@ async function populatefields(fleets) {
                     // console.log(result[key])
                     newFleetData[key] = result[key];
                     delete newFleetData.fleetId;
-                    newFleetData.fleetId=result._id
+                    newFleetData.fleetId=result._id;
+                    newFleetData.userId=result.userId;
+                    newFleetData.ownership=result.ownership;
                 }
                    
                 // if (fleets.truck_number == 'truck_number') {
