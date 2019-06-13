@@ -24,7 +24,7 @@ const billRoute = require('./bill/bill.controller');
 const destinationRoute = require('./destination/destination.controller');
 const orderRoute = require('./workOrder/order.controller');
 const dieselRoute = require('./diesel/diesel.controller');
-const tenderRoute = require('./tender/tender.controller');
+// const tenderRoute = require('./tender/tender.controller');
 
 
 
@@ -79,7 +79,7 @@ app.use('/bill',billRoute);
 app.use('/destination',destinationRoute);
 app.use('/order',orderRoute);
 app.use('/diesel',dieselRoute);
-app.use('/tender',tenderRoute);
+// app.use('/tender',tenderRoute);
 
 
 
