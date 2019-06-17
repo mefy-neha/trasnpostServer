@@ -8,6 +8,22 @@ const contractorSchema = mongoose.Schema({
     contactPersonName: {
         type: String
     },
+    bank_name: {
+        type: String
+    },
+
+    branch_name: {
+        type: String
+    },
+    account_holder_name: {
+        type: String
+    },
+    ifsc: {
+        type: String,
+    },
+    account_number: {
+        type: String
+    },
     regId: {
         type: schema.ObjectId,
         ref: 'file'

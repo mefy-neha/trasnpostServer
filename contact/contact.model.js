@@ -28,6 +28,22 @@ const contactSchema = mongoose.Schema({
     website:{
         type:String
     },
+    bank_name: {
+        type: String
+    },
+
+    branch_name: {
+        type: String
+    },
+    account_holder_name: {
+        type: String
+    },
+    ifsc: {
+        type: String,
+    },
+    account_number: {
+        type: String
+    },
     aadhar: {
         number: {
             type: String

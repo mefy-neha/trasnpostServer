@@ -20,6 +20,11 @@ router.post('/create', (request, response) => {
         website:request.body.website?request.body.website:null,
         contact_type:request.body.contact_type,
         picture: request.body.picture?request.body.picture:null,
+        bank_name: request.body.bank_name,
+        branch_name: request.body.branch_name,
+        account_holder_name: request.body.account_holder_name,
+        ifsc: request.body.ifsc,
+        account_number: request.body.account_number,
         userId: request.body.userId
     });
     console.log(data);
