@@ -24,17 +24,29 @@ const bankSchema = mongoose.Schema({
     address: {
         type: String
     },
-    format:[{
-        field_name: {
-            type: String
-        },
-        field_type: {
-            type: String
-        },
-        description: {
-            type: String
-        }
-    }],
+    // format:[{
+    //     seq: {
+    //         type: String
+    //     },
+    //     transaction_type: {
+    //         default:'NEFT TRANSFER'
+    //     },
+    //     bene_ifsc_code: {
+    //         type: String
+    //     },
+    //     bene_account_number: {
+    //         type: String
+    //     },
+    //     bene_name : {
+    //         type: String
+    //     },
+    //     txn_ref_no: {
+    //         type: String
+    //     },
+    //     sender_to_rcvr_info: {
+    //         type: String
+    //     }
+    // }],
     userId: {
         type: schema.ObjectId,
         ref: 'user'

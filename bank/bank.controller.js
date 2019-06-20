@@ -13,7 +13,7 @@ router.post('/create', (request, response) => {
         ifsc: request.body.ifsc,
         account_number: request.body.account_number,
         address: request.body.address,
-        format:request.body.format,
+        // format:request.body.format,
         userId: request.body.userId
     })
     console.log('dataaaa', data)

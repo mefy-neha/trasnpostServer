@@ -18,7 +18,16 @@ const bankFileSchema = mongoose.Schema({
         },
         amount: {
             type: String
-        }
+        },
+        seq: {
+            type: String
+        },
+        transaction_type: {
+            default:'NEFT TRANSFER'
+        },
+        sender_to_rcvr_info: {
+                    type: String
+                }
     }],
     userId: {
         type: schema.ObjectId,
