@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const bankFileSchema = mongoose.Schema({
-
     file_data: [{
 
         personId: {
@@ -23,11 +22,13 @@ const bankFileSchema = mongoose.Schema({
             type: String
         },
         transaction_type: {
+            type: String,
             default:'NEFT TRANSFER'
         },
         sender_to_rcvr_info: {
                     type: String
-                }
+        }
+                
     }],
     userId: {
         type: schema.ObjectId,
