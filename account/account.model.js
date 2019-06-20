@@ -3,6 +3,7 @@ var schema = mongoose.Schema;
 const accountSchema = mongoose.Schema({
 accountType: {
     type: String,
+    enum:['Asset','Liability','Expense','Revenue','Equity']
 },
 accountName:{
     type: String,    
@@ -41,13 +42,13 @@ enabled: {
 }
 
 })
-accountSchema.pre('findOne', function (next) {
-    this.populate('userId');
-    next();
-});
-accountSchema.pre('find', function (next) {
-    this.populate('userId');
-    next();
-});
+// accountSchema.pre('findOne', function (next) {
+//     this.populate('userId');
+//     next();
+// });
+// accountSchema.pre('find', function (next) {
+//     this.populate('userId');
+//     next();
+// });
 // enum:['Asset','Liability','Expense','Revenue','Equity']
 const account = module.exports = mongoose.model('account', accountSchema)
