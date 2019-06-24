@@ -403,5 +403,29 @@ router.get('/accountByUserId', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************** ACCOUNT DETAIL BY ACCOUNT TYPE,PARENT ACCOUNT,ACCOUNT NAME ********************************************** */
+router.get('/accountDetail', (request, response) => {
+    let accountType = request.query.accountType;
+    let parentAccount = request.query.parentAccount;
+    let accountName = request.query.accountName;
+    let sentResponse = {};
+    account.find({ $and: [{ accountType: accountType }, { parentAccount: parentAccount },{ accountName: accountName }] }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "Account Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Account List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
 
+        }
+
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;
