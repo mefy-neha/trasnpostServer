@@ -15,6 +15,7 @@ router.post('/create', (request, response) => {
         description: request.body.description,
         organisation: request.body.organisation,
         parentAccount: request.body.parentAccount ? request.body.parentAccount : null,
+        super_parent_Account: request.body.super_parent_Account ? request.body.super_parent_Account : null,
         userId: request.body.userId
     });
     user.findById({ _id: data.userId }, (error, result) => {
@@ -285,7 +286,7 @@ router.get('/accountType', (request, response) => {
     console.log('request')
     let accountResponse = {};
     let parentAccount = request.query.parentAccount ? request.query.parentAccount : null
-    let accountType = request.query.accountType ? request.query.parentAccount : ''
+    let accountType = request.query.accountType ? request.query.accountType : ''
     console.log('response', parentAccount, accountType)
     console.log('responseffghf', accountType)
 

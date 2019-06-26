@@ -19,6 +19,9 @@ accountCode: {
 parentAccount:{
     type: String
 },
+super_parent_Account:{
+    type: String
+},
 userId: {
     type: schema.ObjectId,
     ref: 'user'
