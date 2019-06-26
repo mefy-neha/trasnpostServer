@@ -265,15 +265,15 @@ router.delete('/delete', (request, response) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
-            sentresponse.error = true;
-            sentresponse.message = `Error :` + error.message + " Does not exist";
-            response.status(500).json(sentresponse);
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
         }
         else {
-            sentresponse.error = false;
-            sentresponse.message = "Account Deleted";
+            sentResponse.error = false;
+            sentResponse.message = "Account Deleted";
             sentResponse.result = result
-            response.status(200).json(sentresponse);
+            response.status(200).json(sentResponse);
 
         }
 
