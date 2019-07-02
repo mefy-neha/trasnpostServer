@@ -376,8 +376,8 @@ function datetapped(startDate, list) {
     let datearray = [];
     return new Promise((resolve, reject) => {
         list.forEach(element => {
-            let fromdate = element.from;
-            let todate = element.to;
+            let fromdate = moment(element.from ).format('YYYY-MM-DD');
+            let todate = moment(element.to).format('YYYY-MM-DD');
             // console.log('datesssss', fromdate, todate, startDate)
             console.log(moment(startDate).isBetween(fromdate, todate, null, '[]'))
             if (moment(startDate).isBetween(fromdate, todate,  null, '[]')) {
