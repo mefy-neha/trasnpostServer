@@ -115,11 +115,11 @@ invoiceSchema.pre('find', function (next) {
     next();
 });
 invoiceSchema.pre('findOne', function (next) {
-    this.populate('contact');
+    this.populate('customerId');
     next();
 });
 invoiceSchema.pre('find', function (next) {
-    this.populate('contact');
+    this.populate('customerId');
     next();
 });
 const invoice = module.exports = mongoose.model('invoice', invoiceSchema)
