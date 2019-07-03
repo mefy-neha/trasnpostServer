@@ -126,11 +126,11 @@ journalSchema.pre('find', function (next) {
     next();
 });
 journalSchema.pre('findOne', function (next) {
-    this.populate('contactPerson');
+    this.populate('contactPersonId');
     next();
 });
 journalSchema.pre('find', function (next) {
-    this.populate('contactPerson');
+    this.populate('contactPersonId');
     next();
 });
 journalSchema.pre('findOne', function (next) {
