@@ -201,51 +201,59 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/************************************UPDATION OF INVOICE ******************************************** */
-// router.put('/paid', (request, response) => {
-//     let sentResponse = {};
-//     let invoiceId = request.body.invoiceId;
-//     let amount_paid = request.body.amount_paid;
-//     invoice.findById({ _id: invoiceId }, (error, result) => {
-//         console.log('error', error)
-//         console.log('result', result)
-//         if (error || result == null) {
-//             sentResponse.error = true;
-//             sentResponse.message = `Error :` + error.message + " Does not exist";
-//             response.status(500).json(sentResponse);
-//         }
-//         else if (result) {
-//             if (result.total == amount_paid) {
-//                 console.log('paid')
-//                 result.status = (request.body.status ? (request.body.status) : 'paid');
-//                 result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-//                 result.save((error, result) => {
-//                     if (error) {
-//                         sentResponse.error = true;
-//                         sentResponse.message = `Error :` + error.message + " Not update";
-//                         response.status(500).json(sentResponse);
-//                     }
-//                     else {
-//                         sentResponse.error = false;
-//                         sentResponse.message = "Invoice Updated";
-//                         sentResponse.result = result
-//                         response.status(200).json(sentResponse);
+/************************************UPDATION OF Bill ******************************************** */
+router.put('/paid', (request, response) => {
+    let sentResponse = {};
+    let billId = request.body.billId;
+    let amount_paid = request.body.amount_paid;
+    console.log('result.amount_paid',amount_paid)
+    bill.findById({ _id: billId }, (error, result) => {
+        console.log('error', error)
+        // console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result.total == amount_paid) {
+                console.log('result.total',result.total)
+                console.log('paid')
+                result.status = (request.body.status ? (request.body.status) : 'paid');
+                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+                result.save((error, result) => {    
+                    console.log('error', error)    
+                     // console.log('result', result)
+                        sentResponse.error = false;
+                        sentResponse.message = "Invoice Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
 
-//                     }
-//                 })
-//             }
-//             else {
-//                 console.log('unpaid')
-//                 sentResponse.error = false;
-//                 sentResponse.message = "total amount is not equal to amount paid,invoice not updated";
-//                 sentResponse.result = result
-//                 response.status(200).json(sentResponse);
+                    
+                })
+            }
+            else if(result){
+                console.log('result',result.total,result.amount_paid)
+                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+                result.total=result.total- result.amount_paid 
+                console.log('total',result.total)
+                result.save((error, result) => {
+                    console.log(' save error',error)
+                    if (error) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + " Not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "Invoice Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
 
-//             }
-
-//         }
-//     })
-// })
+                    }
+                })
+            }
+    })
+})
 /************************************END ******************************************** */
 
 module.exports = router;

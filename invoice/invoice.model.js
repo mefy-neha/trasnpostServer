@@ -11,8 +11,9 @@ const invoiceSchema = mongoose.Schema({
     },
 
     work_order: {
-        type: schema.ObjectId,
-        ref: 'order'
+        // type: schema.ObjectId,
+        // ref: 'order'
+        type:String
     },
     invoice_date: {
         type: String
