@@ -14,6 +14,7 @@ router.post('/create', (request, response) => {
         due_date: request.body.due_date? moment(request.body.due_date).format('YYYY-MM-DD'):null,
         sub_total: request.body.sub_total,
         total: request.body.total,
+        amount_due: request.body.total,
         amount_paid: '0',
         status: 'unpaid',
         adjustment: request.body.adjustment,
@@ -219,6 +220,7 @@ router.put('/paid', (request, response) => {
                 console.log('paid')
                 result.status = (request.body.status ? (request.body.status) : 'paid');
                 result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+                result.amount_due=result.amount_due- result.amount_paid
                 result.save((error, result) => {    
                     console.log('error', error)    
                      // console.log('result', result)
@@ -233,7 +235,7 @@ router.put('/paid', (request, response) => {
             else if(result){
                 console.log('result',result.total,result.amount_paid)
                 result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-                result.total=result.total- result.amount_paid 
+                result.amount_due=result.amount_due- result.amount_paid 
                 console.log('total',result.total)
                 result.save((error, result) => {
                     console.log(' save error',error)

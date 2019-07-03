@@ -32,6 +32,9 @@ const billSchema = mongoose.Schema({
     amount_paid: {
         type: String
     },
+    amount_due: {
+        type: String
+    },
     customer_notes: {
         type: String
     },
