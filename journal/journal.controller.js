@@ -338,7 +338,7 @@ router.put('/update', (request, response) => {
 router.get('/journalList', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
-    user.findById({ _id: superAdminId }, (error, result) => {
+    user.findById({ _id: superAdminId }).populate('detail.accountId').exec((error, result) => { 
         console.log('error...........', error);
         console.log('result', result);
         if (error || result == null) {
@@ -389,5 +389,24 @@ function datetapped(startDate, list) {
         resolve(datearray)
     })
 }
+/********************************JOURNAL BY ID ************************* */
+router.get('/journalbyid',(request,response)=>{
+let id=request.query.id;
+let sentResponse = {};
+journal.findById({_id:id}).populate('detail.accountId').exec((error, result) => { 
+    if (error) {
+        sentResponse.error = true;
+        sentResponse.message = `Error :` + error.message + "Something went wrong";
+        response.status(500).json(sentResponse);
+    }
+    else {
+        sentResponse.error = false;
+        sentResponse.message = "Journal List";
+        sentResponse.result = result
+        response.status(200).json(sentResponse);
+
+    } 
+})
+})
 module.exports = router;
 // 2019-06-07T04:12:09.288Z -iso format

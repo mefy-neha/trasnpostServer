@@ -53,6 +53,7 @@ denomination: [{
 }],
 detail:[{
     contactPersonId:{
+        sparse: true,
         type: schema.ObjectId,
         ref: 'contact'
     },
