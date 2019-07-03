@@ -110,11 +110,11 @@ enabled: {
 
 })
 journalSchema.pre('findOne', function (next) {
-    this.populate('accountName');
+    this.populate('accountId');
     next();
 });
 journalSchema.pre('find', function (next) {
-    this.populate('accountName');
+    this.populate('accountId');
     next();
 });
 journalSchema.pre('findOne', function (next) {
