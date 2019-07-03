@@ -338,7 +338,7 @@ router.put('/update', (request, response) => {
 router.get('/journalList', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
-    user.findById({ _id: superAdminId }).populate('detail.accountId').exec((error, result) => { 
+    user.findById({ _id: superAdminId },(error, result) => {
         console.log('error...........', error);
         console.log('result', result);
         if (error || result == null) {
@@ -348,7 +348,7 @@ router.get('/journalList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            journal.find({ superAdminId: superAdminId }, (error, result) => {
+            journal.find({ superAdminId: superAdminId }).populate('detail.accountId').exec((error, result) => { 
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
