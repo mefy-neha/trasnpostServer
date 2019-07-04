@@ -11,24 +11,10 @@ router.post('/create', (request, response) => {
     console.log('request', request.body)
     let data = new fleet({
         truck_number: request.body.truck_number,
-        ownership: request.body.ownership,
         userId: request.body.userId,
-        // rc:request.body.rc,
         capacity:request.body.capacity,
-        // vehicle_insurance:request.body.vehicle_insurance,
-        // product_insurance:request.body.product_insurance,
-        // explosive:request.body.explosive,
-        // calibration_chart:request.body.calibration_chart,
-        // national_permit:request.body.national_permit,
-        // national_permit_A:request.body.national_permit_A,
-        // national_permit_B:request.body.national_permit_B,
-        // road_tax:request.body.road_tax,
-        // pollution:request.body.pollution,
-        // sco:request.body.sco,
-        // abs:request.body.abs,
-        // hydro_testing:request.body.hydro_testing,
-        // fitness:request.body.fitness,
-        // others:request.body.others,
+        ownId:request.body.ownId?request.body.ownId:null,
+        contractId:request.body.contractId?request.body.contractId:null,
 
     });
     console.log(data);
@@ -287,3 +273,18 @@ router.get('/fleetlist', (request, response) => {
 })
 /************************************END ******************************************** */
 module.exports = router;
+ // vehicle_insurance:request.body.vehicle_insurance,
+        // product_insurance:request.body.product_insurance,
+        // explosive:request.body.explosive,
+        // calibration_chart:request.body.calibration_chart,
+        // national_permit:request.body.national_permit,
+        // national_permit_A:request.body.national_permit_A,
+        // national_permit_B:request.body.national_permit_B,
+        // road_tax:request.body.road_tax,
+        // pollution:request.body.pollution,
+        // sco:request.body.sco,
+        // abs:request.body.abs,
+        // hydro_testing:request.body.hydro_testing,
+        // fitness:request.body.fitness,
+        // others:request.body.others,
+        // rc:request.body.rc,

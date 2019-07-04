@@ -9,13 +9,20 @@ const fleetSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'user'
     },
-    superAdminId: {
+    contractId: {
+        type: schema.ObjectId,
+        ref: 'contractor'
+    },
+    ownId:{
         type: schema.ObjectId,
         ref: 'user'
     },
-    ownership: {
-        type: String,
-    },                           //id of contactr or owner
+    superAdminId: {
+        type: String
+    },
+    // ownership: {
+    //     type: String,
+    // },                           //id of contactr or owner
     capacity:{
         type: String
     },
@@ -236,6 +243,22 @@ fleetSchema.pre('findOne', function (next) {
 });
 fleetSchema.pre('find', function (next) {
     this.populate('userId');
+    next();
+});
+fleetSchema.pre('findOne', function (next) {
+    this.populate('ownId');
+    next();
+});
+fleetSchema.pre('find', function (next) {
+    this.populate('ownId');
+    next();
+});
+billSchema.pre('findOne', function (next) {
+    this.populate('contractId');
+    next();
+});
+billSchema.pre('find', function (next) {
+    this.populate('contractId');
     next();
 });
 
