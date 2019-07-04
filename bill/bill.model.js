@@ -99,7 +99,8 @@ const billSchema = mongoose.Schema({
         ref: 'user'
     },
     superAdminId: {
-        type: String
+        type: schema.ObjectId,
+        ref: 'user'
 
     },
     createdDate: {

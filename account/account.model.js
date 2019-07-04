@@ -27,6 +27,11 @@ userId: {
     ref: 'user'
 },
 
+superAdminId: {
+    type: schema.ObjectId,
+    ref: 'user'
+},
+
 organisation:{
     type:String,
     enum: ['lalbaba', 'patro']
