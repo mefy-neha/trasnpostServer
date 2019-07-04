@@ -393,7 +393,7 @@ function datetapped(startDate, list) {
 router.get('/journalbyid',(request,response)=>{
 let id=request.query.id;
 let sentResponse = {};
-journal.findById({_id:id}).populate('detail.accountId').exec((error, result) => { 
+journal.findById({_id:id}).populate('detail.accountId').populate('detail.contactPersonId').exec((error, result) => { 
     if (error) {
         sentResponse.error = true;
         sentResponse.message = `Error :` + error.message + "Something went wrong";

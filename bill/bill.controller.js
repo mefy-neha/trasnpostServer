@@ -7,7 +7,8 @@ const moment = require('moment');
 router.post('/create', (request, response) => {
     let invoiceResponse = {};
     let data = new bill({
-        vendorId: request.body.vendorId,
+        vendorId: request.body.vendorId?request.body.vendorId:null,
+        contractId:request.body.contractId?request.body.contractId:null,
         work_order: request.body.work_order,
         bill_date: request.body.bill_date? moment(request.body.bill_date).format('YYYY-MM-DD'):null,
         terms: request.body.terms,
@@ -120,12 +121,12 @@ router.post('/create', (request, response) => {
     })
 
 })
-
+// . populate('vendorId').exec((error, result) => { 
 /************************************END ******************************************** */
 /************************** BANK LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    bill.find({}, (error, result) => {
+    bill.find({},(error,result)=>{
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -135,7 +136,7 @@ router.get('/list', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "ALL Bill Invoice List";
+            sentResponse.message = "ALL Bill  List";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

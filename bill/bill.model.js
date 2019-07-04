@@ -6,6 +6,10 @@ const billSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'contact'
     },
+    contractId: {
+        type: schema.ObjectId,
+        ref: 'contractor'
+    },
     invoice_number:{
         type:String
     },
@@ -121,11 +125,27 @@ billSchema.pre('find', function (next) {
     next();
 });
 billSchema.pre('findOne', function (next) {
-    this.populate('contact');
+    this.populate('vendorId');
     next();
 });
 billSchema.pre('find', function (next) {
-    this.populate('contact');
+    this.populate('vendorId');
     next();
 });
+billSchema.pre('findOne', function (next) {
+    this.populate('contractId');
+    next();
+});
+billSchema.pre('find', function (next) {
+    this.populate('contractId');
+    next();
+});
+// billSchema.pre('findOne', function (next) {
+//     this.populate('work_order');
+//     next();
+// });
+// billSchema.pre('find', function (next) {
+//     this.populate('work_order');
+//     next();
+// });
 const bill = module.exports = mongoose.model('bill', billSchema)

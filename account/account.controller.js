@@ -281,16 +281,17 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt ************************/
-router.get('/accountType', (request, response) => {
+/**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt  ************************/
+router.get('/accountByAccoountName', (request, response) => {
     console.log('request')
     let accountResponse = {};
     let parentAccount = request.query.parentAccount ? request.query.parentAccount : null
-    let accountType = request.query.accountType ? request.query.accountType : ''
-    console.log('response', parentAccount, accountType)
+    let accountType = request.query.accountType 
+    let accountName = request.query.accountName 
+    console.log('response', parentAccount, accountType,accountName)
     console.log('responseffghf', accountType)
 
-    account.find({ parentAccount: parentAccount }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
+    account.find({ $and: [{ parentAccount: parentAccount }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
         console.log('account error', error);
         console.log('account result', result);
         if (error) {
