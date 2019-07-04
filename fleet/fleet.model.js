@@ -253,11 +253,11 @@ fleetSchema.pre('find', function (next) {
     this.populate('ownId');
     next();
 });
-billSchema.pre('findOne', function (next) {
+fleetSchema.pre('findOne', function (next) {
     this.populate('contractId');
     next();
 });
-billSchema.pre('find', function (next) {
+fleetSchema.pre('find', function (next) {
     this.populate('contractId');
     next();
 });
