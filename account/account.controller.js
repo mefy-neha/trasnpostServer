@@ -1457,6 +1457,35 @@ router.get('/accountBySuperAdminId', (request, response) => {
 
 })
 /************************************END ******************************************** */
+/************************** ACCOUNT DETAIL BY SUPERADMINID AND PARENT ACCOUNT********************************************** */
+
+router.get('/accountByParent', (request, response) => {
+   
+    let superAdminId = request.query.superAdminId 
+    let parentAccount = request.query.parentAccount 
+    let super_parent_Account=request.query.super_parent_Account?request.query.super_parent_Account:null
+    let sentResponse = {};
+    account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: parentAccount }, { super_parent_Account: super_parent_Account }] }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "Account Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Account List";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+
+/************************************END ******************************************** */
+
 module.exports = router;
   // for(let i =0;i<res.length;i++){
                 //     if (data.accountName != res[i].accountName &&data.accountType !=res[i].accountType && data.parentAccount!=res[i].parentAccount &&data.super_parent_Account!=res[i].super_parent_Account) { break; 
