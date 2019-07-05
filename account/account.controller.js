@@ -32,7 +32,7 @@ router.post('/create', (request, response) => {
                 data.superAdminId = result._id
             
                     console.log('admin,other')
-                    data.superAdminId = result.superAdminId._id
+                    data.superAdminId = result._id
                     console.log('dsdgsgd',data.parentAccount)
                     if(data.parentAccount==null && data.super_parent_Account==null ){
                         console.log('data.parentAccount==null && data.super_parent_Account==null')
