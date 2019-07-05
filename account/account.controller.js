@@ -1420,7 +1420,7 @@ router.get('/getAccount', (request, response) => {
 router.get('/accountBySuperAdminId', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let sentResponse = {};
-    user.findOne({ superAdminId: superAdminId }, (error, result) => {
+    user.find({ _id: superAdminId }, (error, result) => {
         console.log('superAdminId error', error);
         console.log('superAdminId result', result);
         if (error) {
