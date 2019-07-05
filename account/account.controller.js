@@ -1265,16 +1265,16 @@ router.delete('/delete', (request, response) => {
 })
 /************************************END ******************************************** */
 /**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt  ************************/
-router.get('/accountByAccoountName', (request, response) => {
+router.get('/getAccount', (request, response) => {
     console.log('request')
     let accountResponse = {};
-    let parentAccount = request.query.parentAccount ? request.query.parentAccount : null
+    let superAdminId = request.query.superAdminId 
     let accountType = request.query.accountType 
     let accountName = request.query.accountName 
-    console.log('response', parentAccount, accountType,accountName)
+    console.log('response', accountType,accountName)
     console.log('responseffghf', accountType)
 
-    account.find({ $and: [{ parentAccount: parentAccount }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
+    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
         console.log('account error', error);
         console.log('account result', result);
         if (error) {
@@ -1302,10 +1302,11 @@ router.get('/accountByAccoountName', (request, response) => {
 router.get('/accountByType', (request, response) => {
     console.log('request', request.body)
     let accountResponse = {};
+    let superAdminId = request.query.superAdminId 
     let parentAccount = request.query.parentAccount ? request.query.parentAccount : null
     let accountName = request.query.accountName
     // console.log('response',parentAccount,accountType)
-    account.find({ $and: [{ parentAccount: parentAccount }, { accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error1, result1) {
+    account.find({ $and: [{ superAdminId: superAdminId },{ parentAccount: parentAccount }, { accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error1, result1) {
         console.log('account error1', error1);
         console.log('account result1', result1);
         console.log('account result1', result1.length);
@@ -1393,8 +1394,9 @@ router.get('/accountDetail', (request, response) => {
     let accountType = request.query.accountType;
     let parentAccount = request.query.parentAccount;
     let accountName = request.query.accountName;
+    let superAdminId = request.query.superAdminId 
     let sentResponse = {};
-    account.find({ $and: [{ accountType: accountType }, { parentAccount: parentAccount },{ accountName: accountName }] }, (error, result) => {
+    account.find({ $and: [{ superAdminId: superAdminId },{ accountType: accountType }, { parentAccount: parentAccount },{ accountName: accountName }] }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
