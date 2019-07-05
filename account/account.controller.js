@@ -1416,6 +1416,47 @@ router.get('/getAccount', (request, response) => {
 
 
 /************************************END ******************************************** */
+/************************** CONTRACT DETAIL BY SUPERADMINID ********************************************** */
+router.get('/accountBySuperAdminId', (request, response) => {
+    let superAdminId = request.query.superAdminId;
+    let sentResponse = {};
+    user.findOne({ superAdminId: superAdminId }, (error, result) => {
+        console.log('superAdminId error', error);
+        console.log('superAdminId result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "User Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            account.find({ superAdminId: superAdminId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something Went Wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else if (result != null && Object.keys(result).length != 0) {
+                    sentResponse.error = false;
+                    sentResponse.message = "Account List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "No any list";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+                }
+
+            })
+        }
+    })
+
+})
+/************************************END ******************************************** */
 module.exports = router;
   // for(let i =0;i<res.length;i++){
                 //     if (data.accountName != res[i].accountName &&data.accountType !=res[i].accountType && data.parentAccount!=res[i].parentAccount &&data.super_parent_Account!=res[i].super_parent_Account) { break; 
