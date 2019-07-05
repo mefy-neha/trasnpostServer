@@ -33,6 +33,9 @@ router.post('/create', (request, response) => {
         superAdminId: request.body.superAdminId
     });
     console.log(data);
+if (result.role == 'superAdmin') {
+    console.log('superAdmin')
+    data.superAdminId = result._id
     data.save((error, result) => {
         console.log('error',error);
         console.log('result',result);
@@ -47,10 +50,34 @@ router.post('/create', (request, response) => {
             contractorResponse.user = result;
             contractorResponse.message = `Contractor Created  successfull.`;
             response.status(200).json(contractorResponse);
-
+    
         }
-
+    
     });
+}
+else {
+    console.log('admin,other')
+    data.superAdminId = result.superAdminId._id
+    data.save((error, result) => {
+        console.log('error',error);
+        console.log('result',result);
+        if (error) {
+            console.log(error);
+            contractorResponse.error = true;
+            contractorResponse.message = `Error :` + error.message
+            response.status(500).json(contractorResponse);
+        } else {
+            console.log(result);
+            contractorResponse.error = false;
+            contractorResponse.user = result;
+            contractorResponse.message = `Contractor Created  successfull.`;
+            response.status(200).json(contractorResponse);
+    
+        }
+    
+    });
+}
+   
 })
 /*************************************** ENDS **************************************/
 

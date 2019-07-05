@@ -11,7 +11,10 @@ const contractorSchema = mongoose.Schema({
     bank_name: {
         type: String
     },
+    superAdminId: {
+        type: String
 
+    },
     branch_name: {
         type: String
     },
