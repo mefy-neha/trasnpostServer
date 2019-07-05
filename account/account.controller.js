@@ -1264,40 +1264,7 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt  ************************/
-router.get('/getAccount', (request, response) => {
-    console.log('request')
-    let accountResponse = {};
-    let superAdminId = request.query.superAdminId 
-    let accountType = request.query.accountType 
-    let accountName = request.query.accountName 
-    console.log('response', accountType,accountName)
-    console.log('responseffghf', accountType)
 
-    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
-        console.log('account error', error);
-        console.log('account result', result);
-        if (error) {
-            console.log(error);
-            accountResponse.error = true;
-            accountResponse.message = `Error :` + error.message;;
-            response.status(500).json(accountResponse);
-        } else {
-            console.log(result);
-            accountResponse.error = false;
-            accountResponse.result = result;
-            accountResponse.message = `list of account.`;
-            response.status(200).json(accountResponse);
-
-        }
-    })
-
-
-});
-
-
-
-/************************************END ******************************************** */
 /**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt ************************/
 router.get('/accountByType', (request, response) => {
     console.log('request', request.body)
@@ -1322,7 +1289,7 @@ router.get('/accountByType', (request, response) => {
                 x.push(result1[i].accountName)
             }
             console.log('push data', x);
-            account.find({ parentAccount: x }).sort({ accountType: 1, accountName: 1 }).exec(function (error2, result2) {
+            account.find({$and: [{ superAdminId: superAdminId },{ parentAccount: x }]}).sort({ accountType: 1, accountName: 1 }).exec(function (error2, result2) {
                 console.log('error3', error2);
                 if (error1) {
                     accountResponse.error2 = true;
@@ -1335,7 +1302,7 @@ router.get('/accountByType', (request, response) => {
                         y.push(result2[i].accountName)
                     }
 
-                    account.find({ parentAccount: y }).sort({ accountType: 1, accountName: 1 }).exec(function (error3, result3) {
+                    account.find({$and: [{ superAdminId: superAdminId },{ parentAccount: y }]}).sort({ accountType: 1, accountName: 1 }).exec(function (error3, result3) {
                         console.log('error3', error3);
                         if (error3) {
                             accountResponse.error3 = true;
@@ -1414,6 +1381,40 @@ router.get('/accountDetail', (request, response) => {
 
     })
 })
+/************************************END ******************************************** */
+/**************************** GET LIST  OF ACCOUNT ,WHOSE PARENT ACCOUNT IS NULL OR NOt  ************************/
+router.get('/getAccount', (request, response) => {
+    console.log('request')
+    let accountResponse = {};
+    let superAdminId = request.query.superAdminId 
+    let accountType = request.query.accountType 
+    let accountName = request.query.accountName 
+    console.log('response', accountType,accountName)
+    console.log('responseffghf', accountType)
+
+    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
+        console.log('account error', error);
+        console.log('account result', result);
+        if (error) {
+            console.log(error);
+            accountResponse.error = true;
+            accountResponse.message = `Error :` + error.message;;
+            response.status(500).json(accountResponse);
+        } else {
+            console.log(result);
+            accountResponse.error = false;
+            accountResponse.result = result;
+            accountResponse.message = `list of account.`;
+            response.status(200).json(accountResponse);
+
+        }
+    })
+
+
+});
+
+
+
 /************************************END ******************************************** */
 module.exports = router;
   // for(let i =0;i<res.length;i++){
