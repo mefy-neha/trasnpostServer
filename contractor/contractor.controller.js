@@ -33,51 +33,62 @@ router.post('/create', (request, response) => {
         superAdminId: request.body.superAdminId
     });
     console.log(data);
-if (result.role == 'superAdmin') {
-    console.log('superAdmin')
-    data.superAdminId = result._id
-    data.save((error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+    user.findById({ _id: data.userId }, (error, result) => {
+        console.log('result error', error);
+        console.log('result result', result);
         if (error) {
             console.log(error);
-            contractorResponse.error = true;
-            contractorResponse.message = `Error :` + error.message
-            response.status(500).json(contractorResponse);
-        } else {
-            console.log(result);
-            contractorResponse.error = false;
-            contractorResponse.user = result;
-            contractorResponse.message = `Contractor Created  successfull.`;
-            response.status(200).json(contractorResponse);
-    
+            invoiceResponse.error = true;
+            invoiceResponse.message = `Error :` + " User does not exist";
+            response.status(500).json(invoiceResponse);
         }
-    
-    });
-}
-else {
-    console.log('admin,other')
-    data.superAdminId = result.superAdminId._id
-    data.save((error, result) => {
-        console.log('error',error);
-        console.log('result',result);
-        if (error) {
-            console.log(error);
-            contractorResponse.error = true;
-            contractorResponse.message = `Error :` + error.message
-            response.status(500).json(contractorResponse);
-        } else {
-            console.log(result);
-            contractorResponse.error = false;
-            contractorResponse.user = result;
-            contractorResponse.message = `Contractor Created  successfull.`;
-            response.status(200).json(contractorResponse);
-    
+        else {
+            if (result.role == 'superAdmin') {
+                console.log('superAdmin')
+                data.save((error, result) => {
+                    console.log('error', error);
+                    console.log('result', result);
+                    if (error) {
+                        console.log(error);
+                        contractorResponse.error = true;
+                        contractorResponse.message = `Error :` + error.message
+                        response.status(500).json(contractorResponse);
+                    } else {
+                        console.log(result);
+                        contractorResponse.error = false;
+                        contractorResponse.user = result;
+                        contractorResponse.message = `Contractor Created  successfull.`;
+                        response.status(200).json(contractorResponse);
+
+                    }
+
+                });
+            }
+            else {
+                console.log('admin,other')
+                data.save((error, result) => {
+                    console.log('error', error);
+                    console.log('result', result);
+                    if (error) {
+                        console.log(error);
+                        contractorResponse.error = true;
+                        contractorResponse.message = `Error :` + error.message
+                        response.status(500).json(contractorResponse);
+                    } else {
+                        console.log(result);
+                        contractorResponse.error = false;
+                        contractorResponse.user = result;
+                        contractorResponse.message = `Contractor Created  successfull.`;
+                        response.status(200).json(contractorResponse);
+
+                    }
+
+                });
+            }
         }
-    
-    });
-}
-   
+    })
+
+
 })
 /*************************************** ENDS **************************************/
 
@@ -85,8 +96,8 @@ else {
 router.get('/list', (request, response) => {
     let sentResponse = {};
     contractor.find({}, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message;
@@ -109,8 +120,8 @@ router.get('/contractById', (request, response) => {
     let sentResponse = {};
     let contractorId = request.query.contractorId
     contractor.findOne({ _id: contractorId }, (error, result) => {
-        console.log('error',error);
-        console.log('result',result);
+        console.log('error', error);
+        console.log('result', result);
 
         if (error) {
             sentResponse.error = true;
@@ -129,12 +140,12 @@ router.get('/contractById', (request, response) => {
 })
 /************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
-router.delete('/delete',(request,response)=>{
-    let contractorId=request.query.contractorId
-    let sentResponse={}
-    contractor.remove({_id:contractorId},(error,result)=>{
-        console.log('error',error);
-        console.log('result',result);
+router.delete('/delete', (request, response) => {
+    let contractorId = request.query.contractorId
+    let sentResponse = {}
+    contractor.remove({ _id: contractorId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
         if (error) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
