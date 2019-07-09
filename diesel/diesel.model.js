@@ -22,6 +22,15 @@ const dieselSchema = mongoose.Schema({
     notes:{
         type: String
     },
+    actual_diesel:{
+        type: String  
+    },
+    actual_date:{
+        type: String  
+    },
+    actual_amount:{
+        type: String  
+    },
     userId: {
         type: schema.ObjectId,
         ref: 'user'

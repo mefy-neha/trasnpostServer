@@ -311,5 +311,41 @@ router.get('/petrolList', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************************UPDATION OF PETROL PRICE ******************************************** */
+router.put('/updateDiesel', (request, response) => {
+    let sentResponse = {};
+    let dieselId = request.body.dieselId;
+    diesel.findById({ _id: dieselId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result) {
+                result.actual_diesel = (request.body.actual_diesel ? (request.body.actual_diesel) : result.diesel_price);
+                result.actual_date = (request.body.actual_date ? (request.body.actual_date) : result.actual_date);
+                result.actual_amount = (request.body.actual_amount ? (request.body.actual_amount) : result.actual_amount);
+
+                result.save((error, result) => {
+                    if (error) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + " Not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "Diesel Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
+
+                    }
+                })
+            }
+        
+    })
+})
+/************************************END ******************************************** */
 
 module.exports = router;
