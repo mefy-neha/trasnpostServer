@@ -58,6 +58,7 @@ detail:[{
         ref: 'contact'
     },
     accountId:{
+        sparse: true,
         type: schema.ObjectId,
         ref: 'account'                /***************ACCOUNT AGAINST BY WHICH PERSON ID */
     },

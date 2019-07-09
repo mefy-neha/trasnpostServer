@@ -10,7 +10,7 @@ const billSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'contractor'
     },
-    invoice_number:{
+    bill_number:{
         type:String
     },
 
@@ -99,8 +99,7 @@ const billSchema = mongoose.Schema({
         ref: 'user'
     },
     superAdminId: {
-        type: schema.ObjectId,
-        ref: 'user'
+     type:String
 
     },
     createdDate: {

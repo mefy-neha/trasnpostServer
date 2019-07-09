@@ -272,6 +272,29 @@ router.get('/fleetlist', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/******************************* FLEET BY ID *******************************/
+router.get('/fleetById', (request, response) => {
+    let fleetId = request.query.fleetId
+    let sentResponse = {}
+    fleet.findById({ _id: fleetId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Fleet Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;
  // vehicle_insurance:request.body.vehicle_insurance,
         // product_insurance:request.body.product_insurance,

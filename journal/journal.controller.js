@@ -389,11 +389,12 @@ function datetapped(startDate, list) {
         resolve(datearray)
     })
 }
+// 
 /********************************JOURNAL BY ID ************************* */
-router.get('/journalbyid',(request,response)=>{
-let id=request.query.id;
+router.get('/journalById',(request,response)=>{
+let journalId=request.query.journalId;
 let sentResponse = {};
-journal.findById({_id:id}).populate('detail.accountId').populate('detail.contactPersonId').exec((error, result) => { 
+journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.contactPersonId').exec((error, result) => { 
     if (error) {
         sentResponse.error = true;
         sentResponse.message = `Error :` + error.message + "Something went wrong";

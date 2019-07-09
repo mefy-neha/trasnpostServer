@@ -194,4 +194,27 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/******************************* CONSIGNMENT BY ID *******************************/
+router.get('/consignmentById', (request, response) => {
+    let consignmentId = request.query.consignmentId
+    let sentResponse = {}
+    consignment.findById({ _id: consignmentId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Consignment Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;

@@ -227,7 +227,30 @@ router.delete('/delete', (request, response) => {
         }
         else {
             sentResponse.error = false;
-            sentResponse.message = "Driver Deleted";
+            sentResponse.message = "Contact Deleted";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
+/******************************* CONTACT  BY ID *******************************/
+router.get('/contactById', (request, response) => {
+    let contactId = request.query.contactId
+    let sentResponse = {}
+    contact.findById({ _id: contactId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Contact Detail";
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

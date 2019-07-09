@@ -121,6 +121,29 @@ router.post('/create', (request, response) => {
 })
 
 /************************************END ******************************************** */
+/******************************* FLEET BY ID *******************************/
+router.get('/invoiceById', (request, response) => {
+    let invoiceId = request.query.invoiceId
+    let sentResponse = {}
+    invoice.findById({ _id: invoiceId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Invoice Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 /************************** INVOICE LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
@@ -256,5 +279,6 @@ router.put('/paid', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+
 
 module.exports = router;

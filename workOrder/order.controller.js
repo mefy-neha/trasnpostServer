@@ -82,6 +82,29 @@ router.post('/create', (request, response) => {
 
 })
 /************************************END ******************************************** */
+/******************************* ORDER BY ID *******************************/
+router.get('/orderById', (request, response) => {
+    let orderId = request.query.orderId
+    let sentResponse = {}
+    order.findById({ _id: orderId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Order Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 /************************** DESTINATION LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};

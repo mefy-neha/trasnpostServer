@@ -61,7 +61,7 @@ router.post('/create', (request, response) => {
                         console.log('listttt of Payment  invoice', list.length)
                         let y = {}
                         y = list.length + 1
-                        data.invoice_number = 'INV-00' + y
+                        data.bill_number = 'BILL-00' + y
                         data.save((error, result) => {
                             console.log('Payment Invoice error', error);
                             console.log('Payment Invoice result', result);
@@ -96,7 +96,7 @@ router.post('/create', (request, response) => {
                         console.log('listttt of Payment invoice', list.length)
                         let x = {}
                         x = list.length + 1
-                        data.invoice_number = 'INV-00' + x
+                        data.bill_number = 'BILL-00' + x
                         data.save((error, result) => {
                             console.log(' Payment Invoice error', error);
                             console.log('Payment Invoice result', result);
@@ -259,12 +259,105 @@ router.put('/paid', (request, response) => {
 })
 /************************************END ******************************************** */
 /***********************LAST 7 DAYS FROM CURRENT DATE BILL LIST ***********************************/
-// router.get('/dashboard',(request,response)=>{
+/*******************************  TAPPED ITEMS 7 DAYS BEFORE DATE OF THAT S USERID ************************** */
+// router.get('/usersevendays', (request, response) => {
+//     console.log('items tapped in a date 7 days');
+//     console.log(request.query.superAdminId)
+//     let sentresponse = {};
+//     // var now = moment().format('YYYY-MM-DD');
+//     // console.log('currentDate', now);
+//     var lastWeek = moment().format('YYYY-MM-DD');
+// lastWeek.setDate(lastWeek.getDate() -7);
+//         //2019-01-31T06:59:12.039Z month format to be sent
+//     bill.find({ superAdminId: request.query.superAdminId },{ "createdDate": { $gte: lastWeek} } ).sort({ "createdDate": -1 }).exec(function (error, list) {
+//         console.log(error);
+//         console.log('list', list);
+//         if (error) {
+//             sentresponse.error = true;
+//             sentresponse.message = 'Error:' + error.message;
+//             response.status(500).json(sentresponse);
+//         }
+//         else if (list && list.length != 0) {
+//             // seven_days_tapped(now, list).then(result => {
+//             //     console.log(result)
+//             //     sentresponse.error = false;
+//             //     sentresponse.message = "Date Tapped Items";
+//             //     sentresponse.result = result;
+//             //     response.status(200).json(sentresponse);
+//             // })
+//             sentresponse.error = false;
+//             sentresponse.result = result;
+//             sentresponse.message = 'Error:' + error.message;
+//             response.status(200).json(sentresponse);
+//         }
+//         else {
+//             sentresponse.error = false;
+//             sentresponse.message = "No Items Tapped this month";
+//             sentresponse.result = [];
+//             response.status(200).json(sentresponse);
+//         }
+//     })
 
 // })
 
+
+
 /************************************END ******************************************** */
 
+/***************************************** INSTANCE 7 DAYS BEFORE THTA DATE **************************** */
+function  seven_days_tapped(inputdate, list){
+    let datearray = [];
+
+    
+
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {      
+            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+            // let requestdate=moment(inputdate,"YY-MM-DD");            //filter list according to month
+            console.log((dbdate));
+            // console.log(requestdate)
+           
+            // var a = moment([2007, 0, 29]);
+            // var b = moment([2007, 0, 28]);
+           console.log('DIFF BETWEEN DAYS',inputdate.diff(dbdate,'days'));
+        //    console.log('DIFF BETWEEN ',enddate.diff(dbdate,'days'));
+            // a.diff(b, 'days') // 1
+
+
+
+            if (inputdate.diff(dbdate,'days')==0||inputdate.diff(dbdate,'days')==1||inputdate.diff(dbdate,'days')==2||inputdate.diff(dbdate,'days')==3||inputdate.diff(dbdate,'days')==4||inputdate.diff(dbdate,'days')==5||inputdate.diff(dbdate,'days')==6) {
+                console.log('date matched',inputdate.diff(dbdate,'days'))
+                datearray.push(element);
+                // console.log(montharray)
+            }
+        })
+        resolve(datearray)
+    })
+}
+/********************************************************************************************* */
+/******************************* BILL BY ID *******************************/
+router.get('/billById', (request, response) => {
+    let billId = request.query.billId
+    let sentResponse = {}
+    bill.findById({ _id: billId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Bill Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 
 
 module.exports = router;

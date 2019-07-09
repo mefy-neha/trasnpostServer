@@ -113,4 +113,27 @@ router.get('/periodList', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/******************************* PERIOD BY ID *******************************/
+router.get('/periodById', (request, response) => {
+    let periodId = request.query.periodId
+    let sentResponse = {}
+    period.findById({ _id: periodId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Period Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;
