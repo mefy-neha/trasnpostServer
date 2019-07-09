@@ -50,7 +50,25 @@ const invoiceSchema = mongoose.Schema({
         type: String
         }
     },
-    gst:{
+    sgst:{
+        rate: {
+            type: String
+        },
+        amount: {
+            type: String
+        }
+     
+    },
+    cgst:{
+        rate: {
+            type: String
+        },
+        amount: {
+            type: String
+        }
+     
+    },
+    igst:{
         rate: {
             type: String
         },
