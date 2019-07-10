@@ -1429,7 +1429,7 @@ router.get('/accountBySuperAdminId', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else {
-            account.find({ superAdminId: superAdminId }, (error, result) => {
+            account.find({ superAdminId: superAdminId }).sort({ accountType: 1, accountName: 1 ,parentAccount:1}).exec(function (error, result) {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {

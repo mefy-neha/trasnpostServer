@@ -291,37 +291,39 @@ router.put('/invoiceUpdate',(request,response)=>{
     invoice.findById({ _id: invoiceId }, (error, result) => {
         console.log('error', error)
         console.log('result', result)
-        if (error) {
+        if (error ||result==null) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
             response.status(500).json(sentResponse);
         }
         else if (result != null && Object.keys(result).length != 0){
 //             console.log('items length',result.items_details.length)
-//             let items=[]
-//             for(let i =0;i<result.items_details.length;i++){
-//                 console.log('loop',result.items_details[i]._id)
-//                 if(itemId == result.items_details[i]._id){
-//                     console.log('bhakl',result.items_details[i]._id)
-//                     items.push(result.items_details[i]._id)
-//                 }
+            let items=[]
+            for(let i =0;i<result.items_details.length;i++){
+                console.log('loop',result.items_details[i]._id)
+                if(itemId == result.items_details[i]._id){
+                    console.log('bhakl',result.items_details[i]._id)
+                    items.push(result.items_details[i])
+                }
                 
             
-//             }
-// { _id: 1 },
-// { $push: { scores: 89 } }
-// console.log('itemid',items)
-invoice.updateOne({ _id: request.body.invoiceId },{ $set: { items_details:{_id:itemId, deduction: deduction }} }, (error, result) => {
+            }
+// { $pull: {"myarray.userId": ObjectId("570ca5e48dbe673802c2d035")}}
+
+invoice.updateOne({ _id: request.body.invoiceId },{ $pull: { items_details:{_id:itemId, serial_number: items.serial_number,cosignmentId:items.cosignmentId,description:items.description,amount:items.amount }} }, (error, result) => {
     if (error) {
         sentResponse.error = true;
         sentResponse.message = `Error :` + error.message + " Does not exist";
         response.status(500).json(sentResponse);
     }
     else{
+invoice.updateOne({ _id: request.body.invoiceId },{ $push: { items_details:{_id:itemId, serial_number: items.serial_number,cosignmentId:items.cosignmentId,description:items.description,amount:items.amount,deduction:deduction }} }, (error, result) => {
+       console.log('error',error) 
         sentResponse.error = false;
         sentResponse.message = "Invoice Updated";
         sentResponse.result = result
         response.status(200).json(sentResponse);
+})
     }
         })
         }
