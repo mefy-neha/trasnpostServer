@@ -104,6 +104,9 @@ const invoiceSchema = mongoose.Schema({
         amount:{
             type: String
         },
+        // deduction:{
+        //     type: String  
+        // }
     }],
     userId: {
         type: schema.ObjectId,

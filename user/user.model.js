@@ -19,7 +19,7 @@ is_active:{
 },
 organisation:{
     type: String,
-    enum: ['lalbaba', 'patro']
+    enum: ['lalbaba', 'patro','mefy']
 },
 
 password: {

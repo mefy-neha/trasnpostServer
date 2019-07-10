@@ -3,7 +3,7 @@ const router = express.Router();
 const invoice = require('./invoice.model');
 const user = require('../user/user.model');
 const moment = require('moment');
-/************************************BANK CREATION ******************************************** */
+/************************************ INVOICE CREATION ******************************************** */
 router.post('/create', (request, response) => {
     let invoiceResponse = {};
     let data = new invoice({
@@ -27,18 +27,18 @@ router.post('/create', (request, response) => {
         customer_notes: request.body.customer_notes ? request.body.customer_notes : null,
         userId: request.body.userId
     })
-    console.log('dataaaa', data)
+    // console.log('dataaaa', data)
     if(request.body.period!=null){
         data.period={
             start_date:request.body.period.start_date? moment(request.body.period.start_date).format('YYYY-MM-DD'):null,
             end_date:request.body.period.end_date?moment(request.body.period.end_date).format('YYYY-MM-DD'):null
         }
-        console.log('gst',data.period)
+        console.log('period',data.period)
      } 
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('result error', error);
         console.log('result result', result);
-        if (error) {
+        if (error || result==null) {
             console.log(error);
             invoiceResponse.error = true;
             invoiceResponse.message = `Error :` + " User does not exist";
@@ -279,6 +279,54 @@ router.put('/paid', (request, response) => {
                 })
             }
     })
+})
+/************************************END ******************************************** */
+/************************************ FIELD ADDITION  IN INVOICE ******************************************** */
+router.put('/invoiceUpdate',(request,response)=>{
+    let sentResponse = {};
+    let invoiceId = request.body.invoiceId;
+    let itemId=request.body.itemId
+    let deduction = request.body.deduction;
+    // console.log('result.amount_paid',amount_paid)
+    invoice.findById({ _id: invoiceId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result != null && Object.keys(result).length != 0){
+//             console.log('items length',result.items_details.length)
+//             let items=[]
+//             for(let i =0;i<result.items_details.length;i++){
+//                 console.log('loop',result.items_details[i]._id)
+//                 if(itemId == result.items_details[i]._id){
+//                     console.log('bhakl',result.items_details[i]._id)
+//                     items.push(result.items_details[i]._id)
+//                 }
+                
+            
+//             }
+// { _id: 1 },
+// { $push: { scores: 89 } }
+// console.log('itemid',items)
+invoice.updateOne({ _id: request.body.invoiceId },{ $set: { items_details:{_id:itemId, deduction: deduction }} }, (error, result) => {
+    if (error) {
+        sentResponse.error = true;
+        sentResponse.message = `Error :` + error.message + " Does not exist";
+        response.status(500).json(sentResponse);
+    }
+    else{
+        sentResponse.error = false;
+        sentResponse.message = "Invoice Updated";
+        sentResponse.result = result
+        response.status(200).json(sentResponse);
+    }
+        })
+        }
+        
+})
 })
 /************************************END ******************************************** */
 
