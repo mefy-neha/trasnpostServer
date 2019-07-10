@@ -1485,7 +1485,45 @@ router.get('/accountByParent', (request, response) => {
 })
 
 /************************************END ******************************************** */
+/************************************ ACCOUNT UPDATE  IN INVOICE ******************************************** */
+router.put('/update',(request,response)=>{
+    let sentResponse = {};
+    let accountId = request.body.accountId;
+ 
+    // console.log('result.amount_paid',amount_paid)
+    account.findById({ _id: accountId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error ||result==null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result){
+//    
+                result.accountName = (request.body.accountName ? (request.body.accountName) : result.accountName);
+                result.save((error, result) => {
+                    console.log(' save error',error)
+                    if (error) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + " Not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "Account Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
 
+                    }
+                })
+
+    }
+        
+        
+})
+})
+/************************************END ******************************************** */
 module.exports = router;
   // for(let i =0;i<res.length;i++){
                 //     if (data.accountName != res[i].accountName &&data.accountType !=res[i].accountType && data.parentAccount!=res[i].parentAccount &&data.super_parent_Account!=res[i].super_parent_Account) { break; 
