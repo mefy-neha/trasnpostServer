@@ -27,6 +27,9 @@ const contractorSchema = mongoose.Schema({
     account_number: {
         type: String
     },
+    commission_percent:{
+        type: String
+    },
     regId: {
         type: schema.ObjectId,
         ref: 'file'
