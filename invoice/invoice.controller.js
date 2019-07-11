@@ -9,9 +9,9 @@ router.post('/create', (request, response) => {
     let data = new invoice({
         customerId: request.body.customerId,
         work_order: request.body.work_order,
-        invoice_date: request.body.invoice_date? moment(request.body.invoice_date).format('YYYY-MM-DD'):null,
+        invoice_date: request.body.invoice_date ? moment(request.body.invoice_date).format('YYYY-MM-DD') : null,
         terms: request.body.terms,
-        due_date: request.body.due_date? moment(request.body.due_date).format('YYYY-MM-DD'):null,
+        due_date: request.body.due_date ? moment(request.body.due_date).format('YYYY-MM-DD') : null,
         sub_total: request.body.sub_total,
         total: request.body.total,
         amount_due: request.body.total,
@@ -21,24 +21,24 @@ router.post('/create', (request, response) => {
         sgst: request.body.sgst,
         cgst: request.body.cgst,
         igst: request.body.igst,
-        reverse_change:request.body.reverse_change,
+        reverse_change: request.body.reverse_change,
         items_details: request.body.items_details,
         terms_condition: request.body.terms_condition ? request.body.terms_condition : null,
         customer_notes: request.body.customer_notes ? request.body.customer_notes : null,
         userId: request.body.userId
     })
     // console.log('dataaaa', data)
-    if(request.body.period!=null){
-        data.period={
-            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('YYYY-MM-DD'):null,
-            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('YYYY-MM-DD'):null
+    if (request.body.period != null) {
+        data.period = {
+            start_date: request.body.period.start_date ? moment(request.body.period.start_date).format('YYYY-MM-DD') : null,
+            end_date: request.body.period.end_date ? moment(request.body.period.end_date).format('YYYY-MM-DD') : null
         }
-        console.log('period',data.period)
-     } 
+        console.log('period', data.period)
+    }
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('result error', error);
         console.log('result result', result);
-        if (error || result==null) {
+        if (error || result == null) {
             console.log(error);
             invoiceResponse.error = true;
             invoiceResponse.message = `Error :` + " User does not exist";
@@ -231,7 +231,7 @@ router.put('/paid', (request, response) => {
     let sentResponse = {};
     let invoiceId = request.body.invoiceId;
     let amount_paid = request.body.amount_paid;
-    console.log('result.amount_paid',amount_paid)
+    console.log('result.amount_paid', amount_paid)
     invoice.findById({ _id: invoiceId }, (error, result) => {
         console.log('error', error)
         // console.log('result', result)
@@ -241,94 +241,98 @@ router.put('/paid', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else if (result.total == amount_paid) {
-                console.log('result.total',result.total)
-                console.log('paid')
-                result.status = (request.body.status ? (request.body.status) : 'paid');
-                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-                result.amount_due=result.amount_due- result.amount_paid
-                result.save((error, result) => {    
-                    console.log('error', error)    
-                     // console.log('result', result)
-                        sentResponse.error = false;
-                        sentResponse.message = "Invoice Updated";
-                        sentResponse.result = result
-                        response.status(200).json(sentResponse);
+            console.log('result.total', result.total)
+            console.log('paid')
+            result.status = (request.body.status ? (request.body.status) : 'paid');
+            result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+            result.amount_due = result.amount_due - result.amount_paid
+            result.save((error, result) => {
+                console.log('error', error)
+                // console.log('result', result)
+                sentResponse.error = false;
+                sentResponse.message = "Invoice Updated";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
 
-                    
-                })
-            }
-            else if(result){
-                console.log('result',result.total,result.amount_paid)
-                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-                result.amount_due=result.amount_due- result.amount_paid 
-                console.log('total',result.total)
-                result.save((error, result) => {
-                    console.log(' save error',error)
-                    if (error) {
-                        sentResponse.error = true;
-                        sentResponse.message = `Error :` + error.message + " Not update";
-                        response.status(500).json(sentResponse);
-                    }
-                    else {
-                        sentResponse.error = false;
-                        sentResponse.message = "Invoice Updated";
-                        sentResponse.result = result
-                        response.status(200).json(sentResponse);
 
-                    }
-                })
-            }
+            })
+        }
+        else if (result) {
+            console.log('result', result.total, result.amount_paid)
+            result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+            result.amount_due = result.amount_due - result.amount_paid
+            console.log('total', result.total)
+            result.save((error, result) => {
+                console.log(' save error', error)
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " Not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Invoice Updated";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+            })
+        }
     })
 })
 /************************************END ******************************************** */
 /************************************ FIELD ADDITION  IN INVOICE ******************************************** */
-router.put('/invoiceUpdate',(request,response)=>{
+router.put('/invoiceUpdate', (request, response) => {
     let sentResponse = {};
     let invoiceId = request.body.invoiceId;
-    let itemId=request.body.itemId
-    let deduction = request.body.deduction;
+    let itemId = request.body.itemId
     // console.log('result.amount_paid',amount_paid)
     invoice.findById({ _id: invoiceId }, (error, result) => {
         console.log('error', error)
         console.log('result', result)
-        if (error ||result==null) {
+        if (error || result == null) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
             response.status(500).json(sentResponse);
         }
-        else if (result != null && Object.keys(result).length != 0){
-//             console.log('items length',result.items_details.length)
-            let items=[]
-            for(let i =0;i<result.items_details.length;i++){
-                console.log('loop',result.items_details[i]._id)
-                if(itemId == result.items_details[i]._id){
-                    console.log('bhakl',result.items_details[i]._id)
+        else if (result != null && Object.keys(result).length != 0) {
+            //             console.log('items length',result.items_details.length)
+            let items = []
+            for (let i = 0; i < result.items_details.length; i++) {
+                // console.log('loop', result.items_details[i]._id)
+                if (itemId == result.items_details[i]._id) {
+                    // console.log('bhakl', result.items_details[i]._id)
                     items.push(result.items_details[i])
                 }
-                
-            
-            }
-// { $pull: {"myarray.userId": ObjectId("570ca5e48dbe673802c2d035")}}
 
-invoice.updateOne({ _id: request.body.invoiceId },{ $pull: { items_details:{_id:itemId, serial_number: items.serial_number,cosignmentId:items.cosignmentId,description:items.description,amount:items.amount }} }, (error, result) => {
-    if (error) {
-        sentResponse.error = true;
-        sentResponse.message = `Error :` + error.message + " Does not exist";
-        response.status(500).json(sentResponse);
-    }
-    else{
-invoice.updateOne({ _id: request.body.invoiceId },{ $push: { items_details:{_id:itemId, serial_number: items.serial_number,cosignmentId:items.cosignmentId,description:items.description,amount:items.amount,deduction:deduction }} }, (error, result) => {
-       console.log('error',error) 
-        sentResponse.error = false;
-        sentResponse.message = "Invoice Updated";
-        sentResponse.result = result
-        response.status(200).json(sentResponse);
-})
-    }
-        })
+            }
+            invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId, description: items[0].description, amount: items[0].amount } } }, (error, result) => {
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    console.log('items', items)
+                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId, description: items[0].description, amount: items[0].amount, deduction: request.body.deduction,departmental: request.body.departmental,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms} } }, (error, result) => {
+                        console.log('error', error)
+                        if (error) {
+                            sentResponse.error = true;
+                            sentResponse.message = `Error :` + error.message + " not update";
+                            response.status(500).json(sentResponse);
+                        }
+                        else {
+                            sentResponse.error = false;
+                            sentResponse.message = "Invoice Updated";
+                            sentResponse.result = result
+                            response.status(200).json(sentResponse);
+                        }
+                    })
+                }
+            })
         }
-        
-})
+
+    })
 })
 /************************************END ******************************************** */
 

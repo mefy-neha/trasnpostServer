@@ -166,9 +166,9 @@ itr:[{
             ref: 'file'
 
         },
-        valid_upto: {
-            type: String
-        }
+        // valid_upto: {
+        //     type: String
+        // }
     }],
     createdDate: {
         type: Date,

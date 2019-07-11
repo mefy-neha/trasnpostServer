@@ -104,9 +104,25 @@ const invoiceSchema = mongoose.Schema({
         amount:{
             type: String
         },
-        // deduction:{
-        //     type: String  
-        // }
+        deduction:{
+            type: String  
+        },
+        departmental:{
+            type: String  
+        },
+        tds:{
+            type: String  
+        },
+        shortage:{
+            type: String  
+        },
+        gst_tds:{
+            type: String  
+        },
+     
+        ccms:{
+            type: String  
+        }
     }],
     userId: {
         type: schema.ObjectId,

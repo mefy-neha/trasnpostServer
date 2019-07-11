@@ -60,9 +60,9 @@ if(request.body.itr!=null){
 let new_others=[]
 if(request.body.others!=null){
 for(let i =0;i < request.body.others.length; i++){
-     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM'):null;
-console.log(comingDate)
-new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
+//      var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM'):null;
+// console.log(comingDate)
+new_others.push({doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
 }
 console.log('new_others',new_others)
 data.others=new_others
@@ -436,6 +436,142 @@ async function driverfields(driver) {
     })
 }
 /************************************END ******************************************** */
+/************************************ FLEET UPDATE ******************************************** */
+router.put('/update', (request, response) => {
+    let sentResponse = {};
+    let companyId = request.body.companyId;
+    company.findById({ _id: companyId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result) {
+            result.address = (request.body.address ? (request.body.address) : result.address);
+            result.phoneNumber = (request.body.phoneNumber ? (request.body.phoneNumber) : result.phoneNumber);
+            result.email = (request.body.email ? (request.body.email) : result.email);
+            result.companyLogo = (request.body.companyLogo ? (request.body.companyLogo) : result.companyLogo);
 
+            if (request.body.road_registration_certificate != null) {
+                result.road_registration_certificate = {
+                    doc: request.body.road_registration_certificate.doc ? (request.body.road_registration_certificate.doc) : result.road_registration_certificate.doc,
+                    number: request.body.road_registration_certificate.number ? (request.body.road_registration_certificate.number) : result.road_registration_certificate.number
+                }
+            }
+            if (request.body.msme != null) {
+                result.msme = {
+                    doc: request.body.msme.doc ? (request.body.msme.doc) : result.msme.doc,
+                    number: request.body.msme.number ? (request.body.msme.number) : result.msme.number
+                }
+            }
+            if (request.body.gst != null) {
+                result.gst = {
+                    doc: request.body.gst.doc ? (request.body.gst.doc) : result.gst.doc,
+                    number: request.body.gst.number ? (request.body.gst.number) : result.gst.number
+                }
+            }
+            if (request.body.tradeLicense_A != null) {
+                result.tradeLicense_A = {
+                    doc: request.body.tradeLicense_A.doc ? (request.body.tradeLicense_A.doc) : result.tradeLicense_A.doc,
+                    number: request.body.tradeLicense_A.number ? (request.body.tradeLicense_A.number) : result.tradeLicense_A.number
+                }
+            }
+            if (request.body.tradeLicense_B != null) {
+                result.tradeLicense_B = {
+                    doc: request.body.tradeLicense_B.doc ? (request.body.tradeLicense_B.doc) : result.tradeLicense_B.doc,
+                    number: request.body.tradeLicense_B.number ? (request.body.tradeLicense_B.number) : result.tradeLicense_B.number
+                }
+            }
+            if (request.body.registration_certificate != null) {
+                result.registration_certificate = {
+                    doc: request.body.registration_certificate.doc ? (request.body.registration_certificate.doc) : result.registration_certificate.doc,
+                    number: request.body.registration_certificate.number ? (request.body.registration_certificate.number) : result.registration_certificate.number                }
+            }
+            if (request.body.pan != null) {
+                result.pan = {
+                    doc: request.body.pan.doc ? (request.body.pan.doc) : result.pan.doc,
+                    number: request.body.pan.number ? (request.body.pan.number) : result.pan.number
+                }
+            }
+            if (request.body.tan != null) {
+                result.tan = {
+                    doc: request.body.tan.doc ? (request.body.tan.doc) : result.tan.doc,
+                    number: request.body.tan.number ? (request.body.tan.number) : result.tan.number
+                }
+            }
+            if (request.body.professional_tax != null) {
+                result.professional_tax = {
+                    doc: request.body.professional_tax.doc ? (request.body.professional_tax.doc) : result.professional_tax.doc,
+                    number: request.body.professional_tax.number ? (request.body.professional_tax.number) : result.professional_tax.number
+                }
+            }
+            if (request.body.pf != null) {
+                result.pf = {
+                    doc: request.body.pf.doc ? (request.body.pf.doc) : result.pf.doc,
+                    number: request.body.pf.number ? (request.body.pf.number) : result.pf.number
+                }
+            }
+            if (request.body.esi != null) {
+                result.esi = {
+                    doc: request.body.esi.doc ? (request.body.esi.doc) : result.esi.doc,
+                    number: request.body.esi.number ? (request.body.esi.number) : result.esi.number
+                }
+            }
+            if (request.body.balance_sheet != null) {
+                let update_balance_sheet=[];
+                        for(let i =0;i < request.body.balance_sheet.length; i++){
+                            var comingDate = moment(request.body.balance_sheet[i].financial_year).format('YYYY');
+                       console.log(comingDate)
+                       update_balance_sheet.push({financial_year:comingDate,doc:request.body.balance_sheet[i].doc})
+                       }
+                       console.log('update_balance_sheet',update_balance_sheet)
+                result.balance_sheet = (request.body.balance_sheet ? (update_balance_sheet) : result.balance_sheet);
+                     
+                }
+                if (request.body.itr != null) {
+                    let update_itr=[];
+                            for(let i =0;i < request.body.itr.length; i++){
+                                var comingDate = moment(request.body.itr[i].financial_year).format('YYYY');
+                           console.log(comingDate)
+                           update_itr.push({financial_year:comingDate,doc:request.body.itr[i].doc})
+                           }
+                           console.log('update_itr',update_itr)
+                    result.itr = (request.body.itr ? (update_itr) : result.itr);
+                         
+                    }
+                    if (request.body.others != null) {
+                        let update_others=[];
+                                for(let i =0;i < request.body.others.length; i++){
+                                  
+                                    update_others.push({doc_name:request.body.others[i].doc_name,doc:request.body.others[i].doc,number:request.body.others[i].number})
+                               }
+                               console.log('update_others',update_others)
+                        result.others = (request.body.others ? (update_others) : result.others);
+                             
+                        }
+            result.save((error, result) => {
+                console.log(' save error', error)
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " Not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Company Updated";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+            })
+
+        }
+
+
+    })
+})
+/************************************END ******************************************** */
 
 module.exports = router;
