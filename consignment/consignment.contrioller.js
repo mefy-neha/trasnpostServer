@@ -223,9 +223,9 @@ router.get('/consignmentBetweenDate', (request, response) => {
     let sentresponse = {};
     let superAdminId = request.query.superAdminId;
     let to = moment().format('YYYY-MM-DD');
-    console.log('currentDate', to);
+    // console.log('currentDate', to);
     let from = moment(request.query.from, 'YYYY-MM-DD');
-    console.log('dates', startDate, endDate)
+    console.log('dates',from,to)
     consignment.find({ superAdminId: superAdminId }, (error, result) => {
         console.log('error...', error);
         // console.log(result);

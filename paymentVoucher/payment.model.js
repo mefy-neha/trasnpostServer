@@ -23,7 +23,7 @@ const paymentSchema = mongoose.Schema({
     },
     payment_mode: {
         type: String,
-        enum:['cash','check','bank']
+        enum:['cash','cheque','bank']
     },
     payment:{
         type: String,
