@@ -16,6 +16,10 @@ router.post('/create', (request, response) => {
         organisation: request.body.organisation,
         parentAccount: request.body.parentAccount ? request.body.parentAccount : null,
         super_parent_Account: request.body.super_parent_Account ? request.body.super_parent_Account : null,
+        referal_fleet: request.body.referal_fleet ? request.body.referal_fleet : null,
+        referal_contractor: request.body.referal_contractor ? request.body.referal_contractor : null,
+        referal_bank: request.body.referal_bank ? request.body.referal_bank : null,
+        referal_contact: request.body.referal_contact ? request.body.referal_contact : null,
         userId: request.body.userId
     });
     user.findById({ _id: data.userId }, (error, result) => {

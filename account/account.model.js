@@ -36,6 +36,22 @@ organisation:{
     type:String,
     enum: ['lalbaba', 'patro','mefy']
 },
+referal_fleet: {
+    type: schema.ObjectId,
+    ref: 'contact'
+},
+referal_contractor: {
+    type: schema.ObjectId,
+    ref: 'contractor'
+},
+referal_bank: {
+    type: schema.ObjectId,
+    ref: 'bank'
+},
+referal_contact: {
+    type: schema.ObjectId,
+    ref: 'contact'
+},
 createdDate: {
     type: Date,
     default: Date.now
@@ -50,6 +66,38 @@ enabled: {
 }
 
 })
+accountSchema.pre('findOne', function (next) {
+    this.populate('referal_contractor');
+    next();
+});
+accountSchema.pre('find', function (next) {
+    this.populate('referal_contractor');
+    next();
+});
+accountSchema.pre('findOne', function (next) {
+    this.populate('referal_fleet');
+    next();
+});
+accountSchema.pre('find', function (next) {
+    this.populate('referal_fleet');
+    next();
+});
+accountSchema.pre('findOne', function (next) {
+    this.populate('referal_bank');
+    next();
+});
+accountSchema.pre('find', function (next) {
+    this.populate('referal_bank');
+    next();
+});
+accountSchema.pre('findOne', function (next) {
+    this.populate('referal_contact');
+    next();
+});
+accountSchema.pre('find', function (next) {
+    this.populate('referal_contact');
+    next();
+});
 // accountSchema.pre('findOne', function (next) {
 //     this.populate('userId');
 //     next();
