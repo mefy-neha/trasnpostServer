@@ -52,6 +52,13 @@ referal_contact: {
     type: schema.ObjectId,
     ref: 'contact'
 },
+opening_account:{
+    type:String
+},
+type:{
+    type:String,
+   enum:['credit','debit']
+},
 createdDate: {
     type: Date,
     default: Date.now

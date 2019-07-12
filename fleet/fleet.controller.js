@@ -433,52 +433,63 @@ router.put('/update', (request, response) => {
 })
 /************************************END ******************************************** */
 /*****************  BILL HISTORY ACCORDING TO USERID AND BETWEEN TWO DATES ************ */
-// router.get('/fleetBetweenDate', (request, response) => {
-//     console.log('request ', request.query);   //userId,startDate,endDate
-//     let sentresponse = {};
-//     let superAdminId = request.query.superAdminId;
-//     let to = moment().format('YYYY-MM-DD');
-//     // console.log('currentDate', to);
-//     let from = moment(request.query.from, 'YYYY-MM--DD');
-//     console.log('dates',from,to)
-//     fleet.find({ superAdminId: superAdminId }, (error, result) => {
-//         console.log('error...', error);
-//         // console.log('reult',result);
-//         if (error) {
-//             sentresponse.error = true;
-//             sentresponse.message = 'Error:' + error.message +'Does not exist';
-//             response.status(500).json(sentresponse);
-//         }
-//         else if (result && result.length != 0) {
-//             let p=[]
-//             for( let i =0;i<result.length;i++){
-//             console.log('valid_upto',result[i].rc.valid_upto)     
-//                 // p.push(result[i].rc.valid_upto)
-//                   if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'));{
+router.get('/fleetBetweenDate', (request, response) => {
+    console.log('request ', request.query);   //userId,startDate,endDate
+    let sentresponse = {};
+    let superAdminId = request.query.superAdminId;
+    let from = moment().format('YYYY-MM-DD');
+    // console.log('currentDate', to);
+    let to = moment(request.query.to, 'YYYY-MM--DD');
+    console.log('dates',from,to)
+    let newFleetData = {};
+    fleet.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error...', error);
+        // console.log('reult',result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            response.status(500).json(sentresponse);
+        }
+        else if (result && result.length != 0) {
+            let p=[]
+            for( let i =0;i<result.length;i++){
+            console.log('valid_upto',result[i].rc.valid_upto)     
+                // p.push(result[i].rc.valid_upto)
+                // console.log('result i',result[i])
+                  if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'==true));{
 
-//                   }
+                     for (var key in result[i]){
+                newFleetData[key] = result[i][key];
+                delete newFleetData[key];
+                newFleetData.fleetId=result[i]._id;
+                newFleetData.rc=result[i].rc;
+                newFleetData.truck_number=result[i].truck_number; 
+            }
+                  }
+              
  
-//             }
-//             // console.log('p',p)
-//             // find milage between dates
-//             // billBetweenDates(from, to, result).then(billlist => {
+            }
+            console.log('newFleetData',newFleetData)
+            // console.log('p',p)
+            // find milage between dates
+            // billBetweenDates(from, to, result).then(billlist => {
              
-//             //     sentresponse.error = false;
-//             //     sentresponse.result = billlist;           
-//             //     sentresponse.message = `Bill  list get succesfully .`;
-//             //     response.status(200).json(sentresponse);
-//             // })
-//         }
-//         else {
-//             sentresponse.error = false;
-//             sentresponse.result = result;
-//             sentresponse.message = `Fleet getting  successfully .`;
-//             response.status(200).json(sentresponse);
+                sentresponse.error = false;
+                sentresponse.result = newFleetData;           
+                sentresponse.message = `Bill  list get succesfully .`;
+                response.status(200).json(sentresponse);
+            // })
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.result = result;
+            sentresponse.message = `Fleet getting  successfully .`;
+            response.status(200).json(sentresponse);
 
-//         }
-//     })
+        }
+    })
 
-// })
+})
 
 /****************************************** ENDS ***************************************** */
 
