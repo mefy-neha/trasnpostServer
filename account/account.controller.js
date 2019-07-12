@@ -20,6 +20,8 @@ router.post('/create', (request, response) => {
         referal_contractor: request.body.referal_contractor ? request.body.referal_contractor : null,
         referal_bank: request.body.referal_bank ? request.body.referal_bank : null,
         referal_contact: request.body.referal_contact ? request.body.referal_contact : null,
+        opening_account:request.body.opening_account,
+        type:request.body.type,
         userId: request.body.userId
     });
     user.findById({ _id: data.userId }, (error, result) => {
