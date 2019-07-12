@@ -320,7 +320,47 @@ router.put('/resetPassword', (request, response) => {
 
 })
 /************************************END ******************************************** */
+/************************************ ACCOUNT UPDATE  IN INVOICE ******************************************** */
+router.put('/update',(request,response)=>{
+    let sentResponse = {};
+    let userId = request.body.userId;
+ 
+    // console.log('result.amount_paid',amount_paid)
+    user.findById({ _id: userId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error ||result==null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result){
+//    
+                result.email = (request.body.email ? (request.body.email).toLowerCase() : result.email);
+                result.password = (request.body.password ? encryptPassword(request.body.password) : result.password);
 
+                result.save((error, result) => {
+                    console.log(' save error',error)
+                    if (error) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + " Not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "User Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
+
+                    }
+                })
+
+    }
+        
+        
+})
+})
+/************************************END ******************************************** */
 
 
 module.exports = router;
