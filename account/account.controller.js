@@ -1507,7 +1507,9 @@ router.put('/update',(request,response)=>{
         }
         else if (result){
 //    
-                result.accountName = (request.body.accountName ? (request.body.accountName) : result.accountName);
+                result.opening_account = (request.body.opening_account ? (request.body.opening_account) : result.opening_account);
+                result.type = (request.body.type ? (request.body.type) : result.type);
+
                 result.save((error, result) => {
                     console.log(' save error',error)
                     if (error) {
