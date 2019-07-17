@@ -438,10 +438,11 @@ router.get('/fleetBetweenDate', (request, response) => {
     let sentresponse = {};
     let superAdminId = request.query.superAdminId;
     let from = moment().format('YYYY-MM-DD');
-    // console.log('currentDate', to);
+    // console.log('currentDate', from);
     let to = moment(request.query.to, 'YYYY-MM--DD');
     console.log('dates',from,to)
     let newFleetData = {};
+    let newFleetData1= {};
     fleet.find({ superAdminId: superAdminId }, (error, result) => {
         console.log('error...', error);
         // console.log('reult',result);
@@ -450,14 +451,15 @@ router.get('/fleetBetweenDate', (request, response) => {
             sentresponse.message = 'Error:' + error.message +'Does not exist';
             response.status(500).json(sentresponse);
         }
+        
         else if (result && result.length != 0) {
             let p=[]
             for( let i =0;i<result.length;i++){
             console.log('valid_upto',result[i].rc.valid_upto)     
                 // p.push(result[i].rc.valid_upto)
                 // console.log('result i',result[i])
-                  if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'==true));{
-
+                console.log(moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'))
+                  if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]')){
                      for (var key in result[i]){
                 newFleetData[key] = result[i][key];
                 delete newFleetData[key];
@@ -466,6 +468,16 @@ router.get('/fleetBetweenDate', (request, response) => {
                 newFleetData.truck_number=result[i].truck_number; 
             }
                   }
+        //           if (moment(result[i].explosive.valid_upto).isBetween(from, to,null, '[]'==true));{
+
+        //             for (var key in result[i]){
+        //        newFleetData1[key] = result[i][key];
+        //        delete newFleetData1[key];
+        //        newFleetData1.fleetId=result[i]._id;
+        //        newFleetData1.explosive=result[i].explosive;
+        //        newFleetData1.truck_number=result[i].truck_number; 
+        //    }
+        //          }
               
  
             }
@@ -475,8 +487,9 @@ router.get('/fleetBetweenDate', (request, response) => {
             // billBetweenDates(from, to, result).then(billlist => {
              
                 sentresponse.error = false;
-                sentresponse.result = newFleetData;           
-                sentresponse.message = `Bill  list get succesfully .`;
+                sentresponse.result = newFleetData; 
+                sentresponse.result1 = newFleetData1;           
+                sentresponse.message = `Fleet  list get succesfully .`;
                 response.status(200).json(sentresponse);
             // })
         }

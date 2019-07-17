@@ -27,7 +27,7 @@ const paymentSchema = mongoose.Schema({
     },
     payment:{
         type: String,
-        enum:['diesel_price','toll_price','driver_expense']
+        enum:['diesel_price','toll_price','driver_expense','others']
     },
     amount_paid: {
         type: String   //amount 
