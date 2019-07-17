@@ -442,10 +442,12 @@ router.get('/fleetBetweenDate', (request, response) => {
     let to = moment(request.query.to, 'YYYY-MM--DD');
     console.log('dates',from,to)
     let newFleetData = {};
-    let newFleetData1= {};
+
+   
+    let x=[]
     fleet.find({ superAdminId: superAdminId }, (error, result) => {
         console.log('error...', error);
-        // console.log('reult',result);
+        // console.log('reult userr',result);
         if (error) {
             sentresponse.error = true;
             sentresponse.message = 'Error:' + error.message +'Does not exist';
@@ -453,42 +455,27 @@ router.get('/fleetBetweenDate', (request, response) => {
         }
         
         else if (result && result.length != 0) {
-            let p=[]
+
             for( let i =0;i<result.length;i++){
             console.log('valid_upto',result[i].rc.valid_upto)     
-                // p.push(result[i].rc.valid_upto)
-                // console.log('result i',result[i])
-                console.log(moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'))
+            
+                // console.log(moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'))
                   if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]')){
-                     for (var key in result[i]){
-                newFleetData[key] = result[i][key];
-                delete newFleetData[key];
-                newFleetData.fleetId=result[i]._id;
-                newFleetData.rc=result[i].rc;
-                newFleetData.truck_number=result[i].truck_number; 
-            }
-                  }
-        //           if (moment(result[i].explosive.valid_upto).isBetween(from, to,null, '[]'==true));{
-
-        //             for (var key in result[i]){
-        //        newFleetData1[key] = result[i][key];
-        //        delete newFleetData1[key];
-        //        newFleetData1.fleetId=result[i]._id;
-        //        newFleetData1.explosive=result[i].explosive;
-        //        newFleetData1.truck_number=result[i].truck_number; 
-        //    }
-        //          }
+                    console.log('valid_upto',result[i]._id)     
               
+
+            }
  
             }
-            console.log('newFleetData',newFleetData)
-            // console.log('p',p)
-            // find milage between dates
+            // console.log(newFleetData)
+           
+            // console.log('newFleetData',newFleetData)
+       
             // billBetweenDates(from, to, result).then(billlist => {
              
                 sentresponse.error = false;
-                sentresponse.result = newFleetData; 
-                sentresponse.result1 = newFleetData1;           
+                sentresponse.result = x; 
+                // sentresponse.result1 = newFleetData1;           
                 sentresponse.message = `Fleet  list get succesfully .`;
                 response.status(200).json(sentresponse);
             // })
@@ -542,3 +529,10 @@ module.exports = router;
         // fitness:request.body.fitness,
         // others:request.body.others,
         // rc:request.body.rc,
+        // for (var key in result[i]){
+        //     newFleetData[key] = result[i][key];
+        //     delete newFleetData[key];
+        //     newFleetData.fleetId=result[i]._id;
+        //     newFleetData.rc=result[i].rc;
+        //     newFleetData.truck_number=result[i].truck_number; 
+        // }

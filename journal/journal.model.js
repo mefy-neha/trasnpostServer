@@ -11,7 +11,7 @@ reference: {
 },
 organisation:{
     type: String,
-    enum: ['lalbaba', 'patro']
+    enum: ['lalbaba', 'patro','mefy']
 },
 status:{
     type: String,

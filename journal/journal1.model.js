@@ -7,7 +7,7 @@ date: {
 },
 organisation:{
     type: String,
-    enum: ['lalbaba', 'patro']
+    enum: ['lalbaba', 'patro','mefy']
 },
 reference: {
     type: String,

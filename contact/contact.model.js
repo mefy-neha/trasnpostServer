@@ -17,7 +17,7 @@ const contactSchema = mongoose.Schema({
     },
     organisation: {
         type: String,
-        enum: ['lalbaba', 'patro']
+        enum: ['lalbaba', 'patro','mefy']
     },
     email: {
         type: String

@@ -5,7 +5,7 @@ const companySchema = mongoose.Schema({
 
     organisation: {
         type: String,
-        enum: ['lalbaba', 'patro']
+        enum: ['lalbaba', 'patro','mefy']
     },
     invoice_number:{
         type: String, 
