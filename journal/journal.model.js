@@ -79,14 +79,6 @@ userId: {
     type: schema.ObjectId,
     ref: 'user'
 },
-// contactPersonId:{
-//     type: schema.ObjectId,
-//     ref: 'contact'
-// },
-// accountId:{
-//     type: schema.ObjectId,
-//     ref: 'account'                /***************ACCOUNT AGAINST BY WHICH PERSON ID */
-// },
 superAdminId: {
     type: String
 

@@ -457,13 +457,26 @@ router.get('/fleetBetweenDate', (request, response) => {
         else if (result && result.length != 0) {
 
             for( let i =0;i<result.length;i++){
-            console.log('valid_upto',result[i].rc.valid_upto)     
+            // console.log('valid_upto',result[i].rc.valid_upto)     
             
                 // console.log(moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'))
                   if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]')){
-                    console.log('valid_upto',result[i]._id)     
-              
+                   
 
+                      for(var key in result[i]){
+                   
+                        newFleetData[key] = result[i][key];
+                            delete newFleetData[key];
+                            newFleetData.fleetId=result[i]._id;
+                            newFleetData.rc=result[i].rc;
+                            newFleetData.truck_number=result[i].truck_number;
+                    }
+          
+
+                    console.log('valid_uptokkk', newFleetData.fleetId)     
+              
+x.push(newFleetData)
+console.log('newFleetData',x)
             }
  
             }

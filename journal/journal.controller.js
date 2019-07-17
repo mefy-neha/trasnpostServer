@@ -348,7 +348,7 @@ router.get('/journalList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            journal.find({ superAdminId: superAdminId }).populate('detail.accountId').exec((error, result) => { 
+            journal.find({ superAdminId: superAdminId }).populate('detail.accountId').populate('detail.contactPersonId').exec((error, result) => { 
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
