@@ -488,7 +488,6 @@ console.log('newFleetData',x)
              
                 sentresponse.error = false;
                 sentresponse.result = x; 
-                // sentresponse.result1 = newFleetData1;           
                 sentresponse.message = `Fleet  list get succesfully .`;
                 response.status(200).json(sentresponse);
             // })
