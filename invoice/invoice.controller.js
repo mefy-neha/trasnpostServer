@@ -335,6 +335,72 @@ router.put('/invoiceUpdate', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/*****************  BILL HISTORY ACCORDING TO USERID AND BETWEEN TWO DATES ************ */
+router.get('/invoiceBetweenDate', (request, response) => {
+    console.log('request ', request.query);   //userId,startDate,endDate
+    let sentresponse = {};
+    let superAdminId = request.query.superAdminId;
+    let to = moment().format('YYYY-MM-DD');
+    // console.log('currentDate', to);
+    let from = moment(request.query.from, 'YYYY-MM-DD');
+    console.log('dates',from,to)
+    invoice.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error...', error);
+        // console.log(result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            response.status(500).json(sentresponse);
+        }
+        else if (result && result.length != 0) {
+            // find milage between dates
+            invoiceBetweenDates(from, to, result).then(billlist => {
+             
+                sentresponse.error = false;
+                sentresponse.result = billlist;           
+                sentresponse.message = `Invoice  list get succesfully .`;
+                response.status(200).json(sentresponse);
+            })
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.result = result;
+            sentresponse.message = `invoice getting  successfully .`;
+            response.status(200).json(sentresponse);
+
+        }
+    })
+
+})
+
+/****************************************** ENDS ***************************************** */
+
+/****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
+function invoiceBetweenDates(startDate, endDate, list) {
+    let datearray = [];
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {                  //filter list according to date comparison
+            // console.log(moment(element.createdDate, "YYYY-MM-DD"))
+            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+            // console.log(moment(inputdate).isSame(dbdate,'date'))
+            if (moment(startDate).isSame(endDate, 'date')) {
+                if (moment(startDate).isSame(dbdate, 'date')) {
+                    datearray.push(element);
+                }
+            }
+            else {
+                if (moment(dbdate).isBetween(startDate, endDate, null, '[]')) {
+                    console.log('date matched')
+                    datearray.push(element);
+                    // console.log(montharray)
+                }
+            }
+
+        })
+        resolve(datearray)
+    })
+}
+/************************************* ENDS ********************************************* */
 
 
 module.exports = router;

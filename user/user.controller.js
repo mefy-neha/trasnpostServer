@@ -48,7 +48,8 @@ router.post('/userCreate', (request, response) => {
     let data = new user({
         email: (request.body.email).toLowerCase(),
         name: request.body.name,
-        password: request.body.password,
+        storePassword: encryptPassword(randomPassword(6)),
+        password: randomPassword(6),
         role: request.body.role,
         organisation: request.body.organisation,
         superAdminId:request.body.superAdminId,
@@ -91,6 +92,17 @@ router.post('/userCreate', (request, response) => {
 })
 /************************************END ******************************************** */
 
+/***************************************************************** */
+function randomPassword(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()-+<>ABCDEFGHIJKLMNOP1234567890";
+    var pass = "";
+    for (var x = 0; x < length; x++) {
+        var i = Math.floor(Math.random() * chars.length);
+        pass += chars.charAt(i);
+    }
+    return pass;
+}
+/******************************************************************* */
 
 
 /************************************** LOGIN API ******************************** */
@@ -194,38 +206,39 @@ router.delete('/delete', (request, response) => {
     })
 })
 /************************************END ******************************************** */
-/**************************** NODEMAILER EMAIL SENT TO ADMIN ***************************/
+
+/**************************** NODEMAILER EMAIL SENT TO USER ***************************/
 function sendEmail(email, password) {
-    console.log(email, password)
     let sentresponse = {};
-    // console.log("destination email:- email" + email);
-    // console.log("destination code", code);
     var mailOptions, smtpTransporter;
-    console.log("--------------------------------------------------", email, password);
+    console.log("-----------------/email.........password---------------------------------", email, password);
     smtpTransporter = nodemailer.createTransport({
         tls: {
             rejectUnauthorized: false
         },
-        host: "smtp.ipage.com",
+        // host: "smtp.ipage.com",
+        service: 'gmail',
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: "ranisunshine007@gmail.com", // generated ethereal user
-            pass: "nehakeshri1996" // generated ethereal password
+            user: "viuh.mefy@gmail.com"  ,      
+            pass: "Mefycare@12345" // generated ethereal password
         }
     });
     mailOptions = {
-        from: '"Mefy 👻" <ranisunshine007@gmail.com>',
+        from: '"Viuh 👻" <viuh.mefy@gmail.com>',
         to: email,
-        subject: 'Welcome To MEFY ',
-        html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password 
+        subject: 'Welcome To VIUH ',
+        html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password + '<p>Change your password BY logging.'
     };
 
     smtpTransporter.sendMail(mailOptions, function (error, response) {
         if (error) {
             console.log('errorr../////', error);
             sentresponse.error = true;
-            sentresponse.message = 'Error:' + error.mesage;
+            sentresponse.message = 'Error:' + error.message;
+            // response.status(500).json(sentresponse);
+            // throw error;
         } else {
             console.log('Email sent: ' + info.response);
             sentresponse.error = false;
@@ -284,6 +297,7 @@ else{
     })
 })
 /********************************* ENDS ***************************************** */
+
 /************************** RESET PASSWORD ************************************************/
 router.put('/resetPassword', (request, response) => {
     let resetPasswordResponse = {};

@@ -295,5 +295,117 @@ else{
     })
 })
 /************************************END ******************************************** */
+/************************************ CONTACT UPDATE ******************************************** */
+router.put('/update', (request, response) => {
+    let sentResponse = {};
+    let contactId = request.body.contactId;
+    contact.findById({ _id: contactId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result) {
+            result.picture = (request.body.picture ? (request.body.picture) : result.picture);
+            result.phoneNumber = (request.body.phoneNumber ? (request.body.phoneNumber) : result.phoneNumber);
+            result.email = (request.body.email ? (request.body.email) : result.email);
+
+            if (request.body.gst != null) {
+                result.gst = {
+                    doc: request.body.gst.doc ? (request.body.gst.doc) : result.gst.doc,
+                    number: request.body.gst.number ? (request.body.gst.number) : result.gst.number,
+                    valid_upto: request.body.gst.valid_upto ? moment(request.body.gst.valid_upto).format('YYYY-MM-DD') : result.gst.valid_upto
+
+                }
+            }
+            if (request.body.aadhar != null) {
+                result.aadhar = {
+                    doc: request.body.aadhar.doc ? (request.body.aadhar.doc) : result.aadhar.doc,
+                    number: request.body.aadhar.number ? (request.body.aadhar.number) : result.aadhar.number
+                }
+            }
+            if (request.body.licence != null) {
+                result.licence = {
+                    doc: request.body.licence.doc ? (request.body.licence.doc) : result.licence.doc,
+                    number: request.body.licence.number ? (request.body.licence.number) : result.licence.number,
+                    valid_upto: request.body.licence.valid_upto ? moment(request.body.licence.valid_upto).format('YYYY-MM-DD') : result.licence.valid_upto
+
+                }
+            }
+            if (request.body.training_certificate != null) {
+                result.training_certificate = {
+                    doc: request.body.training_certificate.doc ? (request.body.training_certificate.doc) : result.training_certificate.doc,
+                    number: request.body.training_certificate.number ? (request.body.training_certificate.number) : result.training_certificate.number,
+                    valid_upto: request.body.training_certificate.valid_upto ? moment(request.body.training_certificate.valid_upto).format('YYYY-MM-DD') : result.training_certificate.valid_upto
+
+                }
+            }
+            if (request.body.police_verification != null) {
+                result.police_verification = {
+                    doc: request.body.police_verification.doc ? (request.body.police_verification.doc) : result.police_verification.doc,
+                    number: request.body.police_verification.number ? (request.body.police_verification.number) : result.police_verification.number,
+                    valid_upto: request.body.police_verification.valid_upto ? moment(request.body.police_verification.valid_upto).format('YYYY-MM-DD') : result.police_verification.valid_upto
+
+                }
+            }
+            if (request.body.pan != null) {
+                result.pan = {
+                    doc: request.body.pan.doc ? (request.body.pan.doc) : result.pan.doc,
+                    number: request.body.pan.number ? (request.body.pan.number) : result.pan.number ,
+                    valid_upto: request.body.pan.valid_upto ? moment(request.body.pan.valid_upto).format('YYYY-MM-DD') : result.pan.valid_upto
+
+                              }
+            }
+            if (request.body.tan != null) {
+                result.tan = {
+                    doc: request.body.tan.doc ? (request.body.tan.doc) : result.tan.doc,
+                    number: request.body.tan.number ? (request.body.tan.number) : result.tan.number,
+                    valid_upto: request.body.tan.valid_upto ? moment(request.body.tan.valid_upto).format('YYYY-MM-DD') : result.tan.valid_upto
+
+                }
+            }
+       
+            if (request.body.voterId != null) {
+                result.voterId = {
+                    doc: request.body.voterId.doc ? (request.body.voterId.doc) : result.voterId.doc,
+                    number: request.body.voterId.number ? (request.body.voterId.number) : result.voterId.number,
+
+                }
+            }
+                    if (request.body.others != null) {
+                        let update_others=[];
+                                for(let i =0;i < request.body.others.length; i++){
+                                    var comingDate = moment(request.body.others[i].valid_upto).format('YYYY-MM-DD');
+                                    console.log(comingDate)
+                                    update_others.push({doc_name:request.body.others[i].doc_name,doc:request.body.others[i].doc,number:request.body.others[i].number,valid_upto:comingDate})
+                               }
+                               console.log('update_others',update_others)
+                        result.others = (request.body.others ? (update_others) : result.others);
+                             
+                        }
+            result.save((error, result) => {
+                console.log(' save error', error)
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " Not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Contact Updated";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+            })
+
+        }
+
+
+    })
+})
+/************************************END ******************************************** */
 
 module.exports = router;

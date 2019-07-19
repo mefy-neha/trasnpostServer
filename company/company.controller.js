@@ -436,7 +436,7 @@ async function driverfields(driver) {
     })
 }
 /************************************END ******************************************** */
-/************************************ FLEET UPDATE ******************************************** */
+/************************************ COMPANY UPDATE ******************************************** */
 router.put('/update', (request, response) => {
     let sentResponse = {};
     let companyId = request.body.companyId;
