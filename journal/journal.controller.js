@@ -389,7 +389,8 @@ function datetapped(startDate, list) {
         resolve(datearray)
     })
 }
-// 
+/************************************END ******************************************** */
+
 /********************************JOURNAL BY ID ************************* */
 router.get('/journalById',(request,response)=>{
 let journalId=request.query.journalId;
@@ -409,5 +410,16 @@ journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.
     } 
 })
 })
+/************************************END ******************************************** */
+/************************************LASER REPORT ******************************************** */
+router.get('/resport',(request,response)=>{
+    let accountCode_from=request.query.accountCode_from;
+    let accountCode_to=request.query.accountCode_to;
+    let from=request.query.from;
+    let to=request.query.to;
+    
+})
+/************************************END ******************************************** */
+
 module.exports = router;
 // 2019-06-07T04:12:09.288Z -iso format
