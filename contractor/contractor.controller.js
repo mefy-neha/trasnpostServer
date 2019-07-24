@@ -52,7 +52,7 @@ router.post('/create', (request, response) => {
                     if (error) {
                         console.log(error);
                         contractorResponse.error = true;
-                        contractorResponse.message = `Error :` + error.message
+                        contractorResponse.message = `Error :` + error.message +'email shouild be unique'
                         response.status(500).json(contractorResponse);
                     } else {
                         console.log(result);

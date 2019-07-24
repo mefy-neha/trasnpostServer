@@ -63,7 +63,7 @@ router.post('/userCreate', (request, response) => {
         if (error) {
             console.log(error);
             registrationResponse.error = true;
-            registrationResponse.message = `Error :` + error.code == 11000 ? error.message : " email already exist";
+            registrationResponse.message = `Error :` + error.code == 11000 ? error.message : " email already exist or email should be unique";
             response.status(500).json(registrationResponse);
         } else {
             sendEmail(result.email, result.password,'type','otp');
