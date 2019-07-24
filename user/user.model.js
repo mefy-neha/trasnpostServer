@@ -10,6 +10,9 @@ email: {
     unique: true,
     sparse: true
 },
+otp:{
+    type: String, 
+},
 superAdminId:{
     type: schema.ObjectId,
     ref: 'user'

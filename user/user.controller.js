@@ -66,7 +66,7 @@ router.post('/userCreate', (request, response) => {
             registrationResponse.message = `Error :` + error.code == 11000 ? error.message : " email already exist";
             response.status(500).json(registrationResponse);
         } else {
-            sendEmail(result.email, result.password);
+            sendEmail(result.email, result.password,'type','otp');
         console.log('user result result', result.email,result.password);
 
             user.findOneAndUpdate({ email:result.email }, { password:encryptPassword(result.password) }, { new: true }, (err, res) => {
@@ -208,10 +208,10 @@ router.delete('/delete', (request, response) => {
 /************************************END ******************************************** */
 
 /**************************** NODEMAILER EMAIL SENT TO USER ***************************/
-function sendEmail(email, password) {
+function sendEmail(email,password,type,otp) {
     let sentresponse = {};
     var mailOptions, smtpTransporter;
-    console.log("-----------------/email.........password---------------------------------", email, password);
+    console.log("-----------------/email.........password---------------------------------", email, password,type,otp);
     smtpTransporter = nodemailer.createTransport({
         tls: {
             rejectUnauthorized: false
@@ -225,11 +225,38 @@ function sendEmail(email, password) {
             pass: "Mefycare@12345" // generated ethereal password
         }
     });
+    if(type=='otp'){
+        mailOptions = {
+            from: '"Viuh 👻" <viuh.mefy@gmail.com>',
+            to: email,
+            subject: 'OTP',
+            html: '<h>Your verification code is </h>' + otp + '<p> Do Not share with anyone</p>' 
+        };
+    
+        smtpTransporter.sendMail(mailOptions, function (error, response) {
+            if (error) {
+                console.log('errorr../////', error);
+                sentresponse.error = true;
+                sentresponse.message = 'Error:' + error.message;
+                // response.status(500).json(sentresponse);
+                // throw error;
+            } else {
+                console.log('Email sent: ' + info.response);
+                sentresponse.error = false;
+                sentresponse.message = "EMail sent successfully";
+                sentresponse.result = info;
+                response.status(200).json(sentresponse)
+            }
+    
+        });
+        return smtpTransporter, otp;
+    }
+    else{
     mailOptions = {
         from: '"Viuh 👻" <viuh.mefy@gmail.com>',
         to: email,
         subject: 'Welcome To VIUH ',
-        html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password + '<p>Change your password BY logging.'
+        html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password 
     };
 
     smtpTransporter.sendMail(mailOptions, function (error, response) {
@@ -242,14 +269,14 @@ function sendEmail(email, password) {
         } else {
             console.log('Email sent: ' + info.response);
             sentresponse.error = false;
-            sentresponse.message = "EMail sent successfully";
+            sentresponse.message = "Email sent successfully";
             sentresponse.result = info;
             response.status(200).json(sentresponse)
         }
 
     });
     return smtpTransporter, password;
-
+    }
 }
 /********************************* ENDS ***************************************** */
 /********************************GET USERLIST BY SUPERADMIN ************************/
@@ -297,6 +324,84 @@ else{
     })
 })
 /********************************* ENDS ***************************************** */
+/*************************************  Api for FORGOT PASSWORD ************************************/
+
+router.put('/forgotPassword', (request, response) => {
+
+    let email = (request.body.email).toLowerCase();
+    // let _id = result._id;
+    let type = 'otp'
+    let forgotPasswordResponse = {};
+    let otp = Math.floor(Math.random() * 90000) + 10000;
+    user.findOne({
+        email: email
+    }, (error, result) => {
+        console.log('errorrrrrrrrr', error);
+        console.log("result-----------------", result);
+        if (error || result === null) {
+            forgotPasswordResponse.error = true;
+            forgotPasswordResponse.message = "User does not exist";
+            response.status(500).json(forgotPasswordResponse);
+        } else
+            console.log('results is/////', result)
+        let email = result.email;
+        sendEmail(result.email, 'password',type, otp);
+
+        console.log('results is------', email, otp, result.name)
+        user.updateOne({ email: result.email }, { $set: { otp: otp } }, (error, result) => {
+            console.log('errror', error)
+            console.log('result', result)
+
+            if (error) {
+                forgotPasswordResponse.error = true;
+                forgotPasswordResponse.message = "Something went wrong";
+                response.status(500).json(forgotPasswordResponse);
+            }
+            else {
+                forgotPasswordResponse.error = false;
+                // forgotPasswordResponse.result = result;
+                forgotPasswordResponse.message = `Otp send to the mail.`;
+                response.status(200).json(forgotPasswordResponse);
+            }
+
+        });
+    });
+});
+/***************************************** ENDS *******************************************************/
+
+/************************************ OTP VERIFICATION  ******************************************* */
+router.put('/otpVerification', (request, response) => {
+    let verifyOTPResponse = {};
+    let otp = request.body.otp;
+    let email = (request.body.email).toLowerCase();
+    console.log('email...otp', email, otp)
+    user.findOne({
+        email: email
+    }, (error, result) => {
+        console.log('***********ERROR*******', error)
+        console.log('***********RESULT email type*******', result)
+        if (result != null) {
+            console.log(result.otp)
+            if (result.otp == otp) {
+                verifyOTPResponse.error = false;
+                verifyOTPResponse.result = result;
+                verifyOTPResponse.message = `User verified successfully.`;
+                response.status(200).json(verifyOTPResponse);
+            } else {
+                console.log("incorrect otp", otp);
+                verifyOTPResponse.error = true;
+                verifyOTPResponse.message = 'Incorrect OTP';
+                response.status(500).json(verifyOTPResponse);
+            }
+        } else {
+            verifyOTPResponse.error = true;
+            verifyOTPResponse.message = 'Email does not exist';
+            response.status(500).json(verifyOTPResponse);
+        }
+    });
+});
+/************************************** ENDS ****************************************** */
+
 
 /************************** RESET PASSWORD ************************************************/
 router.put('/resetPassword', (request, response) => {

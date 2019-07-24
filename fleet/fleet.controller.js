@@ -26,7 +26,7 @@ router.post('/create', (request, response) => {
         }
         console.log('gst', data.rc)
     }
-    if (request.body.vehicle_insurancec != null) {
+    if (request.body.vehicle_insurance != null) {
         data.vehicle_insurance = {
             doc: request.body.vehicle_insurance.doc,
             number: request.body.vehicle_insurance.number,
@@ -315,11 +315,11 @@ router.put('/update', (request, response) => {
                     valid_upto: request.body.rc.valid_upto ? moment(request.body.rc.valid_upto).format('YYYY-MM-DD') : result.rc.valid_upto
                 }
             }
-            if (request.body.vehicle_insurancec != null) {
-                result.vehicle_insurancec = {
-                    doc: request.body.vehicle_insurancec.doc ? (request.body.vehicle_insurancec.doc) : result.vehicle_insurancec.doc,
-                    number: request.body.vehicle_insurancec.number ? (request.body.vehicle_insurancec.number) : result.vehicle_insurancec.number,
-                    valid_upto: request.body.vehicle_insurancec.valid_upto ? moment(request.body.vehicle_insurancec.valid_upto).format('YYYY-MM-DD') : result.vehicle_insurancec.valid_upto
+            if (request.body.vehicle_insurance != null) {
+                result.vehicle_insurance = {
+                    doc: request.body.vehicle_insurance.doc ? (request.body.vehicle_insurance.doc) : result.vehicle_insurance.doc,
+                    number: request.body.vehicle_insurance.number ? (request.body.vehicle_insurance.number) : result.vehicle_insurance.number,
+                    valid_upto: request.body.vehicle_insurance.valid_upto ? moment(request.body.vehicle_insurance.valid_upto).format('YYYY-MM-DD') : result.vehicle_insurance.valid_upto
                 }
             }
             if (request.body.product_insurance != null) {
@@ -400,16 +400,16 @@ router.put('/update', (request, response) => {
                 }
             }
             if (request.body.others != null) {
-                let update_others=[];
-                        for(let i =0;i < request.body.others.length; i++){
-                            var comingDate = moment(request.body.others[i].valid_upto).format('YYYY-MM-DD');
-                            console.log(comingDate)
-                            update_others.push({name:request.body.others[i].name,doc:request.body.others[i].doc,number:request.body.others[i].number,valid_upto:comingDate})
-                       }
-                       console.log('update_others',update_others)
-                result.others = (request.body.others ? (update_others) : result.others);
-                     
+                let update_others = [];
+                for (let i = 0; i < request.body.others.length; i++) {
+                    var comingDate = moment(request.body.others[i].valid_upto).format('YYYY-MM-DD');
+                    console.log(comingDate)
+                    update_others.push({ name: request.body.others[i].name, doc: request.body.others[i].doc, number: request.body.others[i].number, valid_upto: comingDate })
                 }
+                console.log('update_others', update_others)
+                result.others = (request.body.others ? (update_others) : result.others);
+
+            }
             result.save((error, result) => {
                 console.log(' save error', error)
                 if (error) {
@@ -434,89 +434,114 @@ router.put('/update', (request, response) => {
 /************************************END ******************************************** */
 /*****************  BILL HISTORY ACCORDING TO USERID AND BETWEEN TWO DATES ************ */
 router.get('/fleetBetweenDate', (request, response) => {
-    console.log('request ', request.query);   //userId,startDate,endDate
+    // console.log('request ', request.query);   //userId,startDate,endDate
     let sentresponse = {};
     let superAdminId = request.query.superAdminId;
     let from = moment().format('YYYY-MM-DD');
-    // console.log('currentDate', from);
-    let to = moment(request.query.to, 'YYYY-MM--DD');
-    console.log('dates',from,to)
-    let newFleetData = {};
-
-   
-    let x=[]
+    let to = moment(request.query.to).format('YYYY-MM-DD');
+    console.log('dates', from, to)
     fleet.find({ superAdminId: superAdminId }, (error, result) => {
-        console.log('error...', error);
-        // console.log('reult userr',result);
         if (error) {
             sentresponse.error = true;
-            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            sentresponse.message = 'Error:' + error.message + 'Does not exist';
             response.status(500).json(sentresponse);
         }
-        
-        else if (result && result.length != 0) {
-
-            for( let i =0;i<result.length;i++){
-            // console.log('valid_upto',result[i].rc.valid_upto)     
-            
-                // console.log(moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]'))
-//                   if (moment(result[i].rc.valid_upto).isBetween(from, to,null, '[]')){
-                   
-
-          
-
-//                     console.log('valid_uptokkk', newFleetData.fleetId)     
-              
-// x.push(newFleetData)
-// console.log('newFleetData',x)
-//             }
- 
-            }
-            // console.log(newFleetData)
-           
-            // console.log('newFleetData',newFleetData)
-       
-            // billBetweenDates(from, to, result).then(billlist => {
-             
-                sentresponse.error = false;
-                sentresponse.result = x; 
-                sentresponse.message = `Fleet  list get succesfully .`;
-                response.status(200).json(sentresponse);
-            // })
-        }
         else {
+            let expired_fleet_array = [];
+            for (let i = 0; i < result.length; i++) {
+                let expired_fleet = {
+                    truck_number: '',
+                    truckId:'',
+                    documents: []
+                };
+                if (result[i].rc && moment(result[i].rc.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    console.log('vehicle_insurance',result[i].vehicle_insurance!=null)
+                    expired_fleet.documents.push({ rc: result[i].rc })
+                }
+                
+                if (result[i].vehicle_insurance && moment(result[i].vehicle_insurance.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    console.log('vehicle_insurance',result[i].vehicle_insurance)
+                    expired_fleet.documents.push({ vehicle_insurance: result[i].vehicle_insurance })
+                }
+                if (result[i].product_insurance && moment(result[i].product_insurance.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ product_insurance: result[i].product_insurance })
+                }
+                if (result[i].abs && moment(result[i].abs.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if');
+                    console.log('abss',result[i].abs)
+                    console.log('moment',moment(result[i].abs.valid_upto).isBetween(from, to, null, '[]'))
+                    expired_fleet.documents.push({ abs: result[i].abs })
+                }
+                if (result[i].explosive && moment(result[i].explosive.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ explosive: result[i].explosive })
+                }
+                if (result[i].calibration_chart && moment(result[i].calibration_chart.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ calibration_chart: result[i].calibration_chart })
+                }
+                if (result[i].national_permit && moment(result[i].national_permit.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ national_permit: result[i].national_permit })
+                }
+                if (result[i].national_permit_A && moment(result[i].national_permit_A.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ national_permit_A: result[i].national_permit_A })
+                }
+                if (result[i].national_permit_B && moment(result[i].national_permit_B.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ national_permit_B: result[i].national_permit_B })
+                }
+                if (result[i].road_tax && moment(result[i].road_tax.valid_upto).isBetween(from, to, null, '[]')) {
+                    // console.log('inside if')
+                    expired_fleet.documents.push({ road_tax: result[i].road_tax })
+                }
+                if (result[i].pollution && moment(result[i].pollution.valid_upto).isBetween(from, to, null, '[]')) {
+                    console.log('inside if')
+                    expired_fleet.documents.push({ pollution: result[i].pollution })
+                }
+                if (result[i].sco && moment(result[i].sco.valid_upto).isBetween(from, to, null, '[]')) {
+                    console.log('inside if')
+                    expired_fleet.documents.push({ sco: result[i].sco })
+                }
+                if (result[i].hydro_testing && moment(result[i].hydro_testing.valid_upto).isBetween(from, to, null, '[]')) {
+                    console.log('inside if')
+                    expired_fleet.documents.push({ hydro_testing: result[i].hydro_testing })
+                }
+                if (result[i].fitness && moment(result[i].fitness.valid_upto).isBetween(from, to, null, '[]')) {
+                    console.log('inside if')
+                    expired_fleet.documents.push({ fitness: result[i].hydro_testing })
+                }
+                for (let k = 0; k < result[i].others.length; k++) {
+                    if (moment(result[i].others[k].valid_upto).isBetween(from, to, null, '[]')) {
+                        console.log('inside if')
+                        expired_fleet.documents.push({ others: result[i].others[k] })
+                    }
+                }
+                expired_fleet.truck_number = result[i].truck_number;
+                expired_fleet.truckId= result[i]._id;
+                expired_fleet_array.push(expired_fleet)
+                // console.log(' >>>>>>>>>>  ',expired_fleet)
+            }
+            let fleet_result = expired_fleet_array.filter(function (index) {
+                // console.log('index',index)
+                if (index.documents.length > 0)
+                    return index
+            })
+            // console.log('>>>>>>>> ', fleet_result)
             sentresponse.error = false;
-            sentresponse.result = result;
-            sentresponse.message = `Fleet getting  successfully .`;
+            sentresponse.result = fleet_result;
+            sentresponse.message = `Renew your document  .`;
             response.status(200).json(sentresponse);
-
         }
     })
 
 })
 
 /****************************************** ENDS ***************************************** */
-
-/****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
-function billBetweenDates(startDate, endDate, list) {
-    let datearray = [];
-    return new Promise((resolve, reject) => {
-        list.forEach(element => {                  //filter list according to date comparison
-            // console.log(moment(element.createdDate, "YYYY-MM-DD"))
-            let dbdate = moment(element.valid_upto, "YYYY-MM-DD");
-            // console.log(moment(inputdate).isSame(dbdate,'date'))      
-                if (moment(dbdate).isBetween(startDate, endDate, null, '[]')) {
-                    console.log('date matched')
-                    datearray.push(element);
-                    // console.log(montharray)
-                }
-            
-
-        })
-        resolve(datearray)
-    })
-}
-/************************************* ENDS ********************************************* */
 module.exports = router;
  // vehicle_insurance:request.body.vehicle_insurance,
         // product_insurance:request.body.product_insurance,
