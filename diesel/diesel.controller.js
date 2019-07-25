@@ -353,7 +353,7 @@ router.get('/currentPetrolList', (request, response) => {
     let sentresponse = {};
     let superAdminId = request.query.superAdminId;
     let currentDate = moment().format('YYYY-MM-DD');
-    petrol.find({ superAdminId: superAdminId}, (error, result) => {
+    petrol.find({ superAdminId: superAdminId}).populate('user.vendorId').exec((error, result) => { 
         // console.log(error);
         // console.log(result);
         if (error) {
