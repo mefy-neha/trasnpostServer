@@ -14,7 +14,6 @@ router.post('/create', (request, response) => {
 
         pump_name: request.body.pump_name,    
         diesel: request.body.diesel, 
-        pump_name: request.body.pump_name,
         notes: request.body.notes,
         date: request.body.date ? moment(request.body.date).format('YYYY-MM-DD') : null,
         driverId: request.body.driverId,
@@ -82,6 +81,8 @@ router.post('/petrolPrice', (request, response) => {
     let dieselResponse = {};
     let data = new petrol({
         diesel_price: request.body.diesel_price,    
+        vendorId:request.body.vendorId,
+        date:request.body.date,
         userId: request.body.userId
     })
     console.log('dataaaa', data)

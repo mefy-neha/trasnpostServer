@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const petrolSchema = mongoose.Schema({
-  
-    diesel_price:{
+
+    diesel_price: {
         type: String
     },
-
+    vendorId: {
+        type: schema.ObjectId,
+        ref: 'contact'
+    },
+    date: {
+        type: String
+    },
     userId: {
         type: schema.ObjectId,
         ref: 'user'
@@ -27,13 +33,13 @@ const petrolSchema = mongoose.Schema({
         default: 1
     }
 })
-// petrolSchema.pre('findOne', function (next) {
-//         this.populate('userId');
-//         next();
-//     });
-// petrolSchema.pre('find', function (next) {
-//         this.populate('userId');
-//         next();
-//     });
+petrolSchema.pre('findOne', function (next) {
+    this.populate('vendorId');
+    next();
+});
+petrolSchema.pre('find', function (next) {
+    this.populate('vendorId');
+    next();
+});
 
-    const petrol = module.exports = mongoose.model('petrol', petrolSchema)
+const petrol = module.exports = mongoose.model('petrol', petrolSchema)

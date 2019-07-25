@@ -527,14 +527,15 @@ router.get('/fleetBetweenDate', (request, response) => {
                 // console.log(' >>>>>>>>>>  ',expired_fleet)
             }
             let fleet_result = expired_fleet_array.filter(function (index) {
-                // console.log('index',index)
+                console.log('index',index)
                 if (index.documents.length > 0)
                     return index
+                
             })
             // console.log('>>>>>>>> ', fleet_result)
             sentresponse.error = false;
             sentresponse.result = fleet_result;
-            sentresponse.message = `Renew your document  .`;
+            sentresponse.message = `Renew your documents  .`;
             response.status(200).json(sentresponse);
         }
     })
