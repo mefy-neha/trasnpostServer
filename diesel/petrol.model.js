@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const petrolSchema = mongoose.Schema({
 
-    diesel_price: {
-        type: String
-    },
-    vendorId: {
-        type: schema.ObjectId,
+    
+    user: [{
+       vendorId:{ type: schema.ObjectId,
         ref: 'contact'
-    },
+       },
+       diesel_price: {
+        type: String
+       }
+    }],
     date: {
         type: String
     },

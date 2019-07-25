@@ -80,8 +80,7 @@ router.post('/create', (request, response) => {
 router.post('/petrolPrice', (request, response) => {
     let dieselResponse = {};
     let data = new petrol({
-        diesel_price: request.body.diesel_price,    
-        vendorId:request.body.vendorId,
+        user: request.body.user,    
         date:request.body.date,
         userId: request.body.userId
     })

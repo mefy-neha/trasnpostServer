@@ -5,6 +5,8 @@ const journal1 = require('./journal1.model');
 
 const user = require('../user/user.model');
 const period = require('../period/period.model');
+const account = require('../account/account.model');
+
 const moment = require('moment');
 
 
@@ -413,10 +415,23 @@ journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.
 /************************************END ******************************************** */
 /************************************LASER REPORT ******************************************** */
 router.get('/resport',(request,response)=>{
-    let accountCode_from=request.query.accountCode_from;
-    let accountCode_to=request.query.accountCode_to;
-    let from=request.query.from;
-    let to=request.query.to;
+    let accountCode=request.body.accountCode;
+    let sentResponse = {};
+    let from= moment(request.query.from).format('YYYY-MM-DD');;
+    let to = moment(request.query.to).format('YYYY-MM-DD');
+account.find({accountCode:accountCode},(error,result)=>{
+    if(error){
+        sentResponse.error = true;
+        sentResponse.message = `Error :` + error.message + "Something went wrong";
+        response.status(500).json(sentResponse);
+    }
+    else{
+        sentResponse.error = false;
+        sentResponse.message = "account List";
+        sentResponse.result = result
+        response.status(200).json(sentResponse);
+    }
+})
     
 })
 /************************************END ******************************************** */
