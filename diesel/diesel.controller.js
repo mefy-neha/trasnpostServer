@@ -347,5 +347,56 @@ router.put('/updateDiesel', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/*****************************PETROL LIST BY CURRENT DATE*************************** */
+router.get('/currentPetrolList', (request, response) => {
+    console.log('request ', request.query);   //userId,startDate,endDate
+    let sentresponse = {};
+    let superAdminId = request.query.superAdminId;
+    let currentDate = moment().format('YYYY-MM-DD');
+    petrol.find({ superAdminId: superAdminId}, (error, result) => {
+        // console.log(error);
+        // console.log(result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            response.status(500).json(sentresponse);
+        }
+        else if (result && result.length != 0) {
+            // find milage between dates
+            listByCurrentDates(currentDate, result).then(petrollist => {
+                sentresponse.error = false;
+                sentresponse.result = petrollist;
+                sentresponse.message = `Petrol list get succesfully .`;
+                response.status(200).json(sentresponse);
+            })
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.result = result;
+            sentresponse.message = `Petrol  details getting  successfully .`;
+            response.status(200).json(sentresponse);
+
+        }
+    })
+
+})
+/************************************END ******************************************** */
+
+/****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
+function listByCurrentDates(startDate, list) {
+    let datearray = [];
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {                  //filter list according to date comparison
+            // console.log(moment(element.createdDate, "YYYY-MM-DD"))
+            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+            // console.log(moment(inputdate).isSame(dbdate,'date'))
+            if (moment(startDate).isSame(dbdate, 'date')) {
+                datearray.push(element);
+            }
+        })
+        resolve(datearray)
+    })
+}
+/************************************* ENDS ********************************************* */
 
 module.exports = router;
