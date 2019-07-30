@@ -1532,10 +1532,6 @@ router.put('/update',(request,response)=>{
 })
 })
 /************************************END ******************************************** */
-router.post('/all',(request,response)=>{
-  account.insertMany(
-        [{ item: "card", qty: 15 },{ item: "card", qty: 15 }])
-})
 module.exports = router;
   // for(let i =0;i<res.length;i++){
                 //     if (data.accountName != res[i].accountName &&data.accountType !=res[i].accountType && data.parentAccount!=res[i].parentAccount &&data.super_parent_Account!=res[i].super_parent_Account) { break; 

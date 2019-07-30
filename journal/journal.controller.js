@@ -414,8 +414,8 @@ journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.
 })
 /************************************END ******************************************** */
 /************************************LASER REPORT ******************************************** */
-router.get('/resport',(request,response)=>{
-    let accountCode=request.body.accountCode;
+router.get('/report',(request,response)=>{
+    let accountCode=request.query.accountCode;
     let sentResponse = {};
     let from= moment(request.query.from).format('YYYY-MM-DD');;
     let to = moment(request.query.to).format('YYYY-MM-DD');
