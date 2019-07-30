@@ -108,11 +108,11 @@ consignmentSchema.pre('find', function (next) {
     this.populate('userId');
     next();
 });
-fleetSchema.pre('findOne', function (next) {
+consignmentSchema.pre('findOne', function (next) {
     this.populate('consignor');
     next();
 });
-fleetSchema.pre('find', function (next) {
+consignmentSchema.pre('find', function (next) {
     this.populate('consignor');
     next();
 });
