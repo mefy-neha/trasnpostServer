@@ -159,7 +159,7 @@ router.get('/destinationByCustomer', (request, response) => {
         console.log('result', result);
         if (error || result == null) {
             sentResponse.error = true;
-            sentResponse.message = `Error :` + error + '  ' + " Does not exist";
+            sentResponse.message = `Error :` + error +  " Does not exist";
             response.status(500).json(sentResponse);
         }
         else {

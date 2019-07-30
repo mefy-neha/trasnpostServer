@@ -24,10 +24,11 @@ const consignmentSchema = mongoose.Schema({
     challan_date: {
         type: String,
     },
-    consignor: {                      //id
-        type: String
+    consignor: {                      //customer id
+        type: schema.ObjectId,
+        ref: 'contact'
     },
-    consignee: {                            //id
+    consignee: {                            //destination place
         type: String
     },
     consignment_date: {                            //id
@@ -105,6 +106,14 @@ consignmentSchema.pre('findOne', function (next) {
 });
 consignmentSchema.pre('find', function (next) {
     this.populate('userId');
+    next();
+});
+fleetSchema.pre('findOne', function (next) {
+    this.populate('consignor');
+    next();
+});
+fleetSchema.pre('find', function (next) {
+    this.populate('consignor');
     next();
 });
 
