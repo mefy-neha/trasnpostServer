@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const destination = require('./destination.model');
 const user = require('../user/user.model');
+const contact = require('../contact/contact.model');
+
 
 /************************************DESTINATION CREATION ******************************************** */
 
@@ -145,6 +147,41 @@ router.delete('/delete', (request, response) => {
 
         }
 
+    })
+})
+/************************************END ******************************************** */
+/************************** DESTINATION DETAIL BY SUPERADMINID ********************************************** */
+router.get('/destinationByCustomer', (request, response) => {
+    let customerId = request.query.customerId;
+    let sentResponse = {};
+    contact.findById({ _id: customerId }, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error + '  ' + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            console.log('role superadmin')
+            destination.find({ customerId: customerId }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + "Something went wrong";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Destination List";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+
+            })
+        }
     })
 })
 /************************************END ******************************************** */
