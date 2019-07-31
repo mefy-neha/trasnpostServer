@@ -9,6 +9,7 @@ router.post('/create', (request, response) => {
     let data = new payment({
         contactId: request.body.contactId?request.body.contactId:null,
         contractId: request.body.contractId?request.body.contractId:null,
+        ownerId:request.body.ownerId?request.body.ownerId:null,
         fleetId: request.body.fleetId?request.body.fleetId:null,
         payment_date: request.body.payment_date,
         payment_mode: request.body.payment_mode,

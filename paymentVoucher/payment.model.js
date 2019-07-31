@@ -10,6 +10,10 @@ const paymentSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'contractor'
     },
+    ownerId: {
+        type: schema.ObjectId,
+        ref: 'user'
+    },
     payment_number:{
         type:String
     },
@@ -94,6 +98,14 @@ paymentSchema.pre('findOne', function (next) {
 });
 paymentSchema.pre('find', function (next) {
     this.populate('contractId');
+    next();
+});
+paymentSchema.pre('findOne', function (next) {
+    this.populate('ownerId');
+    next();
+});
+paymentSchema.pre('find', function (next) {
+    this.populate('ownerId');
     next();
 });
 
