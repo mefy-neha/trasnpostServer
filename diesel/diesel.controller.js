@@ -6,7 +6,7 @@ const petrol = require('./petrol.model');
 const user = require('../user/user.model');
 const moment = require('moment');
 
-/************************************DIESEL CREATION ******************************************** */
+/************************************DIESEL  VOUCHER CREATION ******************************************** */
 
 router.post('/create', (request, response) => {
     let dieselResponse = {};
@@ -327,6 +327,7 @@ router.put('/updateDiesel', (request, response) => {
                 result.actual_diesel = (request.body.actual_diesel ? (request.body.actual_diesel) : result.diesel_price);
                 result.actual_date = (request.body.actual_date ? (request.body.actual_date) : result.actual_date);
                 result.actual_amount = (request.body.actual_amount ? (request.body.actual_amount) : result.actual_amount);
+                result.confirmed=(request.body.confirmed)?(request.body.confirmed):result.confirmed
 
                 result.save((error, result) => {
                     if (error) {

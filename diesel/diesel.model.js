@@ -16,6 +16,10 @@ const dieselSchema = mongoose.Schema({
     date:{
         type: String
     },
+    confirmed:{
+        type:Boolean,
+        default: false
+    },
     diesel:{
         type: String
     },
