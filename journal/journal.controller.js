@@ -15,6 +15,19 @@ const moment = require('moment');
 router.post('/create', (request, response) => {
     let journalResponse = {};
     console.log(request.body.userId)
+
+    let data = new journal({
+        date: request.body.date ? moment(request.body.date).format('YYYY-MM-DD') : null,    
+        reference: request.body.reference,
+        detail: request.body.detail,
+        notes: request.body.notes,
+        posted: false,
+        total: request.body.total,
+        denomination: request.body.denomination ? request.body.denomination : null,
+        total_amount: request.body.total_amount,
+        userId: request.body.userId,
+
+    });
     user.findById({ _id: request.body.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
@@ -39,33 +52,20 @@ router.post('/create', (request, response) => {
                     response.status(500).json(journalResponse);
                 }
                 else {
-
-                    let data = new journal({
-                        date: request.body.date ? moment(request.body.date).format('YYYY-MM-DD') : null,
-                        journalNumber: list.length + 1,
-                        reference: request.body.reference,
-                        detail: request.body.detail,
-                        notes: request.body.notes,
-                        posted: false,
-                        total: request.body.total,
-                        denomination: request.body.denomination ? request.body.denomination : null,
-                        total_amount: request.body.total_amount,
-                        userId: request.body.userId,
-
-                    });
+                    console.log('periode')
                     data.superAdminId = superAdmin;
                     data.organisation = org
-                    // moment('2010-10-20').isBetween('2010-10-19', '2010-10-25');
+                    data.journalNumber= list.length + 1,
                     period.find({ superAdminId: data.superAdminId }, (error, period) => {
-                        // console.log('erroor', error)
-                        // console.log('period', period)
+                        console.log('erroor', error)
+                        console.log('period', period)
 
-                        if (error || period == null) {
+                        if (error || period ==null) {
                             journalResponse.error = true;
                             journalResponse.message = `Error :` + error.message + 'Period does not exist';
                             response.status(500).json(journalResponse);
                         }
-                        else if (period && period.length != 0) {
+                        else if (period != null && Object.keys(period).length != 0) {                      
                             datetapped(data.date, period).then(periodresult => {
                                 console.log('result///////', periodresult)
                                 data.period = periodresult.length!=0?periodresult[0].period_name:null
@@ -89,6 +89,11 @@ router.post('/create', (request, response) => {
                                 });
                             })
                         }
+                        else{
+                            journalResponse.error = true;
+                            journalResponse.message =  'Period does not exist';
+                            response.status(500).json(journalResponse);
+                        }
 
 
 
@@ -105,30 +110,15 @@ router.post('/create', (request, response) => {
             journal.find({ superAdminId: superAdmin }, (error, list) => {
                 console.log('error', error);
                 console.log(' journal length', list.length)
-
-                // console.log(' journal length', list)
                 if (error) {
                     journalResponse.error = true;
-                    journalResponse.message = `Error :` + error.message + 'Organisation does not exist';
+                    journalResponse.message = `Error :` + error.message + 'Something went wrong';
                     response.status(500).json(journalResponse);
                 }
                 else {
-                    let data = new journal({
-                        date: request.body.date ? moment(request.body.date).format('YYYY-MM-DD') : null,
-                        journalNumber: list.length + 1,
-                        reference: request.body.reference,
-                        detail: request.body.detail,
-                        organisation: request.body.organisation,
-                        notes: request.body.notes,
-                        posted: false,
-                        denomination: request.body.denomination ? request.body.denomination : null,
-                        total_amount: request.body.total_amount,
-                        total: request.body.total,
-                        userId: request.body.userId,
-
-                    });
                     data.superAdminId = superAdmin;
                     data.organisation = org
+                    data.journalNumber= list.length + 1,
                     // console.log(data);
                     period.find({ superAdminId: data.superAdminId }, (error, period) => {
                         console.log('erroor', error)
@@ -139,7 +129,7 @@ router.post('/create', (request, response) => {
                             journalResponse.message = `Error :` + error.message + 'Period does not exist';
                             response.status(500).json(journalResponse);
                         }
-                        else if (period && period.length != 0) {
+                        else if (period != null && Object.keys(period).length != 0) {
                             datetapped(data.date, period).then(periodresult => {
                                 console.log('result///////', periodresult)
                                 data.period = periodresult.length!=0?periodresult[0].period_name:null
@@ -162,7 +152,11 @@ router.post('/create', (request, response) => {
                             });
                         }
 
-
+                        else{
+                            journalResponse.error = true;
+                            journalResponse.message =  'Period does not exist';
+                            response.status(500).json(journalResponse);
+                        }
 
                     })
 
