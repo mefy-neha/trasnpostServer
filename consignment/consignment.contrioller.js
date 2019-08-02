@@ -43,7 +43,7 @@ router.post('/create', (request, response) => {
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
-                consignment.find({ superAdminId: data.superAdmin }, (error, list) => {
+                consignment.find({ superAdminId: data.superAdminId }, (error, list) => {
                     console.log('error', error);
                     console.log(' consignment length', list.length)
                     if (error) {
