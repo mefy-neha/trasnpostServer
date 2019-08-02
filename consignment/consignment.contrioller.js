@@ -54,7 +54,9 @@ router.post('/create', (request, response) => {
                     else {
                         let y = {}
                         y = list.length + 1
+                        console.log('y number///',y)
                         data.consignmentNumber = 'CON-00' + y
+                        console.log('consignmentNumber////',consignmentNumber)
                         data.save((error, result) => {
                             console.log('Consignment error', error);
                             console.log('Consignment result', result);
@@ -77,7 +79,7 @@ router.post('/create', (request, response) => {
             else {
                 console.log('admin,other')
                 data.superAdminId = result.superAdminId._id
-                consignment.find({ superAdminId:data. superAdminId }, (error, list) => {
+                consignment.find({ superAdminId:data.superAdminId }, (error, list) => {
                     console.log('error', error);
                     console.log(' consignment length', list.length)
                     if (error) {
@@ -86,9 +88,11 @@ router.post('/create', (request, response) => {
                         response.status(500).json(journalResponse);
                     }
                     else {
-                        let y = {}
-                        y = list.length + 1
-                        data.consignmentNumber = 'CON-00' + y
+                        let z = {}
+                        z= list.length + 1
+                        console.log('y number///',z)
+                        data.consignmentNumber = 'CON-00' + z
+                        console.log('consignmentNumber////',consignmentNumber)
                         data.save((error, result) => {
                             console.log('Consignment error', error);
                             console.log('Consignment result', result);
