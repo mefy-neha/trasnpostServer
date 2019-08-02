@@ -56,7 +56,7 @@ router.post('/create', (request, response) => {
                         y = list.length + 1
                         console.log('y number///',y)
                         data.consignmentNumber = 'CON-00' + y
-                        console.log('consignmentNumber////',consignmentNumber)
+                        console.log('consignmentNumber////',data.consignmentNumber)
                         data.save((error, result) => {
                             console.log('Consignment error', error);
                             console.log('Consignment result', result);
@@ -92,7 +92,7 @@ router.post('/create', (request, response) => {
                         z= list.length + 1
                         console.log('y number///',z)
                         data.consignmentNumber = 'CON-00' + z
-                        console.log('consignmentNumber////',consignmentNumber)
+                        console.log('consignmentNumber////',data.consignmentNumber)
                         data.save((error, result) => {
                             console.log('Consignment error', error);
                             console.log('Consignment result', result);
