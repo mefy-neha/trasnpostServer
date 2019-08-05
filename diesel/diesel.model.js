@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const dieselSchema = mongoose.Schema({
     pump_name:{
-        type: String,
-        enum: ['mefy','meme','indian']
+        type: schema.ObjectId,
+        ref: 'contact'               ///id of vendor
     },
     driverId:{
         type: schema.ObjectId,
@@ -70,6 +70,14 @@ dieselSchema.pre('findOne', function (next) {
     });
     dieselSchema.pre('find', function (next) {
         this.populate('driverId');
+        next();
+    });
+    dieselSchema.pre('findOne', function (next) {
+        this.populate('pump_name');
+        next();
+    });
+    dieselSchema.pre('find', function (next) {
+        this.populate('pump_name');
         next();
     });
     const diesel = module.exports = mongoose.model('diesel', dieselSchema)
