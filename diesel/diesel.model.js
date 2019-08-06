@@ -80,4 +80,12 @@ dieselSchema.pre('findOne', function (next) {
         this.populate('pump_name');
         next();
     });
+    dieselSchema.pre('findOne', function (next) {
+        this.populate('truckId');
+        next();
+    });
+    dieselSchema.pre('find', function (next) {
+        this.populate('truckId');
+        next();
+    });
     const diesel = module.exports = mongoose.model('diesel', dieselSchema)

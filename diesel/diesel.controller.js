@@ -15,7 +15,7 @@ router.post('/create', (request, response) => {
         pump_name: request.body.pump_name,    
         diesel: request.body.diesel, 
         notes: request.body.notes,
-        date: request.body.date ? moment(request.body.date).format('YYYY-MM-DD') : null,
+        date: request.body.date ,
         driverId: request.body.driverId,
         truckId: request.body.truckId,
         userId: request.body.userId
@@ -395,6 +395,70 @@ function listByDates(date, list) {
             if (moment(incomingDate).isSame(dbdate, 'date')) {
                 datearray.push(element);
             }
+        })
+        resolve(datearray)
+    })
+}
+/************************************* ENDS ********************************************* */
+/*****************  DIESEL VOUCHER LIST ACCORDING TO USERID AND BETWEEN TWO DATES ************ */
+router.get('/dieselBetweenDate', (request, response) => {
+    console.log('request ', request.query);   //userId,startDate,endDate
+    let sentresponse = {};
+    let superAdminId = request.query.superAdminId;
+    let startDate = moment(request.query.startDate, 'YYYY-MM-DD');;
+    let endDate = moment(request.query.endDate, 'YYYY-MM-DD');
+    console.log('dates',superAdminId,startDate,endDate)
+    diesel.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error...', error);
+        // console.log(result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            response.status(500).json(sentresponse);
+        }
+        else if (result && result.length != 0) {
+            // find consignment between dates
+            dieselBetweenDates(startDate, endDate, result).then(list => {            
+                sentresponse.error = false;
+                sentresponse.result = list;           
+                sentresponse.message = `Diesel  list get succesfully .`;
+                response.status(200).json(sentresponse);
+            })
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.result = result;
+            sentresponse.message = `Diesel getting  successfully .`;
+            response.status(200).json(sentresponse);
+
+        }
+    })
+
+})
+
+/****************************************** ENDS ***************************************** */
+
+/****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
+function dieselBetweenDates(startDate, endDate, list) {
+    let datearray = [];
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {                  //filter list according to date comparison
+            // console.log(moment(element.createdDate, "YYYY-MM-DD"))
+            let dbdate = moment(element.date, "YYYY-MM-DD");
+            // console.log(moment(inputdate).isSame(dbdate,'date'))
+            if (moment(startDate).isSame(endDate, 'date')) {
+                if (moment(startDate).isSame(dbdate, 'date')) {
+                    datearray.push(element);
+                }
+            }
+            else {
+                if (moment(dbdate).isBetween(startDate, endDate, null, '[]')) {
+                    console.log('date matched')
+                    datearray.push(element);
+                    // console.log(montharray)
+                }
+            }
+
         })
         resolve(datearray)
     })
