@@ -47,7 +47,8 @@ const consignmentSchema = mongoose.Schema({
         type: String
     },
     authorize_person: {
-        type: String               //id
+        type: schema.ObjectId,
+        ref: 'contact'               //id
     },
     driver_license_number: {
         type: String
@@ -114,6 +115,14 @@ consignmentSchema.pre('findOne', function (next) {
 });
 consignmentSchema.pre('find', function (next) {
     this.populate('consignor');
+    next();
+});
+consignmentSchema.pre('findOne', function (next) {
+    this.populate('authorize_person');
+    next();
+});
+consignmentSchema.pre('find', function (next) {
+    this.populate('authorize_person');
     next();
 });
 
