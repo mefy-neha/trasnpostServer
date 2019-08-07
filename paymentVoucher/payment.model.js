@@ -25,6 +25,9 @@ const paymentSchema = mongoose.Schema({
     payment_date: {
         type: String   //advance payment date
     },
+    reference_number: {
+        type: String   //advance payment date
+    },
     payment_mode: {
         type: String,
         enum:['cash','cheque','bank']

@@ -15,6 +15,7 @@ router.post('/create', (request, response) => {
         payment_mode: request.body.payment_mode,
         payment: request.body.payment,
         amount_paid: request.body.amount_paid,
+        reference_number: request.body.reference_number,
         cheque_number: request.body.cheque_number ? request.body.cheque_number : null,
         bankId: request.body.bankId ? request.body.bankId : null,
         denomination: request.body.denomination ? request.body.denomination : null,
