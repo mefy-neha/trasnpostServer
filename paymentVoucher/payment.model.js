@@ -88,11 +88,11 @@ paymentSchema.pre('find', function (next) {
     next();
 });
 paymentSchema.pre('findOne', function (next) {
-    this.populate('vendorId');
+    this.populate('contactId');
     next();
 });
 paymentSchema.pre('find', function (next) {
-    this.populate('vendorId');
+    this.populate('contactId');
     next();
 });
 paymentSchema.pre('findOne', function (next) {

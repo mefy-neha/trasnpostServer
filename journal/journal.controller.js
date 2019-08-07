@@ -23,6 +23,7 @@ router.post('/create', (request, response) => {
         notes: request.body.notes,
         posted: false,
         total: request.body.total,
+        journal_base:request.body.journal,
         denomination: request.body.denomination ? request.body.denomination : null,
         total_amount: request.body.total_amount,
         userId: request.body.userId,

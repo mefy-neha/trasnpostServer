@@ -17,6 +17,10 @@ const fleetSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'user'
     },
+    unit:{
+        type: String,
+        enum:['ton','pieces','kl']
+    },
     superAdminId: {
         type: String
     },

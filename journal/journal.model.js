@@ -13,6 +13,10 @@ organisation:{
     type: String,
     enum: ['lalbaba', 'patro','mefy']
 },
+journal_base:{
+    type: String,
+    enum:['bank','cash','other']
+},
 status:{
     type: String,
     default: 'publish'

@@ -31,6 +31,10 @@ currency: {
     type: String,
     default:'INR'
 },
+journal_base:{
+    type: String,
+    enum:['bank','cash','other']
+},
 userId: {
     type: schema.ObjectId,
     ref: 'user'

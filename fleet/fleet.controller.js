@@ -13,6 +13,7 @@ router.post('/create', (request, response) => {
         truck_number: request.body.truck_number,
         userId: request.body.userId,
         capacity: request.body.capacity,
+        unit:request.body.unit,
         ownId: request.body.ownId ? request.body.ownId : null,
         contractId: request.body.contractId ? request.body.contractId : null,
 
