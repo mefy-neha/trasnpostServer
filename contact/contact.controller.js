@@ -32,7 +32,7 @@ router.post('/create', (request, response) => {
    data.gst={
        doc:request.body.gst.doc?request.body.gst.doc:null,
        number:request.body.gst.number?request.body.gst.number:null,
-       valid_upto:request.body.gst.valid_upto?moment(request.body.gst.valid_upto).format('YYYY-MM'):null
+       valid_upto:request.body.gst.valid_upto?moment(request.body.gst.valid_upto).format('YYYY-MM-DD'):null
    }
    console.log('gst',data.gst)
 }  
@@ -54,7 +54,7 @@ if(request.body.aadhar!=null){
     data.pan={
         doc:request.body.pan.doc?request.body.pan.doc:null,
         number:request.body.pan.number?request.body.pan.number:null,
-        valid_upto:request.body.pan.valid_upto?moment(request.body.pan.valid_upto).format('YYYY-MM'):null
+        valid_upto:request.body.pan.valid_upto?moment(request.body.pan.valid_upto).format('YYYY-MM-DD'):null
     }
     console.log('pan',data.pan)
  }
@@ -62,7 +62,7 @@ if(request.body.aadhar!=null){
     data.tan={
         doc:request.body.tan.doc?request.body.tan.doc:null,
         number:request.body.tan.number?request.body.tan.number:null,
-        valid_upto:request.body.tan.valid_upto?moment(request.body.tan.valid_upto).format('YYYY-MM'):null
+        valid_upto:request.body.tan.valid_upto?moment(request.body.tan.valid_upto).format('YYYY-MM-DD'):null
     }
     console.log('pan',data.tan)
  }
@@ -70,7 +70,7 @@ if(request.body.aadhar!=null){
     data.licence={
         doc:request.body.licence.doc?request.body.licence.doc:null,
         number:request.body.licence.number?request.body.licence.number:null,
-        valid_upto:request.body.licence.valid_upto?moment(request.body.licence.valid_upto).format('YYYY-MM'):null
+        valid_upto:request.body.licence.valid_upto?moment(request.body.licence.valid_upto).format('YYYY-MM-DD'):null
     }
     console.log('pan',data.licence)
  }
@@ -78,7 +78,7 @@ if(request.body.aadhar!=null){
     data.training_certificate={
         doc:request.body.training_certificate.doc?request.body.training_certificate.doc:null,
         number:request.body.training_certificate.number?request.body.training_certificate.number:null,
-        valid_upto:request.body.training_certificate.valid_upto?moment(request.body.training_certificate.valid_upto).format('YYYY-MM'):null
+        valid_upto:request.body.training_certificate.valid_upto?moment(request.body.training_certificate.valid_upto).format('YYYY-MM-DD'):null
     }
     console.log('pan',data.training_certificate)
  }
@@ -86,14 +86,14 @@ if(request.body.aadhar!=null){
     data.police_verification={
         doc:request.body.police_verification.doc?request.body.police_verification.doc:null,
         number:request.body.police_verification.number?request.body.police_verification.number:null,
-        valid_upto:request.body.police_verification.valid_upto?moment(request.body.police_verification.valid_upto).format('YYYY-MM'):null
+        valid_upto:request.body.police_verification.valid_upto?moment(request.body.police_verification.valid_upto).format('YYYY-MM-DD'):null
     }
     console.log('pan',data.police_verification)
  }
 let new_others=[]
 if(request.body.others!=null){
 for(let i =0;i < request.body.others.length; i++){
-     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM'):null;
+     var comingDate =request.body.others[i].valid_upto? moment(request.body.others[i].valid_upto).format('YYYY-MM-DD'):null;
 console.log(comingDate)
 new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.body.others[i].doc:null,doc_name:request.body.others[i].doc_name?request.body.others[i].doc_name:null,number:request.body.others[i].number?request.body.others[i].number:null})
 }

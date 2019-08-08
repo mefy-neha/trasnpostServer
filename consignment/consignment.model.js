@@ -48,7 +48,7 @@ const consignmentSchema = mongoose.Schema({
     },
     authorize_person: {
         type: schema.ObjectId,
-        ref: 'contact'               //id
+        ref: 'contact'               //id of employee
     },
     driver_license_number: {
         type: String
