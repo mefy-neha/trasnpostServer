@@ -20,6 +20,9 @@ const destinationSchema = mongoose.Schema({
       },
       km:{
         type: String   
+      },
+    point_of_origin:{
+        type: String   
       }
     }],
     shift_to:{
