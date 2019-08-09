@@ -13,7 +13,6 @@ router.post('/create', (request, response) => {
     let data = new destination({
         customerId: request.body.customerId,
         details: request.body.details,
-        km:request.body.km,
         userId: request.body.userId
     })
     console.log('dataaaa', data)

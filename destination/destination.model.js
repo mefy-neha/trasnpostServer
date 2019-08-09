@@ -17,11 +17,11 @@ const destinationSchema = mongoose.Schema({
       },
       serial_number:{
         type: String   
+      },
+      km:{
+        type: String   
       }
     }],
-    km:{
-        type: String   
-      },
     shift_to:{
         type: String,
         enum:['yes','no'],
