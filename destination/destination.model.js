@@ -19,6 +19,9 @@ const destinationSchema = mongoose.Schema({
         type: String   
       }
     }],
+    km:{
+        type: String   
+      },
     shift_to:{
         type: String,
         enum:['yes','no'],
