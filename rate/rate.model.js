@@ -6,21 +6,26 @@ const rateSchema = mongoose.Schema({
         type: schema.ObjectId, //id of customer
         ref: 'contact'
     },
-    base_km:{
+    from_km:{
         type:String
     },
-    base_rate: {
+    to_km: {
+        type: String   
+    },
+    rate: {
         type:String
     },
-    add_km: {
-        type: String   
-    },
-    add_km_rate: {
-        type: String   
+    
+    within_state: {
+        type: Boolean   
     },
     unit: {
         type: String,
-        enum:['ton','pieces','kl']
+        enum:['ton','kl','kl/km','cyl','cyl/rtkm']
+    },
+    truck_confg: {
+        type: String,
+        enum:['12','19','20','24','306','450','1']
     },
     effactive_date_from:{
         type: String,

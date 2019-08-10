@@ -9,11 +9,12 @@ router.post('/create', (request, response) => {
     let rateResponse = {};
     let data = new rate({
         customerId: request.body.customerId,
-        base_km: request.body.base_km,
-        add_km: request.body.add_km,
-        base_rate: request.body.base_rate,
-        add_km_rate: request.body.add_km_rate,
+        from_km: request.body.from_km,
+        to_km: request.body.to_km,
+        rate: request.body.rate,
+        within_state: request.body.within_state,
         unit:request.body.unit,
+        truck_confg:request.body.truck_confg,
         effactive_date_from:request.body.effactive_date_from,
         effactive_date_to:request.body.effactive_date_to,
         userId: request.body.userId
