@@ -27,6 +27,10 @@ const rateSchema = mongoose.Schema({
         type: String,
         enum:['12','19','20','24','306','450','1']
     },
+    price_type: {
+        type: String,
+        enum:['fdz','bfdz']
+    },
     effactive_date_from:{
         type: String,
     },

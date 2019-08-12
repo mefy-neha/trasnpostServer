@@ -17,6 +17,7 @@ router.post('/create', (request, response) => {
         truck_confg:request.body.truck_confg,
         effactive_date_from:request.body.effactive_date_from,
         effactive_date_to:request.body.effactive_date_to,
+        price_type:request.body.price_type,
         userId: request.body.userId
     })
     console.log('dataaaa', data)
