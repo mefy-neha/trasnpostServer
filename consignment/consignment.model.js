@@ -85,7 +85,6 @@ const consignmentSchema = mongoose.Schema({
     },
     superAdminId: {
         type: String
-
     },
     createdDate: {
         type: Date,

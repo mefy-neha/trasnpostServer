@@ -135,7 +135,8 @@ const contactSchema = mongoose.Schema({
         }
     },
     picture: {
-        type: String
+        type: schema.ObjectId,
+        ref: 'file'
     },
     userId: {
         type: schema.ObjectId,
