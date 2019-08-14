@@ -21,6 +21,9 @@ const consignmentSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'file'
     },
+    amount:{
+        type: String 
+    },
     challan_date: {
         type: String,
     },
