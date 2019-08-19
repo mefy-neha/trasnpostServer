@@ -23,6 +23,9 @@ const destinationSchema = mongoose.Schema({
       },
     point_of_origin:{
         type: String   
+      },
+      freight:{
+          type:Number
       }
     }],
     shift_to:{
