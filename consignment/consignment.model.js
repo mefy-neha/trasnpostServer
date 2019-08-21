@@ -38,8 +38,9 @@ const consignmentSchema = mongoose.Schema({
         
     }],
   
-    amount:{
-        type: String 
+    price_type: {
+        type: String,
+        enum:['fdz','bfdz']
     },
   
     consignor: {                      //customer id

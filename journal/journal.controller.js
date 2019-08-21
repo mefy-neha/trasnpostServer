@@ -416,7 +416,7 @@ router.post('/report',(request,response)=>{
     let startDate= moment(request.body.startDate).format('YYYY-MM-DD');;
     let endDate = moment(request.body.endDate).format('YYYY-MM-DD');
     if (accountCode != null && accountCode.length != 0) {
-    console.log('aaya')
+    // console.log('aaya')
     accounData(accountCode).then(accountList=>{
         // console.log('list',accountList)
     
@@ -428,8 +428,9 @@ router.post('/report',(request,response)=>{
         }
         console.log('idddd',list)
         journalData(list).then(journalList=>{
-            console.log('journalList',journalList)
+            // console.log('journalList',journalList)
             journalBetweenDates(startDate,endDate,journalList).then(result=>{
+                console.log('result',result)
                 sentResponse.error = false;
                 sentResponse.message = "Journal List";
                 sentResponse.result = result
@@ -540,10 +541,17 @@ async function journalfields(accountId) {
 /****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
 function journalBetweenDates(startDate, endDate, list) {
     let datearray = [];
+    console.log('date ',startDate, endDate)
+
+var filtered = list.filter(function(value, index, arr){
+    return value != null;
+
+});
+// console.log('dfvgfdg',filtered)
     return new Promise((resolve, reject) => {
-        list.forEach(element => {                  //filter list according to date comparison
-            console.log(moment(element.createdDate, "YYYY-MM-DD"))
-            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+        filtered.forEach(element => {                  //filter list according to date comparison
+            // console.log(moment(element.createdDate). format('YYYY-MM-DD'))
+            let dbdate = moment(element.createdDate).format('YYYY-MM-DD');
             // console.log(moment(inputdate).isSame(dbdate,'date'))
             if (moment(startDate).isSame(endDate, 'date')) {
                 if (moment(startDate).isSame(dbdate, 'date')) {
