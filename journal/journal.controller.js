@@ -409,27 +409,88 @@ journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.
 })
 /************************************END ******************************************** */
 /************************************LASER REPORT ******************************************** */
-router.get('/report',(request,response)=>{
-    let accountCode=request.query.accountCode;
+router.post('/report',(request,response)=>{
+    let accountCode=request.body.accountCode;
+    console.log('account code',accountCode)
     let sentResponse = {};
     let from= moment(request.query.from).format('YYYY-MM-DD');;
     let to = moment(request.query.to).format('YYYY-MM-DD');
-account.find({accountCode:accountCode},(error,result)=>{
-    if(error){
-        sentResponse.error = true;
-        sentResponse.message = `Error :` + error.message + "Something went wrong";
-        response.status(500).json(sentResponse);
+    if (accountCode != null && accountCode.length != 0) {
+    console.log('aaya')
+    accounData(accountCode).then(accountList=>{
+        console.log('list',accountList)
+    })
+    if(accountCode != null && accountCode.length != 0){
     }
+}
     else{
         sentResponse.error = false;
-        sentResponse.message = "account List";
-        sentResponse.result = result
-        response.status(200).json(sentResponse);
+         sentResponse.message = "account List";
+        response.status(200).json(sentResponse);   
     }
-})
+        
+// account.find({accountCode:accountCode},(error,result)=>{
+//     console.log('account error',error)
+//     console.log('account result',result)
+
+//     if(error){
+//         sentResponse.error = true;
+//         sentResponse.message = `Error :` + error.message + "Something went wrong";
+//         response.status(500).json(sentResponse);
+//     }
+//     else{
+//         sentResponse.error = false;
+//         sentResponse.message = "account List";
+//         sentResponse.result = result
+//         response.status(200).json(sentResponse);
+//     }
+// })
     
 })
 /************************************END ******************************************** */
+//*******************************FOR Account *******************************************/
+async function accounData(account) {
+    let accountdata = [];
+    console.log('isme v aaya')
+    for (const subs of account) {
+        console.log('substitute data',subs)
+        await Promise.all([accountfields(subs)]).then(function (values) {
+            // console.log('RETUNED VALUESSSS', values);
+            accountdata.push(values[0]);
 
+            // var data = subs.toObject();
+            // data.product = values[0];
+
+            // x.push(data)       
+
+        })
+    }
+    return accountdata;
+}
+
+async function accountfields(id) {
+    console.log('account', id)
+    let sentResponse = {};
+    return new Promise(function (resolve, reject) {
+        account.findById({ _id: id }, (error, result) => {
+            console.log("error>>>>>>>>>>>" + error)
+            console.log("??????????fleet result" , result)
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
+                response.status(500).json(sentResponse);
+                resolve(null)
+            }
+            else if (result) {
+                console.log('result',result)
+                resolve(result)
+
+
+            }
+
+        })
+    })
+}
+/************************************END ******************************************** */
 module.exports = router;
 // 2019-06-07T04:12:09.288Z -iso format

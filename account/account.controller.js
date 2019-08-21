@@ -1247,6 +1247,30 @@ router.get('/accountById', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************** ACCOUNT LIST ********************************************** */
+router.get('/list', (request, response) => {
+
+    let sentResponse = {};
+    account.find({}, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "Account Detail";
+            sentResponse.result = result
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 /******************************* DELETE BY ID *******************************/
 router.delete('/delete', (request, response) => {
     let accountId = request.query.accountId

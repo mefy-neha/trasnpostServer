@@ -1,32 +1,47 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const consignmentSchema = mongoose.Schema({
-    tl_number: {
-        type: String
-    },
+    // tl_number: {
+    //     type: String
+    // },
     consignmentNumber:{
         type: String
     },
-    product: {
-        type: String
-    },
+   
 
-    location_number: {
-        type: String
-    },
-    challan_number: {
-        type: String
-    },
-    challan_doc: {
-        type: schema.ObjectId,
-        ref: 'file'
-    },
+    // location_number: {
+    //     type: String
+    // },
+    consignment:[{
+        challan_number: {
+            type: String
+        },
+        challan_doc: {
+            type: schema.ObjectId,
+            ref: 'file'
+        },
+        challan_date: {
+            type: String,
+        },
+        gross_wt: {
+            type: String
+        },
+        tare_wt: {
+             type: String
+         },
+        net_wt: {
+            type: String
+        },
+        product: {
+            type: String
+        }
+        
+    }],
+  
     amount:{
         type: String 
     },
-    challan_date: {
-        type: String,
-    },
+  
     consignor: {                      //customer id
         type: schema.ObjectId,
         ref: 'contact'
@@ -59,17 +74,17 @@ const consignmentSchema = mongoose.Schema({
     driver_name: {
         type: String               //id
     },
-    quantity:{
-        gross_wt: {
-            type: String
-        },
-        tare_wt: {
-            type: String
-        },
-        net_wt: {
-            type: String
-        }
-    },
+    // quantity:{
+    //     gross_wt: {
+    //         type: String
+    //     },
+    //     tare_wt: {
+    //         type: String
+    //     },
+    //     net_wt: {
+    //         type: String
+    //     }
+    // },
     advance_payment:{
         diesel_expenses:{
             type: String,

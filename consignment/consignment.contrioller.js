@@ -8,12 +8,9 @@ const moment = require('moment');
 router.post('/create', (request, response) => {
     let consignmentResponse = {};
     let data = new consignment({
-        tl_number: request.body.tl_number,
-        product: request.body.product,
-        location_number: request.body.location_number,
-        challan_number: request.body.challan_number,
-        challan_doc: request.body.challan_doc ? request.body.challan_doc : null,
-        challan_date: request.body.challan_date ? moment(request.body.challan_date).format('YYYY-MM-DD') : null,
+        // tl_number: request.body.tl_number,
+        consignment: request.body.consignment,
+        // location_number: request.body.location_number,
         consignor: request.body.consignor,
         consignee: request.body.consignee,
         consignment_date: request.body.consignment_date ? moment(request.body.consignment_date).format('YYYY-MM-DD') : null,
@@ -24,7 +21,6 @@ router.post('/create', (request, response) => {
         authorize_person: request.body.authorize_person,
         driver_license_number: request.body.driver_license_number,
         driver_name: request.body.driver_name,
-        quantity: request.body.quantity,
         advance_payment: request.body.advance_payment,
         amount:request.body.amount,
         userId: request.body.userId
