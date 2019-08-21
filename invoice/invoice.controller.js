@@ -342,7 +342,7 @@ router.get('/invoiceBetweenDate', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let to = moment().format('YYYY-MM-DD');
     // console.log('currentDate', to);
-    let from = moment(request.query.from, 'YYYY-MM-DD');
+    let from = moment(request.query.from).format('YYYY-MM-DD');
     console.log('dates',from,to)
     invoice.find({ superAdminId: superAdminId }, (error, result) => {
         console.log('error...', error);
@@ -381,7 +381,7 @@ function invoiceBetweenDates(startDate, endDate, list) {
     return new Promise((resolve, reject) => {
         list.forEach(element => {                  //filter list according to date comparison
             // console.log(moment(element.createdDate, "YYYY-MM-DD"))
-            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+            let dbdate = moment(element.createdDate).format('YYYY-MM-DD');
             // console.log(moment(inputdate).isSame(dbdate,'date'))
             if (moment(startDate).isSame(endDate, 'date')) {
                 if (moment(startDate).isSame(dbdate, 'date')) {
