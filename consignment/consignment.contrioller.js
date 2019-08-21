@@ -22,7 +22,7 @@ router.post('/create', (request, response) => {
         driver_license_number: request.body.driver_license_number,
         driver_name: request.body.driver_name,
         advance_payment: request.body.advance_payment,
-        amount:request.body.amount,
+        price_type:request.body.price_type,
         userId: request.body.userId
     })
     console.log('dataaaa', data)
