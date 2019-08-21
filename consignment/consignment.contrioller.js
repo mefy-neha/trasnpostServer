@@ -10,7 +10,7 @@ router.post('/create', (request, response) => {
     let data = new consignment({
         // tl_number: request.body.tl_number,
         consignment: request.body.consignment,
-        freight: request.body.locationfreight_number,
+        freight: request.body.freight,
         consignor: request.body.consignor,
         consignee: request.body.consignee,
         consignment_date: request.body.consignment_date ? moment(request.body.consignment_date).format('YYYY-MM-DD') : null,
