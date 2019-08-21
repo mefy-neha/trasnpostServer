@@ -440,7 +440,7 @@ router.get('/fleetBetweenDate', (request, response) => {
     let superAdminId = request.query.superAdminId;
     let from = moment().format('YYYY-MM-DD');
     let to = moment(request.query.to).format('YYYY-MM-DD');
-    console.log('dates', from, to)
+    // console.log('dates', from, to)
     fleet.find({ superAdminId: superAdminId }, (error, result) => {
         if (error) {
             sentresponse.error = true;
@@ -461,11 +461,16 @@ router.get('/fleetBetweenDate', (request, response) => {
                     console.log('vehicle_insurance',result[i].vehicle_insurance!=null)
                     expired_fleet.documents.push({ rc: result[i].rc })
             }
+            console.log('vehicle_insurance',Object.keys(result[i].vehicle_insurance).length != 0 && result[i].vehicle_insurance.constructor != Object)
+
+            if(Object.keys(result[i].vehicle_insurance).length != 0 && result[i].vehicle_insurance.constructor != Object){
+                // console.log('vehicle_insurance',result[i].vehicle_insurance)
 
                 if (result[i].vehicle_insurance && moment(result[i].vehicle_insurance.valid_upto).isBetween(from, to, null, '[]')) {
                     // console.log('inside if')
                     console.log('vehicle_insurance',result[i].vehicle_insurance)
                     expired_fleet.documents.push({ vehicle_insurance: result[i].vehicle_insurance })
+                }
             }
 
                 if (result[i].product_insurance && moment(result[i].product_insurance.valid_upto).isBetween(from, to, null, '[]')) {
@@ -474,8 +479,8 @@ router.get('/fleetBetweenDate', (request, response) => {
                 }
                 if (result[i].abs && moment(result[i].abs.valid_upto).isBetween(from, to, null, '[]')) {
                     // console.log('inside if');
-                    console.log('abss',result[i].abs)
-                    console.log('moment',moment(result[i].abs.valid_upto).isBetween(from, to, null, '[]'))
+                    // console.log('abss',result[i].abs)
+                    // console.log('moment',moment(result[i].abs.valid_upto).isBetween(from, to, null, '[]'))
                     expired_fleet.documents.push({ abs: result[i].abs })
                 }
                 if (result[i].explosive && moment(result[i].explosive.valid_upto).isBetween(from, to, null, '[]')) {
@@ -530,7 +535,7 @@ router.get('/fleetBetweenDate', (request, response) => {
                 // console.log(' >>>>>>>>>>  ',expired_fleet)
             }
             let fleet_result = expired_fleet_array.filter(function (index) {
-                console.log('index',index)
+                // console.log('index',index)
                 if (index.documents.length > 0)
                     return index
                 
