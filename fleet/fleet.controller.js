@@ -455,19 +455,19 @@ router.get('/fleetBetweenDate', (request, response) => {
                     truckId:'',
                     documents: []
                 };
-                // if(result[i].rc!=null){
+              
                 if (result[i].rc && moment(result[i].rc.valid_upto).isBetween(from, to, null, '[]')) {
                     // console.log('inside if')
                     console.log('vehicle_insurance',result[i].vehicle_insurance!=null)
                     expired_fleet.documents.push({ rc: result[i].rc })
-                }
-            // }
-                
+            }
+
                 if (result[i].vehicle_insurance && moment(result[i].vehicle_insurance.valid_upto).isBetween(from, to, null, '[]')) {
                     // console.log('inside if')
                     console.log('vehicle_insurance',result[i].vehicle_insurance)
                     expired_fleet.documents.push({ vehicle_insurance: result[i].vehicle_insurance })
-                }
+            }
+
                 if (result[i].product_insurance && moment(result[i].product_insurance.valid_upto).isBetween(from, to, null, '[]')) {
                     // console.log('inside if')
                     expired_fleet.documents.push({ product_insurance: result[i].product_insurance })

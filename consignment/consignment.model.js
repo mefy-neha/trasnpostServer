@@ -42,7 +42,9 @@ const consignmentSchema = mongoose.Schema({
         type: String,
         enum:['fdz','bfdz']
     },
-  
+    distance: {                            //destination place
+        type: String
+    },
     consignor: {                      //customer id
         type: schema.ObjectId,
         ref: 'contact'
