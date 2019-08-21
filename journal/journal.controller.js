@@ -413,49 +413,52 @@ router.post('/report',(request,response)=>{
     let accountCode=request.body.accountCode;
     console.log('account code',accountCode)
     let sentResponse = {};
-    let from= moment(request.query.from).format('YYYY-MM-DD');;
-    let to = moment(request.query.to).format('YYYY-MM-DD');
+    let startDate= moment(request.body.startDate).format('YYYY-MM-DD');;
+    let endDate = moment(request.body.endDate).format('YYYY-MM-DD');
     if (accountCode != null && accountCode.length != 0) {
     console.log('aaya')
     accounData(accountCode).then(accountList=>{
-        console.log('list',accountList)
-    })
-    if(accountCode != null && accountCode.length != 0){
+        // console.log('list',accountList)
+    
+    if(accountList != null && accountList.length != 0){
+        let list=[]
+        for(let i =0; i <accountList.length; i++)
+        {
+         list.push(accountList[i]._id)
+        }
+        console.log('idddd',list)
+        journalData(list).then(journalList=>{
+            console.log('journalList',journalList)
+            journalBetweenDates(startDate,endDate,journalList).then(result=>{
+                sentResponse.error = false;
+                sentResponse.message = "Journal List";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
+            })
+          
+        })  
     }
+    else{
+        sentResponse.error = false;
+        sentResponse.message = "journal List";
+       response.status(200).json(sentResponse);
+    }
+})
 }
     else{
         sentResponse.error = false;
          sentResponse.message = "account List";
         response.status(200).json(sentResponse);   
-    }
-        
-// account.find({accountCode:accountCode},(error,result)=>{
-//     console.log('account error',error)
-//     console.log('account result',result)
-
-//     if(error){
-//         sentResponse.error = true;
-//         sentResponse.message = `Error :` + error.message + "Something went wrong";
-//         response.status(500).json(sentResponse);
-//     }
-//     else{
-//         sentResponse.error = false;
-//         sentResponse.message = "account List";
-//         sentResponse.result = result
-//         response.status(200).json(sentResponse);
-//     }
-// })
-    
+    }    
 })
 /************************************END ******************************************** */
 //*******************************FOR Account *******************************************/
 async function accounData(account) {
     let accountdata = [];
-    console.log('isme v aaya')
     for (const subs of account) {
-        console.log('substitute data',subs)
+        console.log('substitute data of account',subs)
         await Promise.all([accountfields(subs)]).then(function (values) {
-            // console.log('RETUNED VALUESSSS', values);
+            console.log('RETUNED VALUESSSS', values);
             accountdata.push(values[0]);
 
             // var data = subs.toObject();
@@ -469,15 +472,54 @@ async function accounData(account) {
 }
 
 async function accountfields(id) {
-    console.log('account', id)
+    console.log('id of account', id)
     let sentResponse = {};
     return new Promise(function (resolve, reject) {
         account.findById({ _id: id }, (error, result) => {
             console.log("error>>>>>>>>>>>" + error)
-            console.log("??????????fleet result" , result)
+            console.log("??????????account result" , result)
             if (error) {
                 sentResponse.error = true;
-                sentResponse.message = `Error :` + error.message + "Fleet Does not exist";
+                sentResponse.message = `Error :` + error.message + "Account Does not exist";
+                response.status(500).json(sentResponse);
+                resolve(null)
+            }
+            else if (result) {
+                console.log('result',result)
+                resolve(result)
+            }
+            else{
+                resolve(result) 
+            }
+        })
+    })
+}
+/************************************END ******************************************** */
+//*******************************FOR Account *******************************************/
+async function journalData(journal) {
+    console.log('journal',journal)
+    let journaldata = [];
+    for (const subs of journal) {
+        console.log('substitute data of journal',subs)
+        await Promise.all([journalfields(subs)]).then(function (values) {
+            // console.log('RETUNED VALUESSSS', values);
+            journaldata.push(values[0]);
+            console.log('journaldata',journaldata)
+        })
+    }
+    return journaldata;
+}
+
+async function journalfields(accountId) {
+    console.log('accountid', accountId)
+    let sentResponse = {};
+    return new Promise(function (resolve, reject) {
+        journal.findOne({ "detail.accountId":accountId}, (error, result) => {
+            console.log("error/////////////" + error)
+            console.log("??============journal result" , result)
+            if (error) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error.message + "Journal Does not exist";
                 response.status(500).json(sentResponse);
                 resolve(null)
             }
@@ -487,10 +529,39 @@ async function accountfields(id) {
 
 
             }
+            else{
+                resolve(result) 
+            }
 
         })
     })
 }
 /************************************END ******************************************** */
+/****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
+function journalBetweenDates(startDate, endDate, list) {
+    let datearray = [];
+    return new Promise((resolve, reject) => {
+        list.forEach(element => {                  //filter list according to date comparison
+            console.log(moment(element.createdDate, "YYYY-MM-DD"))
+            let dbdate = moment(element.createdDate, "YYYY-MM-DD");
+            // console.log(moment(inputdate).isSame(dbdate,'date'))
+            if (moment(startDate).isSame(endDate, 'date')) {
+                if (moment(startDate).isSame(dbdate, 'date')) {
+                    datearray.push(element);
+                }
+            }
+            else {
+                if (moment(dbdate).isBetween(startDate, endDate, null, '[]')) {
+                    console.log('date matched')
+                    datearray.push(element);
+                    // console.log(montharray)
+                }
+            }
+
+        })
+        resolve(datearray)
+    })
+}
+/************************************* ENDS ********************************************* */
 module.exports = router;
 // 2019-06-07T04:12:09.288Z -iso format
