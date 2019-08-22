@@ -8,7 +8,7 @@ const moment = require('moment');
 router.post('/create', (request, response) => {
     let consignmentResponse = {};
     let data = new consignment({
-        // tl_number: request.body.tl_number,
+        truck_config: request.body.truck_config,
         consignment: request.body.consignment,
         freight: request.body.freight,
         consignor: request.body.consignor,

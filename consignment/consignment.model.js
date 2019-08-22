@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 var schema = mongoose.Schema;
 const consignmentSchema = mongoose.Schema({
-    // tl_number: {
-    //     type: String
-    // },
+    truck_config: {
+        type: String
+    },
     consignmentNumber:{
         type: String
     },
