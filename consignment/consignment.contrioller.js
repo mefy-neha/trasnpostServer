@@ -24,6 +24,7 @@ router.post('/create', (request, response) => {
         advance_payment: request.body.advance_payment,
         price_type:request.body.price_type,
         distance:request.body.distance,
+        within_state:request.body.within_state,
         userId: request.body.userId
     })
     console.log('dataaaa', data)

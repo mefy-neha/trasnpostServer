@@ -8,7 +8,9 @@ const consignmentSchema = mongoose.Schema({
         type: String
     },
    
-
+within_state:{
+    type:Boolean
+},
     // location_number: {
     //     type: String
     // },
