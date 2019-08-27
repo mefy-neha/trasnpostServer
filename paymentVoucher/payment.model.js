@@ -14,6 +14,10 @@ const paymentSchema = mongoose.Schema({
         type: schema.ObjectId,
         ref: 'user'
     },
+    adjusted:{
+        type:Boolean,
+        default: false
+    },
     payment_number:{
         type:String
     },
