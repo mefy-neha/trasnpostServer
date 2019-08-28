@@ -169,6 +169,39 @@ router.get('/peymentById', (request, response) => {
     })
 })
 /************************************END ******************************************** */
+/************************************UPDATION OF PETROL PRICE ******************************************** */
+router.put('/update', (request, response) => {
+    let sentResponse = {};
+    let paymentId = request.body.paymentId;
+    payment.findById({ _id: paymentId }, (error, result) => {
+        console.log('error', error)
+        console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else if (result) {
+                result.adjusted = (request.body.adjusted ? (request.body.adjusted) : result.adjusted)
+                result.save((error, result) => {
+                    if (error) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error.message + " Not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "Updated";
+                        sentResponse.result = result
+                        response.status(200).json(sentResponse);
+
+                    }
+                })
+            }
+        
+    })
+})
+/************************************END ******************************************** */
 
 
 
