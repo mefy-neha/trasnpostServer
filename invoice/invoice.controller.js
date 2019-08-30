@@ -300,7 +300,7 @@ router.put('/invoiceUpdate', (request, response) => {
             let items = []
             for (let i = 0; i < result.items_details.length; i++) {
                 // console.log('loop', result.items_details[i]._id)
-                if (request.body.cosignmentId  == result.items_details[i].request.body.cosignmentId ) {
+                if (request.body.cosignmentId  == result.items_details[i].cosignmentId ) {
                     // console.log('bhakl', result.items_details[i]._id)
                     items.push(result.items_details[i])
                 }
