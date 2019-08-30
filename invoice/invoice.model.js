@@ -176,4 +176,12 @@ invoiceSchema.pre('find', function (next) {
     this.populate('customerId');
     next();
 });
+invoiceSchema.pre('findOne', function (next) {
+    this.populate('cosignmentId');
+    next();
+});
+invoiceSchema.pre('find', function (next) {
+    this.populate('cosignmentId');
+    next();
+});
 const invoice = module.exports = mongoose.model('invoice', invoiceSchema)
