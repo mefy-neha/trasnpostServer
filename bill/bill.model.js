@@ -154,6 +154,14 @@ billSchema.pre('find', function (next) {
     this.populate('contractId');
     next();
 });
+billSchema.pre('findOne', function (next) {
+    this.populate('cosignmentId');
+    next();
+});
+billSchema.pre('find', function (next) {
+    this.populate('cosignmentId');
+    next();
+});
 // billSchema.pre('findOne', function (next) {
 //     this.populate('work_order');
 //     next();
