@@ -314,7 +314,7 @@ router.put('/invoiceUpdate', (request, response) => {
                 }
                 else {
                     console.log('items', items)
-                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId , description: items[0].description, amount: items[0].amount, deduction: request.body.deduction,departmental: request.body.departmental,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
+                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId , description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
                         console.log('error', error)
                         if (error) {
                             sentResponse.error = true;

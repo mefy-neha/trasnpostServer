@@ -104,10 +104,7 @@ const invoiceSchema = mongoose.Schema({
         amount:{
             type: String
         },
-        deduction:{
-            type: String  
-        },
-        departmental:{
+        departmental_deduction:{
             type: String  
         },
         tds:{
