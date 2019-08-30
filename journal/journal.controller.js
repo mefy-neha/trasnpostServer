@@ -410,14 +410,14 @@ journal.findById({_id:journalId}).populate('detail.accountId').populate('detail.
 /************************************END ******************************************** */
 /************************************LASER REPORT ******************************************** */
 router.post('/report',(request,response)=>{
-    let accountCode=request.body.accountCode;
-    console.log('account code',accountCode)
+    let accountId=request.body.accountId;
+    console.log('account Id',accountId)
     let sentResponse = {};
     let startDate= moment(request.body.startDate).format('YYYY-MM-DD');;
     let endDate = moment(request.body.endDate).format('YYYY-MM-DD');
-    if (accountCode != null && accountCode.length != 0) {
+    if (accountId != null && accountId.length != 0) {
     // console.log('aaya')
-    accounData(accountCode).then(accountList=>{
+    accounData(accountId).then(accountList=>{
         // console.log('list',accountList)
     
     if(accountList != null && accountList.length != 0){
