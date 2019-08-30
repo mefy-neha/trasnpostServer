@@ -7,33 +7,33 @@ const moment = require('moment');
 router.post('/create', (request, response) => {
     let invoiceResponse = {};
     let data = new bill({
-        vendorId: request.body.vendorId?request.body.vendorId:null,
-        contractId:request.body.contractId?request.body.contractId:null,
+        vendorId: request.body.vendorId ? request.body.vendorId : null,
+        contractId: request.body.contractId ? request.body.contractId : null,
         work_order: request.body.work_order,
-        bill_date: request.body.bill_date? moment(request.body.bill_date).format('YYYY-MM-DD'):null,
+        bill_date: request.body.bill_date ? moment(request.body.bill_date).format('YYYY-MM-DD') : null,
         terms: request.body.terms,
-        due_date: request.body.due_date? moment(request.body.due_date).format('YYYY-MM-DD'):null,
+        due_date: request.body.due_date ? moment(request.body.due_date).format('YYYY-MM-DD') : null,
         sub_total: request.body.sub_total,
         total: request.body.total,
         amount_due: request.body.total,
-        amount_paid: request.body.amount_paid?request.body.amount_paid:null,
+        amount_paid: request.body.amount_paid ? request.body.amount_paid : null,
         status: request.body.status,
         adjustment: request.body.adjustment,
         tds: request.body.tds,
         items_details: request.body.items_details,
-        reverse_change:request.body.reverse_change,
+        reverse_change: request.body.reverse_change,
         notes: request.body.notes ? request.body.notes : null,
         discount: request.body.discount ? request.body.discount : null,
         customer_notes: request.body.customer_notes ? request.body.customer_notes : null,
         userId: request.body.userId
     })
-    if(request.body.period!=null){
-        data.period={
-            start_date:request.body.period.start_date? moment(request.body.period.start_date).format('YYYY-MM-DD'):null,
-            end_date:request.body.period.end_date?moment(request.body.period.end_date).format('YYYY-MM-DD'):null
+    if (request.body.period != null) {
+        data.period = {
+            start_date: request.body.period.start_date ? moment(request.body.period.start_date).format('YYYY-MM-DD') : null,
+            end_date: request.body.period.end_date ? moment(request.body.period.end_date).format('YYYY-MM-DD') : null
         }
-        console.log('gst',data.period)
-     } 
+        console.log('gst', data.period)
+    }
     console.log('dataaaa', data)
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('result error', error);
@@ -126,7 +126,7 @@ router.post('/create', (request, response) => {
 /************************** BANK LIST ********************************************** */
 router.get('/list', (request, response) => {
     let sentResponse = {};
-    bill.find({},(error,result)=>{
+    bill.find({}, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -208,7 +208,7 @@ router.put('/paid', (request, response) => {
     let sentResponse = {};
     let billId = request.body.billId;
     let amount_paid = request.body.amount_paid;
-    console.log('result.amount_paid',amount_paid)
+    console.log('result.amount_paid', amount_paid)
     bill.findById({ _id: billId }, (error, result) => {
         console.log('error', error)
         // console.log('result', result)
@@ -218,43 +218,43 @@ router.put('/paid', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else if (result.total == amount_paid) {
-                console.log('result.total',result.total)
-                console.log('paid')
-                result.status = (request.body.status ? (request.body.status) : 'paid');
-                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-                result.amount_due=result.amount_due- result.amount_paid 
-                result.save((error, result) => {    
-                    console.log('error', error)    
-                     // console.log('result', result)
-                        sentResponse.error = false;
-                        sentResponse.message = "Invoice Updated";
-                        sentResponse.result = result
-                        response.status(200).json(sentResponse);
+            console.log('result.total', result.total)
+            console.log('paid')
+            result.status = (request.body.status ? (request.body.status) : 'paid');
+            result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+            result.amount_due = result.amount_due - result.amount_paid
+            result.save((error, result) => {
+                console.log('error', error)
+                // console.log('result', result)
+                sentResponse.error = false;
+                sentResponse.message = "Invoice Updated";
+                sentResponse.result = result
+                response.status(200).json(sentResponse);
 
-                    
-                })
-            }
-            else if(result){
-                console.log('result',result.total,result.amount_paid)
-                result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
-                result.amount_due=result.amount_due- result.amount_paid 
-                console.log('total',result.total)
-                result.save((error, result) => {
-                    console.log(' save error',error)
-                    if (error) {
-                        sentResponse.error = true;
-                        sentResponse.message = `Error :` + error.message + " Not update";
-                        response.status(500).json(sentResponse);
-                    }
-                    else {
-                        sentResponse.error = false;
-                        sentResponse.message = "Invoice Updated";
-                        sentResponse.result = result
-                        response.status(200).json(sentResponse);
 
-                    }
-                })
-            }
+            })
+        }
+        else if (result) {
+            console.log('result', result.total, result.amount_paid)
+            result.amount_paid = (request.body.amount_paid ? (request.body.amount_paid) : result.amount_paid);
+            result.amount_due = result.amount_due - result.amount_paid
+            console.log('total', result.total)
+            result.save((error, result) => {
+                console.log(' save error', error)
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " Not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Invoice Updated";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
+
+                }
+            })
+        }
     })
 })
 /************************************END ******************************************** */
@@ -305,28 +305,28 @@ router.put('/paid', (request, response) => {
 /************************************END ******************************************** */
 
 /***************************************** INSTANCE 7 DAYS BEFORE THTA DATE **************************** */
-function  seven_days_tapped(inputdate, list){
+function seven_days_tapped(inputdate, list) {
     let datearray = [];
 
-    
+
 
     return new Promise((resolve, reject) => {
-        list.forEach(element => {      
+        list.forEach(element => {
             let dbdate = moment(element.createdDate, "YYYY-MM-DD");
             // let requestdate=moment(inputdate,"YY-MM-DD");            //filter list according to month
             console.log((dbdate));
             // console.log(requestdate)
-           
+
             // var a = moment([2007, 0, 29]);
             // var b = moment([2007, 0, 28]);
-           console.log('DIFF BETWEEN DAYS',inputdate.diff(dbdate,'days'));
-        //    console.log('DIFF BETWEEN ',enddate.diff(dbdate,'days'));
+            console.log('DIFF BETWEEN DAYS', inputdate.diff(dbdate, 'days'));
+            //    console.log('DIFF BETWEEN ',enddate.diff(dbdate,'days'));
             // a.diff(b, 'days') // 1
 
 
 
-            if (inputdate.diff(dbdate,'days')==0||inputdate.diff(dbdate,'days')==1||inputdate.diff(dbdate,'days')==2||inputdate.diff(dbdate,'days')==3||inputdate.diff(dbdate,'days')==4||inputdate.diff(dbdate,'days')==5||inputdate.diff(dbdate,'days')==6) {
-                console.log('date matched',inputdate.diff(dbdate,'days'))
+            if (inputdate.diff(dbdate, 'days') == 0 || inputdate.diff(dbdate, 'days') == 1 || inputdate.diff(dbdate, 'days') == 2 || inputdate.diff(dbdate, 'days') == 3 || inputdate.diff(dbdate, 'days') == 4 || inputdate.diff(dbdate, 'days') == 5 || inputdate.diff(dbdate, 'days') == 6) {
+                console.log('date matched', inputdate.diff(dbdate, 'days'))
                 datearray.push(element);
                 // console.log(montharray)
             }
@@ -367,21 +367,21 @@ router.get('/billBetweenDate', (request, response) => {
     let to = moment().format('YYYY-MM-DD');
     // console.log('currentDate', to);
     let from = moment(request.query.from).format('YYYY-MM-DD');
-    console.log('dates',from,to)
+    console.log('dates', from, to)
     bill.find({ superAdminId: superAdminId }, (error, result) => {
         console.log('error...', error);
         // console.log(result);
         if (error) {
             sentresponse.error = true;
-            sentresponse.message = 'Error:' + error.message +'Does not exist';
+            sentresponse.message = 'Error:' + error.message + 'Does not exist';
             response.status(500).json(sentresponse);
         }
         else if (result && result.length != 0) {
             // find milage between dates
             billBetweenDates(from, to, result).then(billlist => {
-             
+
                 sentresponse.error = false;
-                sentresponse.result = billlist;           
+                sentresponse.result = billlist;
                 sentresponse.message = `Bill  list get succesfully .`;
                 response.status(200).json(sentresponse);
             })
@@ -402,7 +402,7 @@ router.get('/billBetweenDate', (request, response) => {
 /****************************** COMAPRE IF INPUT DATE IS VETWEEN TWO DATES ******************* */
 function billBetweenDates(startDate, endDate, list) {
     let datearray = [];
-    console.log('date',startDate, endDate)
+    console.log('date', startDate, endDate)
     return new Promise((resolve, reject) => {
         list.forEach(element => {                  //filter list according to date comparison
             // console.log(moment(element.createdDate, "YYYY-MM-DD"))
@@ -426,4 +426,56 @@ function billBetweenDates(startDate, endDate, list) {
     })
 }
 /************************************* ENDS ********************************************* */
+/************************************UPDATION OF Bill ******************************************** */
+router.put('/consignmentPaid', (request, response) => {
+    let sentResponse = {};
+    let billId = request.body.billId;
+    let amount_paid = request.body.amount_paid;
+    console.log('result.amount_paid', amount_paid, billId, request.body.cosignmentId)
+    bill.findById({ _id: billId }, (error, result) => {
+        console.log('error', error)
+        // console.log('result', result)
+        if (error || result == null) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + " Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        let items = []
+        for (let i = 0; i < result.items_details.length; i++) {
+            // console.log('loop', result.items_details[i]._id)
+            if (request.body.cosignmentId == result.items_details[i].cosignmentId) {
+                // console.log('bhakl', result.items_details[i]._id)
+                items.push(result.items_details[i])
+            }
+
+        }
+        bill.updateOne({ _id: billId }, { $pull: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId, description: items[0].description, amount: items[0].amount } } }, (error1, result1) => {
+            // bill.findByIdAndUpdate({_id: billId ,"items_details.cosignmentId":{$ne :request.body.cosignmentId }},{ $push: {items_details: {paymentDate : request.body.paymentDate, paid_amount : request.body.paid_amount,due_amount:request.body.due_amount?request.body.due_amount:null,amount_status:request.body.status?request.body.amount_status:result.amount_status }}},{ multi: true},(error1,result1)=>{
+            console.log('error1///', error1)
+            // console.log('result1///', result1)
+            if (error1) {
+                sentResponse.error = true;
+                sentResponse.message = `Error :` + error1.message;
+                response.status(500).json(sentResponse);
+            }
+            else {
+                bill.updateOne({ _id: billId }, { $push: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId, description: items[0].description, amount: items[0].amount, paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status } } }, { multi: true }, (error2, result2) => {
+                    console.log('error 2', error2)
+                    if (error2) {
+                        sentResponse.error = true;
+                        sentResponse.message = `Error :` + error2.message + " not update";
+                        response.status(500).json(sentResponse);
+                    }
+                    else {
+                        sentResponse.error = false;
+                        sentResponse.message = "Consignment Bill Updated";
+                        sentResponse.result = result2
+                        response.status(200).json(sentResponse);
+                    }
+                })
+            }
+        })
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;

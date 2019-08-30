@@ -227,7 +227,7 @@ function sendEmail(email,password,type,otp) {
     });
     if(type=='otp'){
         mailOptions = {
-            from: '"Viuh 👻" <viuh.mefy@gmail.com>',
+            from: '"Viuh" <viuh.mefy@gmail.com>',
             to: email,
             subject: 'OTP',
             html: '<h>Your verification code is </h>' + otp + '<p> Do Not share with anyone</p>' 
@@ -253,7 +253,7 @@ function sendEmail(email,password,type,otp) {
     }
     else{
     mailOptions = {
-        from: '"Viuh 👻" <viuh.mefy@gmail.com>',
+        from: '"Viuh" <viuh.mefy@gmail.com>',
         to: email,
         subject: 'Welcome To VIUH ',
         html: '<h>Your login userId is  :</h>' + email + '</br><h>Your Password is: </h>' + password 

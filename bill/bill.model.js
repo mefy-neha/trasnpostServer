@@ -93,6 +93,20 @@ const billSchema = mongoose.Schema({
         amount:{
             type: String
         },
+        paymentDate:{
+            type: String  
+        },
+        paid_amount: {
+            type: String
+        },
+        due_amount: {
+            type: String
+        },
+        amount_status: {
+            type: String,
+            enum:['complete','incomplete'],
+            default:'incomplete'
+        },
     }],
     userId: {
         type: schema.ObjectId,
