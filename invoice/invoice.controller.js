@@ -285,7 +285,7 @@ router.put('/paid', (request, response) => {
 router.put('/invoiceUpdate', (request, response) => {
     let sentResponse = {};
     let invoiceId = request.body.invoiceId;
-    // let itemId = request.body.itemId
+    let itemId = request.body.itemId
     // console.log('result.amount_paid',amount_paid)
     invoice.findById({ _id: invoiceId }, (error, result) => {
         console.log('error', error)
@@ -300,13 +300,13 @@ router.put('/invoiceUpdate', (request, response) => {
             let items = []
             for (let i = 0; i < result.items_details.length; i++) {
                 // console.log('loop', result.items_details[i]._id)
-                if (request.body.cosignmentId  == result.items_details[i].cosignmentId ) {
+                if (itemId  == result.items_details[i]._id ) {
                     // console.log('bhakl', result.items_details[i]._id)
                     items.push(result.items_details[i])
                 }
 
             }
-            invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId , description: items[0].description, amount: items[0].amount } } }, (error, result) => {
+            invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId , description: items[0].description, amount: items[0].amount } } }, (error, result) => {
                 if (error) {
                     sentResponse.error = true;
                     sentResponse.message = `Error :` + error.message + " not update";
@@ -314,7 +314,7 @@ router.put('/invoiceUpdate', (request, response) => {
                 }
                 else {
                     console.log('items', items)
-                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId , description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
+                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId:items[0].cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
                         console.log('error', error)
                         if (error) {
                             sentResponse.error = true;
