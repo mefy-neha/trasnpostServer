@@ -143,7 +143,7 @@ if(request.body.email!=null){
         
                                 driverResponse.error = false;
                                 driverResponse.result = result;
-                                driverResponse.message = `Driver is created  successfull.`;
+                                driverResponse.message = `Contact is created  successfull.`;
                                 response.status(200).json(driverResponse);
                             }
                         })
@@ -163,7 +163,7 @@ if(request.body.email!=null){
         
                                 driverResponse.error = false;
                                 driverResponse.result = result;
-                                driverResponse.message = `Driver is created  successfull.`;
+                                driverResponse.message = `Contact is created  successfull.`;
                                 response.status(200).json(driverResponse);
                             }
                         })
@@ -173,6 +173,7 @@ if(request.body.email!=null){
         }
     })
 }
+else{
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
@@ -199,7 +200,7 @@ if(request.body.email!=null){
 
                         driverResponse.error = false;
                         driverResponse.result = result;
-                        driverResponse.message = `Driver is created  successfull.`;
+                        driverResponse.message = `Contact is created  successfull.`;
                         response.status(200).json(driverResponse);
                     }
                 })
@@ -219,13 +220,14 @@ if(request.body.email!=null){
 
                         driverResponse.error = false;
                         driverResponse.result = result;
-                        driverResponse.message = `Driver is created  successfull.`;
+                        driverResponse.message = `Contact is created  successfull.`;
                         response.status(200).json(driverResponse);
                     }
                 })
             }
         }
     })
+}
     
 });
 
