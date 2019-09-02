@@ -159,7 +159,7 @@ router.get('/billList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            bill.find({ superAdminId: superAdminId }).populate('items_details.cosignmentId').exec((error, result) => {
+            bill.find({ superAdminId: superAdminId }).populate('items_details.cosignmentId').sort({createdDate: -1}).exec((error, result) => {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {

@@ -268,7 +268,7 @@ router.get('/contactlist', (request, response) => {
         }
 else{
         console.log('role superadmin')
-        contact.find({ superAdminId: superAdminId }).sort({ contact_type: 1}).exec(function (error, result) {
+        contact.find({ superAdminId: superAdminId }).sort({ contact_type: 1,createdDate: -1}).exec(function (error, result) {
             console.log('error', error);
             console.log('result', result);
             if (error) {

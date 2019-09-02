@@ -125,7 +125,7 @@ router.get('/paymentList', (request, response) => {
         }
         else {
             console.log('role superadmin')
-            payment.find({ superAdminId: superAdminId }, (error, result) => {
+            payment.find({ superAdminId: superAdminId }).sort({createdDate: -1}).exec((error, result) => {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
