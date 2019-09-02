@@ -114,7 +114,7 @@ if(request.body.email!=null){
             // user already registered
             driverResponse.error = true;
             driverResponse.message = "Email already registered";
-            response.status(200).json(driverResponse);
+            response.status(500).json(driverResponse);
         }
         else{
             user.findById({ _id: data.userId }, (error, result) => {
