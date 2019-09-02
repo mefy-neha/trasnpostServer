@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const invoice = require('./invoice.model');
 const user = require('../user/user.model');
+const paid = require('../consigPaid/consignmentPayment.model');
 const moment = require('moment');
 /************************************ INVOICE CREATION ******************************************** */
 router.post('/create', (request, response) => {
@@ -305,7 +306,7 @@ router.put('/invoiceUpdate', (request, response) => {
                     items.push(result.items_details[i])
                 }
 
-            }
+            } 
             invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId , description: items[0].description, amount: items[0].amount } } }, (error, result) => {
                 if (error) {
                     sentResponse.error = true;
@@ -331,6 +332,8 @@ router.put('/invoiceUpdate', (request, response) => {
                 }
             })
         }
+    
+
 
     })
 })

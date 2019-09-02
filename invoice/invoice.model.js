@@ -134,6 +134,9 @@ const invoiceSchema = mongoose.Schema({
             enum:['complete','incomplete'],
             default:'incomplete'
         },
+        item:[{
+            
+        }]
     }],
     userId: {
         type: schema.ObjectId,

@@ -30,7 +30,7 @@ password: {
 },
 role: {
     type: String,
-    enum: ['superAdmin', 'admin', 'accounts']
+    enum: ['superAdmin', 'admin', 'accounts','siteIncharge']
 },
 createdDate: {
     type: Date,

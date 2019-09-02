@@ -27,6 +27,8 @@ const dieselRoute = require('./diesel/diesel.controller');
 const bankFileRoute = require('./bankFile/bankFile.controller');
 const paymentRoute = require('./paymentVoucher/payment.controller');
 const rateRoute = require('./rate/rate.controller');
+const paidRoute = require('./consigPaid/consignmentPayemet.controller');
+
 
 
 // const tenderRoute = require('./tender/tender.controller');
@@ -87,6 +89,7 @@ app.use('/diesel',dieselRoute);
 app.use('/bankFile',bankFileRoute);
 app.use('/payment',paymentRoute);
 app.use('/rate',rateRoute);
+app.use('/paid',paidRoute);
 
 
 
