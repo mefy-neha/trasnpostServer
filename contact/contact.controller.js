@@ -15,7 +15,7 @@ router.post('/create', (request, response) => {
     let data = new contact({
         name: request.body.name,
         phoneNumber: request.body.phoneNumber,
-        email:request.body.email?request.body.email:null,
+        email:request.body.email?(request.body.email).toLowerCase():null,
         company_name:request.body.company_name?request.body.company_name:null,
         website:request.body.website?request.body.website:null,
         contact_type:request.body.contact_type,
@@ -100,6 +100,79 @@ new_others.push({valid_upto:comingDate,doc:request.body.others[i].doc?request.bo
 console.log('new_others',new_others)
 data.others=new_others
 }
+if(request.body.email!=null){
+    let email= (request.body.email).toLowerCase()
+    contact.findOne({ email:email}, (error, contactresult) => {
+        console.log('contact error',error)
+        // console.log('contactresult',contactresult)
+        if (error) {
+            driverResponse.error = true;
+            driverResponse.message = 'Error' + error.message;
+            response.status(500).json(driverResponse);
+        }
+        else if (contactresult != null && Object.keys(contactresult).length != 0) {
+            // user already registered
+            driverResponse.error = true;
+            driverResponse.message = "Email already registered";
+            response.status(200).json(driverResponse);
+        }
+        else{
+            user.findById({ _id: data.userId }, (error, result) => {
+                console.log('user error', error);
+                console.log('user result', result);
+                if (error || result == null) {
+                    console.log(error);
+                    driverResponse.error = true;
+                    driverResponse.message = `Error :` + " User does not exist";
+                    response.status(500).json(driverResponse);
+                } else {
+                    data.role = result.role,
+                        data.organisation = result.organisation
+                    if (result.role == 'superAdmin') {
+                        console.log('superAdmin')
+                        data.superAdminId = result._id
+                        data.save((error, result) => {
+                            console.log('Driver error', error);
+                            console.log('Driver result', result);
+                            if (error) {
+                                console.log(error);
+                                driverResponse.error = true;
+                                driverResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(driverResponse);
+                            } else {
+        
+                                driverResponse.error = false;
+                                driverResponse.result = result;
+                                driverResponse.message = `Driver is created  successfull.`;
+                                response.status(200).json(driverResponse);
+                            }
+                        })
+                    }
+                    else {
+                        console.log('admin,other')
+                        data.superAdminId = result.superAdminId._id
+                        data.save((error, result) => {
+                            console.log('Driver error', error);
+                            console.log('Driver result', result);
+                            if (error) {
+                                console.log(error);
+                                driverResponse.error = true;
+                                driverResponse.message = `Error :` + " creation failed";
+                                response.status(500).json(driverResponse);
+                            } else {
+        
+                                driverResponse.error = false;
+                                driverResponse.result = result;
+                                driverResponse.message = `Driver is created  successfull.`;
+                                response.status(200).json(driverResponse);
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    })
+}
     user.findById({ _id: data.userId }, (error, result) => {
         console.log('user error', error);
         console.log('user result', result);
@@ -153,6 +226,7 @@ data.others=new_others
             }
         }
     })
+    
 });
 
 /************************************END ******************************************** */
