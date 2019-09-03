@@ -278,7 +278,8 @@ else{
             }
             else {
                 sentResponse.error = false;
-                sentResponse.message = "Driver List";
+                sentResponse.message = "Contact List";
+                sentResponse.count =result.length;
                 sentResponse.result = result
                 response.status(200).json(sentResponse);
 

@@ -136,6 +136,7 @@ router.get('/paymentList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Payment List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

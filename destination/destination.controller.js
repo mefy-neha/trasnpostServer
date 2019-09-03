@@ -175,6 +175,7 @@ router.get('/destinationByCustomer', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Destination List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

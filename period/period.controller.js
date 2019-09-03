@@ -103,6 +103,7 @@ router.get('/periodList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Period List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

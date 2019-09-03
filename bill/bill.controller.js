@@ -170,6 +170,7 @@ router.get('/billList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = " Bill List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

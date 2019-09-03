@@ -152,6 +152,7 @@ router.get('/list', (request, response) => {
         else {
             sentResponse.error = false;
             sentResponse.message = "User List";
+            sentResponse.count = result.length
             sentResponse.result = result
             response.status(200).json(sentResponse);
 

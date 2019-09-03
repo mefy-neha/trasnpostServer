@@ -210,6 +210,7 @@ router.get('/contractBySuperAdminId', (request, response) => {
                 else if (result != null && Object.keys(result).length != 0) {
                     sentResponse.error = false;
                     sentResponse.message = "Contract List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

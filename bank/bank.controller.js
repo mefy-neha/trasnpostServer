@@ -121,6 +121,7 @@ router.get('/banklist', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Bank List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

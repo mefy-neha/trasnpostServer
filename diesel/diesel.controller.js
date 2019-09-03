@@ -187,6 +187,7 @@ router.get('/dieselList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Diesel Voucher  List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
@@ -301,6 +302,7 @@ router.get('/petrolList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Petrol price  List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 

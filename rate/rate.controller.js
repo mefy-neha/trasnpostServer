@@ -124,6 +124,7 @@ router.get('/rateList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Rate List";
+                    sentResponse.count = result.length
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
