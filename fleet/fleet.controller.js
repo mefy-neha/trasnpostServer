@@ -107,6 +107,14 @@ router.post('/create', (request, response) => {
         }
         console.log('gst', data.sco)
     }
+    if (request.body.abs != null) {
+        data.abs = {
+            doc: request.body.abs.doc,
+            number: request.body.abs.number,
+            valid_upto: request.body.abs.valid_upto ? moment(request.body.abs.valid_upto).format('YYYY-MM-DD') : null
+        }
+        console.log('gst', data.sco)
+    }
     if (request.body.hydro_testing != null) {
         data.hydro_testing = {
             doc: request.body.hydro_testing.doc,
