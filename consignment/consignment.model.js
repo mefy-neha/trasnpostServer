@@ -74,7 +74,7 @@ within_state:{
     },
     authorize_person: {
         type: schema.ObjectId,
-        ref: 'contact'               //id of employee
+        ref: 'user'              //id of employee
     },
     driver_license_number: {
         type: String
