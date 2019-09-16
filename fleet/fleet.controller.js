@@ -409,6 +409,13 @@ router.put('/update', (request, response) => {
                     valid_upto: request.body.sco.valid_upto ? moment(request.body.sco.valid_upto).format('YYYY-MM-DD') : result.sco.valid_upto
                 }
             }
+            if (request.body.abs != null) {
+                result.abs = {
+                    doc: request.body.abs.doc ? (request.body.abs.doc) : result.abs.doc,
+                    number: request.body.abs.number ? (request.body.abs.number) : result.abs.number,
+                    valid_upto: request.body.abs.valid_upto ? moment(request.body.abs.valid_upto).format('YYYY-MM-DD') : result.abs.valid_upto
+                }
+            }
             if (request.body.others != null) {
                 let update_others = [];
                 for (let i = 0; i < request.body.others.length; i++) {
