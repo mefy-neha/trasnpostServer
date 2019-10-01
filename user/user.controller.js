@@ -116,7 +116,7 @@ router.post('/login', (request, response) => {
 
     user.findOne({ $and: [{ email: email }, { organisation: organisation },{is_active:'active'}] }, (error, result) => {
         console.log('error', error);
-        console.log('result', result);
+        console.log('resultttt/////', result);
         if (error || result === null) {
             userLoginResponse.error = true;
             userLoginResponse.message = "User does not exist";
