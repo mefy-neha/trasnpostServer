@@ -114,7 +114,7 @@ router.post('/login', (request, response) => {
     console.log('password', password, email, organisation);
     let userLoginResponse = {};
 
-    user.findOne({ $and: [{ email: email }, { organisation: organisation }] }, (error, result) => {
+    user.findOne({ $and: [{ email: email }, { organisation: organisation },{is_active:'active'}] }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error || result === null) {

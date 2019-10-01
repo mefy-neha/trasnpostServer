@@ -18,7 +18,8 @@ superAdminId:{
     ref: 'user'
 },
 is_active:{
-    type:String
+    type:String,
+    enum: ['active', 'inactive']
 },
 organisation:{
     type: String,
