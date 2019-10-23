@@ -11,10 +11,10 @@ const fleetSchema = mongoose.Schema({
     },
     contractId: {
         type: schema.ObjectId,
-        ref: 'contractor'
+        ref: 'contractor'                //id of contractor(contractor's fleet)
     },
     ownId:{
-        type: schema.ObjectId,      //id of superadmin
+        type: schema.ObjectId,      //id of fleet owner(own's fleet)
         ref: 'user'
     },
     unit:{

@@ -319,7 +319,9 @@ router.put('/update', (request, response) => {
         }
         else if (result) {
             result.unit = (request.body.unit ? (request.body.unit) : result.unit); 
-            result.capacity = (request.body.capacity ? (request.body.capacity) : result.capacity);            
+            result.capacity = (request.body.capacity ? (request.body.capacity) : result.capacity);  
+            result.ownId = (request.body.ownId ? (request.body.ownId) : result.ownId); 
+            result.contractId = (request.body.contractId ? (request.body.contractId) : result.contractId);          
 
             if (request.body.rc != null) {
                 result.rc = {
