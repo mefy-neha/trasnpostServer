@@ -431,8 +431,8 @@ function billBetweenDates(startDate, endDate, list) {
 router.put('/consignmentPaid', (request, response) => {
     let sentResponse = {};
     let billId = request.body.billId;
-    let amount_paid = request.body.amount_paid;
-    console.log('result.amount_paid', amount_paid, billId, request.body.cosignmentId)
+    let cosignmentId=request.body.cosignmentId;
+    console.log('result.amount_paid', billId, cosignmentId)
     bill.findById({ _id: billId }, (error, result) => {
         console.log('error', error)
         // console.log('result', result)
@@ -443,7 +443,7 @@ router.put('/consignmentPaid', (request, response) => {
         }
         let items = []
         for (let i = 0; i < result.items_details.length; i++) {
-            if (request.body.cosignmentId == result.items_details[i].cosignmentId) {
+            if (cosignmentId == result.items_details[i].cosignmentId) {
                 items.push(result.items_details[i])
             }
 
@@ -453,7 +453,7 @@ router.put('/consignmentPaid', (request, response) => {
         }]
         let new_consig_bill= consig_bill
          new_consig_bill.push({
-            _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId:cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status
+            _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId:cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? items[0].amount_status : items[0].amount_status
         })
         bill.findOneAndUpdate({ _id:  request.body.billId  }, { $push: { bill_updation: new_consig_bill } }, { new: true }, (error, result) => {
             console.log('error', error);
