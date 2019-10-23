@@ -287,7 +287,7 @@ router.put('/paid', (request, response) => {
 router.put('/invoiceUpdate', (request, response) => {
     let sentResponse = {};
     let invoiceId = request.body.invoiceId;
-    let itemId = request.body.itemId
+    let cosignmentId = request.body.cosignmentId
     // console.log('result.amount_paid',amount_paid)
     invoice.findById({ _id: invoiceId }, (error, result) => {
         console.log('error', error)
@@ -301,24 +301,22 @@ router.put('/invoiceUpdate', (request, response) => {
             //             console.log('items length',result.items_details.length)
             let items = []
             for (let i = 0; i < result.items_details.length; i++) {
-                // console.log('loop', result.items_details[i]._id)
-                if (itemId  == result.items_details[i]._id ) {
-                    // console.log('bhakl', result.items_details[i]._id)
+                if (cosignmentId  == result.items_details[i].cosignmentId ) {
                     items.push(result.items_details[i])
                 }
 
             } 
-            invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId , description: items[0].description, amount: items[0].amount } } }, (error, result) => {
-                if (error) {
-                    sentResponse.error = true;
-                    sentResponse.message = `Error :` + error.message + " not update";
-                    response.status(500).json(sentResponse);
-                }
-                else {
-                    console.log('items', items)
-                    invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId:items[0].cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
-                        console.log('error', error)
-                        if (error) {
+            let consig_bill=[{
+                _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: cosignmentId , description: items[0].description, amount: items[0].amount ,amount_status:items[0].amount_status
+            }]
+            let new_consig_bill= consig_bill
+             new_consig_bill.push({
+                _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId:cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status
+            })
+            invoice.findOneAndUpdate({ _id:  request.body.invoiceId  }, { $push: { invoice_updation: new_consig_bill } }, { new: true }, (error, result) => {
+                console.log('error', error);
+                console.log('result', result);
+                               if (error) {
                             sentResponse.error = true;
                             sentResponse.message = `Error :` + error.message + " not update";
                             response.status(500).json(sentResponse);
@@ -329,9 +327,32 @@ router.put('/invoiceUpdate', (request, response) => {
                             sentResponse.result = result
                             response.status(200).json(sentResponse);
                         }
-                    })
-                }
+                
             })
+            // invoice.updateOne({ _id: request.body.invoiceId }, { $pull: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId: items[0].cosignmentId , description: items[0].description, amount: items[0].amount } } }, (error, result) => {
+            //     if (error) {
+            //         sentResponse.error = true;
+            //         sentResponse.message = `Error :` + error.message + " not update";
+            //         response.status(500).json(sentResponse);
+            //     }
+            //     else {
+            //         console.log('items', items)
+            //         invoice.updateOne({ _id: request.body.invoiceId }, { $push: { items_details: { _id: itemId, serial_number: items[0].serial_number, cosignmentId:items[0].cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status} } }, (error, result) => {
+            //             console.log('error', error)
+            //             if (error) {
+            //                 sentResponse.error = true;
+            //                 sentResponse.message = `Error :` + error.message + " not update";
+            //                 response.status(500).json(sentResponse);
+            //             }
+            //             else {
+            //                 sentResponse.error = false;
+            //                 sentResponse.message = "Invoice Updated";
+            //                 sentResponse.result = result
+            //                 response.status(200).json(sentResponse);
+            //             }
+            //         })
+            //     }
+            // })
         }
     
 

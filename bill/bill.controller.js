@@ -443,40 +443,36 @@ router.put('/consignmentPaid', (request, response) => {
         }
         let items = []
         for (let i = 0; i < result.items_details.length; i++) {
-            // console.log('loop', result.items_details[i]._id)
             if (request.body.cosignmentId == result.items_details[i].cosignmentId) {
-                // console.log('bhakl', result.items_details[i]._id)
                 items.push(result.items_details[i])
             }
 
         }
-        bill.updateOne({ _id: billId }, { $pull: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId, description: items[0].description, amount: items[0].amount } } }, (error1, result1) => {
-            // bill.findByIdAndUpdate({_id: billId ,"items_details.cosignmentId":{$ne :request.body.cosignmentId }},{ $push: {items_details: {paymentDate : request.body.paymentDate, paid_amount : request.body.paid_amount,due_amount:request.body.due_amount?request.body.due_amount:null,amount_status:request.body.status?request.body.amount_status:result.amount_status }}},{ multi: true},(error1,result1)=>{
-            console.log('error1///', error1)
-            // console.log('result1///', result1)
-            if (error1) {
-                sentResponse.error = true;
-                sentResponse.message = `Error :` + error1.message;
-                response.status(500).json(sentResponse);
-            }
-            else {
-                bill.updateOne({ _id: billId }, { $push: { items_details: { _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: request.body.cosignmentId, description: items[0].description, amount: items[0].amount, paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status } } }, { multi: true }, (error2, result2) => {
-                    console.log('error 2', error2)
-                    if (error2) {
+        let consig_bill=[{
+            _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId: cosignmentId , description: items[0].description, amount: items[0].amount ,amount_status:items[0].amount_status
+        }]
+        let new_consig_bill= consig_bill
+         new_consig_bill.push({
+            _id: items[0]._id, serial_number: items[0].serial_number, cosignmentId:cosignmentId, description: items[0].description, amount: items[0].amount, departmental_deduction: request.body.departmental_deduction,tds: request.body.tds,shortage: request.body.shortage,gst_tds: request.body.gst_tds,ccms: request.body.ccms,paymentDate: request.body.paymentDate, paid_amount: request.body.paid_amount, due_amount: request.body.due_amount ? request.body.due_amount : null, amount_status: request.body.status ? request.body.amount_status : result.amount_status
+        })
+        bill.findOneAndUpdate({ _id:  request.body.billId  }, { $push: { bill_updation: new_consig_bill } }, { new: true }, (error, result) => {
+            console.log('error', error);
+            console.log('result', result);
+                           if (error) {
                         sentResponse.error = true;
-                        sentResponse.message = `Error :` + error2.message + " not update";
+                        sentResponse.message = `Error :` + error.message + " not update";
                         response.status(500).json(sentResponse);
                     }
                     else {
                         sentResponse.error = false;
-                        sentResponse.message = "Consignment Bill Updated";
-                        sentResponse.result = result2
+                        sentResponse.message = "Bill Updated";
+                        sentResponse.result = result
                         response.status(200).json(sentResponse);
                     }
-                })
-            }
+            
         })
-    })
+     
+})
 })
 /************************************END ******************************************** */
 module.exports = router;

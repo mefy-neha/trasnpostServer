@@ -318,6 +318,9 @@ router.put('/update', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else if (result) {
+            result.unit = (request.body.unit ? (request.body.unit) : result.unit); 
+            result.capacity = (request.body.capacity ? (request.body.capacity) : result.capacity);            
+
             if (request.body.rc != null) {
                 result.rc = {
                     doc: request.body.rc.doc ? (request.body.rc.doc) : result.rc.doc,

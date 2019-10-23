@@ -93,6 +93,36 @@ const billSchema = mongoose.Schema({
         amount:{
             type: String
         },
+     
+        amount_status: {
+            type: String,
+            enum:['complete','incomplete'],
+            default:'incomplete'
+        },
+    }],
+    bill_updation:[{
+        cosignmentId:{
+            type: schema.ObjectId,
+            ref: 'consignment'
+        },
+        departmental_deduction:{
+            type: String  
+        },
+        tds:{
+            type: String  
+        },
+        shortage:{
+            type: String  
+        },
+        gst_tds:{
+            type: String  
+        },
+        ccms:{
+            type: String  
+        },  
+        amount:{
+            type: String
+        },
         paymentDate:{
             type: String  
         },
@@ -104,9 +134,8 @@ const billSchema = mongoose.Schema({
         },
         amount_status: {
             type: String,
-            enum:['complete','incomplete'],
-            default:'incomplete'
-        },
+            enum:['complete','incomplete']         
+        }
     }],
     userId: {
         type: schema.ObjectId,

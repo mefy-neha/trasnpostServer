@@ -14,7 +14,7 @@ const fleetSchema = mongoose.Schema({
         ref: 'contractor'
     },
     ownId:{
-        type: schema.ObjectId,
+        type: schema.ObjectId,      //id of superadmin
         ref: 'user'
     },
     unit:{
