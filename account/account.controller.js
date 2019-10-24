@@ -20,8 +20,8 @@ router.post('/create', (request, response) => {
         referal_contractor: request.body.referal_contractor ? request.body.referal_contractor : null,
         referal_bank: request.body.referal_bank ? request.body.referal_bank : null,
         referal_contact: request.body.referal_contact ? request.body.referal_contact : null,
-        opening_account:request.body.opening_account,
-        type:request.body.type,
+        opening_account: request.body.opening_account,
+        type: request.body.type,
         userId: request.body.userId
     });
     user.findById({ _id: data.userId }, (error, result) => {
@@ -36,25 +36,25 @@ router.post('/create', (request, response) => {
             if (result.role == 'superAdmin') {
                 console.log('superAdmin')
                 data.superAdminId = result._id
-            
-                    console.log('admin,other')
-                    data.superAdminId = result._id
-                    console.log('dsdgsgd',data.parentAccount)
-                    if(data.parentAccount==null && data.super_parent_Account==null ){
-                        console.log('data.parentAccount==null && data.super_parent_Account==null')
-                    account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType }]},(err,res)=>{
-                        console.log('super admin res',res)
-                        if(err){
+
+                console.log('admin,other')
+                data.superAdminId = result._id
+                console.log('dsdgsgd', data.parentAccount)
+                if (data.parentAccount == null && data.super_parent_Account == null) {
+                    console.log('data.parentAccount==null && data.super_parent_Account==null')
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
                             accountResponse.error = true;
                             accountResponse.message = `Error :` + " Not found ";
-                                 response.status(500).json(accountResponse);
+                            response.status(500).json(accountResponse);
                         }
-                        else if(res != null && Object.keys(res).length != 0){
-                            accountResponse.message =  " Account name and Account Type already exist";
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account name and Account Type already exist";
                             response.status(200).json(accountResponse);
-                          
+
                         }
-                        else{
+                        else {
                             switch (data.accountType) {
                                 case 'Asset':
                                     console.log('data.accountType ', data.accountType)
@@ -86,9 +86,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -120,9 +120,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -153,9 +153,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -186,9 +186,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -219,33 +219,33 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
                                     break;
-                            } 
+                            }
                         }
-                      
+
                     })
                 }
-                if(data.parentAccount!=null && data.super_parent_Account==null){
+                if (data.parentAccount != null && data.super_parent_Account == null) {
                     console.log('data.parentAccount!=null && data.super_parent_Account==null')
-                    account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType },{ parentAccount: data.parentAccount }]},(err,res)=>{
-                        console.log('super admin res',res)
-                        if(err){
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }, { parentAccount: data.parentAccount }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
                             accountResponse.error = true;
                             accountResponse.message = `Error :` + " Not found ";
-                                 response.status(500).json(accountResponse);
+                            response.status(500).json(accountResponse);
                         }
-                        else if(res != null && Object.keys(res).length != 0){
-                            accountResponse.message =   " Account Type already exist";
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account Type already exist";
                             response.status(200).json(accountResponse);
-                          
+
                         }
-                        else{
+                        else {
                             switch (data.accountType) {
                                 case 'Asset':
                                     console.log('data.accountType ', data.accountType)
@@ -277,9 +277,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -310,9 +310,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -343,9 +343,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -376,9 +376,9 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
@@ -409,791 +409,791 @@ router.post('/create', (request, response) => {
                                                     accountResponse.user = result;
                                                     accountResponse.message = `Account Created  successfull.`;
                                                     response.status(200).json(accountResponse);
-                
+
                                                 }
-                
+
                                             });
                                         }
                                     })
                                     break;
-                            } 
+                            }
                         }
-                      
+
                     })
                 }
-                if(data.parentAccount!=null && data.super_parent_Account!=null){
+                if (data.parentAccount != null && data.super_parent_Account != null) {
                     console.log('data.parentAccount!=null && data.super_parent_Account!=null')
-                    account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType },{ parentAccount: data.parentAccount },{ super_parent_Account: data.super_parent_Account}]},(err,res)=>{
-                        console.log('super admin res',res)
-                        if(err){
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }, { parentAccount: data.parentAccount }, { super_parent_Account: data.super_parent_Account }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
                             accountResponse.error = true;
                             accountResponse.message = `Error :` + " Not found ";
-                                 response.status(500).json(accountResponse);
+                            response.status(500).json(accountResponse);
                         }
-                        else if(res != null && Object.keys(res).length != 0){
-                            accountResponse.message =  " Account Type already exist";
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account Type already exist";
                             response.status(200).json(accountResponse);
-                          
-                        }
-                        else{
-               switch (data.accountType) {
-                        case 'Asset':
-                            console.log('data.accountType ', data.accountType)
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
-                                console.log('asserr', asserr)
-                                console.log('asset', asset)
-                                if (asserr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found asset";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    console.log('asset', asset.length)
-                                    let new_asset = {}
-                                    new_asset = asset.length + 1
-                                    data.accountCode = 'Ass-00' + new_asset
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Liability':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
-                                if (liaberr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_liability = {}
-                                    new_liability = liability.length + 1
-                                    data.accountCode = 'Lib-00' + new_liability
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Expense':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
-                                if (experr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found experr";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_expenses = {}
-                                    new_expenses = expense.length + 1
-                                    data.accountCode = 'Exp-00' + new_expenses
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Revenue':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
-                                if (reverr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found revenue";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_revenue = {}
-                                    new_revenue = revenue.length + 1
-                                    data.accountCode = 'Rev-00' + new_revenue
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Equity':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
-                                if (eqerr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_equity = {}
-                                    new_equity = equity.length + 1
-                                    data.accountCode = 'Equ-00' + new_equity
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                    } 
-                        }
-                      
-                    })
-                }
-             
-                
-              
-        }
-        else{
-            console.log('admin,other')
-            data.superAdminId = result.superAdminId._id
-            console.log('dsdgsgd',data.parentAccount)
-            if(data.parentAccount==null && data.super_parent_Account==null ){
-                console.log('data.parentAccount==null && data.super_parent_Account==null')
-            account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType }]},(err,res)=>{
-                console.log('super admin res',res)
-                if(err){
-                    accountResponse.error = true;
-                    accountResponse.message = `Error :` + " Not found ";
-                         response.status(500).json(accountResponse);
-                }
-                else if(res != null && Object.keys(res).length != 0){
-                    accountResponse.message =  " Account name and Account Type already exist";
-                    response.status(200).json(accountResponse);
-                  
-                }
-                else{
-                    switch (data.accountType) {
-                        case 'Asset':
-                            console.log('data.accountType ', data.accountType)
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
-                                console.log('asserr', asserr)
-                                console.log('asset', asset)
-                                if (asserr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found asset";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    console.log('asset', asset.length)
-                                    let new_asset = {}
-                                    new_asset = asset.length + 1
-                                    data.accountCode = 'Ass-00' + new_asset
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Liability':
-                            console.log('Liability/////')
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
-                                if (liaberr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_liability = {}
-                                    new_liability = liability.length + 1
-                                    data.accountCode = 'Lib-00' + new_liability
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Expense':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
-                                if (experr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found experr";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_expenses = {}
-                                    new_expenses = expense.length + 1
-                                    data.accountCode = 'Exp-00' + new_expenses
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Revenue':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
-                                if (reverr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found revenue";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_revenue = {}
-                                    new_revenue = revenue.length + 1
-                                    data.accountCode = 'Rev-00' + new_revenue
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Equity':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
-                                if (eqerr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_equity = {}
-                                    new_equity = equity.length + 1
-                                    data.accountCode = 'Equ-00' + new_equity
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                    } 
-                }
-              
-            })
-        }
-        if(data.parentAccount!=null && data.super_parent_Account==null){
-            console.log('data.parentAccount!=null && data.super_parent_Account==null')
-            account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType },{ parentAccount: data.parentAccount }]},(err,res)=>{
-                console.log('super admin res',res)
-                if(err){
-                    accountResponse.error = true;
-                    accountResponse.message = `Error :` + " Not found ";
-                         response.status(500).json(accountResponse);
-                }
-                else if(res != null && Object.keys(res).length != 0){
-                    accountResponse.message =   " Account Type already exist";
-                    response.status(200).json(accountResponse);
-                  
-                }
-                else{
-                    switch (data.accountType) {
-                        case 'Asset':
-                            console.log('data.accountType ', data.accountType)
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
-                                console.log('asserr', asserr)
-                                console.log('asset', asset)
-                                if (asserr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found asset";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    console.log('asset', asset.length)
-                                    let new_asset = {}
-                                    new_asset = asset.length + 1
-                                    data.accountCode = 'Ass-00' + new_asset
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Liability':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
-                                if (liaberr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_liability = {}
-                                    new_liability = liability.length + 1
-                                    data.accountCode = 'Lib-00' + new_liability
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Expense':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
-                                if (experr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found experr";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_expenses = {}
-                                    new_expenses = expense.length + 1
-                                    data.accountCode = 'Exp-00' + new_expenses
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Revenue':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
-                                if (reverr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found revenue";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_revenue = {}
-                                    new_revenue = revenue.length + 1
-                                    data.accountCode = 'Rev-00' + new_revenue
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                        case 'Equity':
-                            account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
-                                if (eqerr) {
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + " Not found liability";
-                                    response.status(500).json(accountResponse);
-                                }
-                                else {
-                                    let new_equity = {}
-                                    new_equity = equity.length + 1
-                                    data.accountCode = 'Equ-00' + new_equity
-                                    console.log('dataaa', data);
-                                    data.save((error, result) => {
-                                        console.log('error', error);
-                                        console.log('result', result);
-                                        if (error) {
-                                            console.log(error);
-                                            accountResponse.error = true;
-                                            accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                            response.status(500).json(accountResponse);
-                                        } else {
-                                            // console.log(result);
-                                            accountResponse.error = false;
-                                            accountResponse.user = result;
-                                            accountResponse.message = `Account Created  successfull.`;
-                                            response.status(200).json(accountResponse);
-        
-                                        }
-        
-                                    });
-                                }
-                            })
-                            break;
-                    } 
-                }
-              
-            })
-        }
-        if(data.parentAccount!=null && data.super_parent_Account!=null){
-            console.log('data.parentAccount!=null && data.super_parent_Account!=null')
-            account.find({ $and: [{ superAdminId: data.superAdminId },{ accountName: data.accountName },{ accountType: data.accountType },{ parentAccount: data.parentAccount },{ super_parent_Account: data.super_parent_Account}]},(err,res)=>{
-                console.log('super admin res',res)
-                if(err){
-                    accountResponse.error = true;
-                    accountResponse.message = `Error :` + " Not found ";
-                         response.status(500).json(accountResponse);
-                }
-                else if(res != null && Object.keys(res).length != 0){
-                    accountResponse.message =  " Account Type already exist";
-                    response.status(200).json(accountResponse);
-                  
-                }
-                else{
-       switch (data.accountType) {
-                case 'Asset':
-                    console.log('data.accountType ', data.accountType)
-                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
-                        console.log('asserr', asserr)
-                        console.log('asset', asset)
-                        if (asserr) {
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + " Not found asset";
-                            response.status(500).json(accountResponse);
+
                         }
                         else {
-                            console.log('asset', asset.length)
-                            let new_asset = {}
-                            new_asset = asset.length + 1
-                            data.accountCode = 'Ass-00' + new_asset
-                            console.log('dataaa', data);
-                            data.save((error, result) => {
-                                console.log('error', error);
-                                console.log('result', result);
-                                if (error) {
-                                    console.log(error);
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                    response.status(500).json(accountResponse);
-                                } else {
-                                    console.log(result);
-                                    accountResponse.error = false;
-                                    accountResponse.user = result;
-                                    accountResponse.message = `Account Created  successfull.`;
-                                    response.status(200).json(accountResponse);
+                            switch (data.accountType) {
+                                case 'Asset':
+                                    console.log('data.accountType ', data.accountType)
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
+                                        console.log('asserr', asserr)
+                                        console.log('asset', asset)
+                                        if (asserr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found asset";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            console.log('asset', asset.length)
+                                            let new_asset = {}
+                                            new_asset = asset.length + 1
+                                            data.accountCode = 'Ass-00' + new_asset
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
 
-                                }
+                                                }
 
-                            });
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Liability':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
+                                        if (liaberr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_liability = {}
+                                            new_liability = liability.length + 1
+                                            data.accountCode = 'Lib-00' + new_liability
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Expense':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
+                                        if (experr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found experr";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_expenses = {}
+                                            new_expenses = expense.length + 1
+                                            data.accountCode = 'Exp-00' + new_expenses
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Revenue':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
+                                        if (reverr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found revenue";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_revenue = {}
+                                            new_revenue = revenue.length + 1
+                                            data.accountCode = 'Rev-00' + new_revenue
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Equity':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
+                                        if (eqerr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_equity = {}
+                                            new_equity = equity.length + 1
+                                            data.accountCode = 'Equ-00' + new_equity
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                            }
                         }
+
                     })
-                    break;
-                case 'Liability':
-                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
-                        if (liaberr) {
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + " Not found liability";
-                            response.status(500).json(accountResponse);
-                        }
-                        else {
-                            let new_liability = {}
-                            new_liability = liability.length + 1
-                            data.accountCode = 'Lib-00' + new_liability
-                            console.log('dataaa', data);
-                            data.save((error, result) => {
-                                console.log('error', error);
-                                console.log('result', result);
-                                if (error) {
-                                    console.log(error);
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                    response.status(500).json(accountResponse);
-                                } else {
-                                    console.log(result);
-                                    accountResponse.error = false;
-                                    accountResponse.user = result;
-                                    accountResponse.message = `Account Created  successfull.`;
-                                    response.status(200).json(accountResponse);
-
-                                }
-
-                            });
-                        }
-                    })
-                    break;
-                case 'Expense':
-                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
-                        if (experr) {
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + " Not found experr";
-                            response.status(500).json(accountResponse);
-                        }
-                        else {
-                            let new_expenses = {}
-                            new_expenses = expense.length + 1
-                            data.accountCode = 'Exp-00' + new_expenses
-                            console.log('dataaa', data);
-                            data.save((error, result) => {
-                                console.log('error', error);
-                                console.log('result', result);
-                                if (error) {
-                                    console.log(error);
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                    response.status(500).json(accountResponse);
-                                } else {
-                                    console.log(result);
-                                    accountResponse.error = false;
-                                    accountResponse.user = result;
-                                    accountResponse.message = `Account Created  successfull.`;
-                                    response.status(200).json(accountResponse);
-
-                                }
-
-                            });
-                        }
-                    })
-                    break;
-                case 'Revenue':
-                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
-                        if (reverr) {
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + " Not found revenue";
-                            response.status(500).json(accountResponse);
-                        }
-                        else {
-                            let new_revenue = {}
-                            new_revenue = revenue.length + 1
-                            data.accountCode = 'Rev-00' + new_revenue
-                            console.log('dataaa', data);
-                            data.save((error, result) => {
-                                console.log('error', error);
-                                console.log('result', result);
-                                if (error) {
-                                    console.log(error);
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                    response.status(500).json(accountResponse);
-                                } else {
-                                    console.log(result);
-                                    accountResponse.error = false;
-                                    accountResponse.user = result;
-                                    accountResponse.message = `Account Created  successfull.`;
-                                    response.status(200).json(accountResponse);
-
-                                }
-
-                            });
-                        }
-                    })
-                    break;
-                case 'Equity':
-                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
-                        if (eqerr) {
-                            accountResponse.error = true;
-                            accountResponse.message = `Error :` + " Not found liability";
-                            response.status(500).json(accountResponse);
-                        }
-                        else {
-                            let new_equity = {}
-                            new_equity = equity.length + 1
-                            data.accountCode = 'Equ-00' + new_equity
-                            console.log('dataaa', data);
-                            data.save((error, result) => {
-                                console.log('error', error);
-                                console.log('result', result);
-                                if (error) {
-                                    console.log(error);
-                                    accountResponse.error = true;
-                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
-                                    response.status(500).json(accountResponse);
-                                } else {
-                                    console.log(result);
-                                    accountResponse.error = false;
-                                    accountResponse.user = result;
-                                    accountResponse.message = `Account Created  successfull.`;
-                                    response.status(200).json(accountResponse);
-
-                                }
-
-                            });
-                        }
-                    })
-                    break;
-            } 
                 }
-              
-            })
+
+
+
+            }
+            else {
+                console.log('admin,other')
+                data.superAdminId = result.superAdminId._id
+                console.log('dsdgsgd', data.parentAccount)
+                if (data.parentAccount == null && data.super_parent_Account == null) {
+                    console.log('data.parentAccount==null && data.super_parent_Account==null')
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
+                            accountResponse.error = true;
+                            accountResponse.message = `Error :` + " Not found ";
+                            response.status(500).json(accountResponse);
+                        }
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account name and Account Type already exist";
+                            response.status(200).json(accountResponse);
+
+                        }
+                        else {
+                            switch (data.accountType) {
+                                case 'Asset':
+                                    console.log('data.accountType ', data.accountType)
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
+                                        console.log('asserr', asserr)
+                                        console.log('asset', asset)
+                                        if (asserr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found asset";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            console.log('asset', asset.length)
+                                            let new_asset = {}
+                                            new_asset = asset.length + 1
+                                            data.accountCode = 'Ass-00' + new_asset
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Liability':
+                                    console.log('Liability/////')
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
+                                        if (liaberr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_liability = {}
+                                            new_liability = liability.length + 1
+                                            data.accountCode = 'Lib-00' + new_liability
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Expense':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
+                                        if (experr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found experr";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_expenses = {}
+                                            new_expenses = expense.length + 1
+                                            data.accountCode = 'Exp-00' + new_expenses
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Revenue':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
+                                        if (reverr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found revenue";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_revenue = {}
+                                            new_revenue = revenue.length + 1
+                                            data.accountCode = 'Rev-00' + new_revenue
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Equity':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
+                                        if (eqerr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_equity = {}
+                                            new_equity = equity.length + 1
+                                            data.accountCode = 'Equ-00' + new_equity
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                            }
+                        }
+
+                    })
+                }
+                if (data.parentAccount != null && data.super_parent_Account == null) {
+                    console.log('data.parentAccount!=null && data.super_parent_Account==null')
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }, { parentAccount: data.parentAccount }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
+                            accountResponse.error = true;
+                            accountResponse.message = `Error :` + " Not found ";
+                            response.status(500).json(accountResponse);
+                        }
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account Type already exist";
+                            response.status(200).json(accountResponse);
+
+                        }
+                        else {
+                            switch (data.accountType) {
+                                case 'Asset':
+                                    console.log('data.accountType ', data.accountType)
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
+                                        console.log('asserr', asserr)
+                                        console.log('asset', asset)
+                                        if (asserr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found asset";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            console.log('asset', asset.length)
+                                            let new_asset = {}
+                                            new_asset = asset.length + 1
+                                            data.accountCode = 'Ass-00' + new_asset
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Liability':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
+                                        if (liaberr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_liability = {}
+                                            new_liability = liability.length + 1
+                                            data.accountCode = 'Lib-00' + new_liability
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Expense':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
+                                        if (experr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found experr";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_expenses = {}
+                                            new_expenses = expense.length + 1
+                                            data.accountCode = 'Exp-00' + new_expenses
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Revenue':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
+                                        if (reverr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found revenue";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_revenue = {}
+                                            new_revenue = revenue.length + 1
+                                            data.accountCode = 'Rev-00' + new_revenue
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Equity':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
+                                        if (eqerr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_equity = {}
+                                            new_equity = equity.length + 1
+                                            data.accountCode = 'Equ-00' + new_equity
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    // console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                            }
+                        }
+
+                    })
+                }
+                if (data.parentAccount != null && data.super_parent_Account != null) {
+                    console.log('data.parentAccount!=null && data.super_parent_Account!=null')
+                    account.find({ $and: [{ superAdminId: data.superAdminId }, { accountName: data.accountName }, { accountType: data.accountType }, { parentAccount: data.parentAccount }, { super_parent_Account: data.super_parent_Account }] }, (err, res) => {
+                        console.log('super admin res', res)
+                        if (err) {
+                            accountResponse.error = true;
+                            accountResponse.message = `Error :` + " Not found ";
+                            response.status(500).json(accountResponse);
+                        }
+                        else if (res != null && Object.keys(res).length != 0) {
+                            accountResponse.message = " Account Type already exist";
+                            response.status(200).json(accountResponse);
+
+                        }
+                        else {
+                            switch (data.accountType) {
+                                case 'Asset':
+                                    console.log('data.accountType ', data.accountType)
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }).exec(function (asserr, asset) {
+                                        console.log('asserr', asserr)
+                                        console.log('asset', asset)
+                                        if (asserr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found asset";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            console.log('asset', asset.length)
+                                            let new_asset = {}
+                                            new_asset = asset.length + 1
+                                            data.accountCode = 'Ass-00' + new_asset
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Liability':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (liaberr, liability) => {
+                                        if (liaberr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_liability = {}
+                                            new_liability = liability.length + 1
+                                            data.accountCode = 'Lib-00' + new_liability
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Expense':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (experr, expense) => {
+                                        if (experr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found experr";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_expenses = {}
+                                            new_expenses = expense.length + 1
+                                            data.accountCode = 'Exp-00' + new_expenses
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Revenue':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (reverr, revenue) => {
+                                        if (reverr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found revenue";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_revenue = {}
+                                            new_revenue = revenue.length + 1
+                                            data.accountCode = 'Rev-00' + new_revenue
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                                case 'Equity':
+                                    account.find({ $and: [{ userId: data.userId }, { accountType: data.accountType }] }, (eqerr, equity) => {
+                                        if (eqerr) {
+                                            accountResponse.error = true;
+                                            accountResponse.message = `Error :` + " Not found liability";
+                                            response.status(500).json(accountResponse);
+                                        }
+                                        else {
+                                            let new_equity = {}
+                                            new_equity = equity.length + 1
+                                            data.accountCode = 'Equ-00' + new_equity
+                                            console.log('dataaa', data);
+                                            data.save((error, result) => {
+                                                console.log('error', error);
+                                                console.log('result', result);
+                                                if (error) {
+                                                    console.log(error);
+                                                    accountResponse.error = true;
+                                                    accountResponse.message = `Error :` + error.message + 'Account creation failed'
+                                                    response.status(500).json(accountResponse);
+                                                } else {
+                                                    console.log(result);
+                                                    accountResponse.error = false;
+                                                    accountResponse.user = result;
+                                                    accountResponse.message = `Account Created  successfull.`;
+                                                    response.status(200).json(accountResponse);
+
+                                                }
+
+                                            });
+                                        }
+                                    })
+                                    break;
+                            }
+                        }
+
+                    })
+                }
+
+            }
         }
-     
-        }
-    }
-        
+
 
 
     })
@@ -1300,11 +1300,11 @@ router.delete('/delete', (request, response) => {
 router.get('/accountByType', (request, response) => {
     console.log('request', request.body)
     let accountResponse = {};
-    let superAdminId = request.query.superAdminId 
+    let superAdminId = request.query.superAdminId
     let parentAccount = request.query.parentAccount ? request.query.parentAccount : null
     let accountName = request.query.accountName
     // console.log('response',parentAccount,accountType)
-    account.find({ $and: [{ superAdminId: superAdminId },{ parentAccount: parentAccount }, { accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error1, result1) {
+    account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: parentAccount }, { accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error1, result1) {
         console.log('account error1', error1);
         console.log('account result1', result1);
         console.log('account result1', result1.length);
@@ -1320,7 +1320,7 @@ router.get('/accountByType', (request, response) => {
                 x.push(result1[i].accountName)
             }
             console.log('push data', x);
-            account.find({$and: [{ superAdminId: superAdminId },{ parentAccount: x }]}).sort({ accountType: 1, accountName: 1 }).exec(function (error2, result2) {
+            account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: x }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error2, result2) {
                 console.log('error3', error2);
                 if (error1) {
                     accountResponse.error2 = true;
@@ -1333,7 +1333,7 @@ router.get('/accountByType', (request, response) => {
                         y.push(result2[i].accountName)
                     }
 
-                    account.find({$and: [{ superAdminId: superAdminId },{ parentAccount: y }]}).sort({ accountType: 1, accountName: 1 }).exec(function (error3, result3) {
+                    account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: y }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error3, result3) {
                         console.log('error3', error3);
                         if (error3) {
                             accountResponse.error3 = true;
@@ -1392,9 +1392,9 @@ router.get('/accountDetail', (request, response) => {
     let accountType = request.query.accountType;
     let parentAccount = request.query.parentAccount;
     let accountName = request.query.accountName;
-    let superAdminId = request.query.superAdminId 
+    let superAdminId = request.query.superAdminId
     let sentResponse = {};
-    account.find({ $and: [{ superAdminId: superAdminId },{ accountType: accountType }, { parentAccount: parentAccount },{ accountName: accountName }] }, (error, result) => {
+    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType }, { parentAccount: parentAccount }, { accountName: accountName }] }, (error, result) => {
         console.log('error', error);
         console.log('result', result);
         if (error) {
@@ -1417,13 +1417,13 @@ router.get('/accountDetail', (request, response) => {
 router.get('/getAccount', (request, response) => {
     console.log('request')
     let accountResponse = {};
-    let superAdminId = request.query.superAdminId 
-    let accountType = request.query.accountType 
-    let accountName = request.query.accountName 
-    console.log('response', accountType,accountName)
+    let superAdminId = request.query.superAdminId
+    let accountType = request.query.accountType
+    let accountName = request.query.accountName
+    console.log('response', accountType, accountName)
     console.log('responseffghf', accountType)
 
-    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType },{ accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
+    account.find({ $and: [{ superAdminId: superAdminId }, { accountType: accountType }, { accountName: accountName }] }).sort({ accountType: 1, accountName: 1 }).exec(function (error, result) {
         console.log('account error', error);
         console.log('account result', result);
         if (error) {
@@ -1460,7 +1460,7 @@ router.get('/accountBySuperAdminId', (request, response) => {
             response.status(500).json(sentResponse);
         }
         else {
-            account.find({ superAdminId: superAdminId }).sort({ accountType: 1, accountName: 1 ,parentAccount:1}).exec(function (error, result) {
+            account.find({ superAdminId: superAdminId }).sort({ accountType: 1, accountName: 1, parentAccount: 1 }).exec(function (error, result) {
                 console.log('error', error);
                 console.log('result', result);
                 if (error) {
@@ -1471,7 +1471,7 @@ router.get('/accountBySuperAdminId', (request, response) => {
                 else if (result != null && Object.keys(result).length != 0) {
                     sentResponse.error = false;
                     sentResponse.message = "Account List";
-                    sentResponse.count =result.length;
+                    sentResponse.count = result.length;
                     sentResponse.result = result
                     response.status(200).json(sentResponse);
 
@@ -1492,10 +1492,10 @@ router.get('/accountBySuperAdminId', (request, response) => {
 /************************** ACCOUNT DETAIL BY SUPERADMINID AND PARENT ACCOUNT********************************************** */
 
 router.get('/accountByParent', (request, response) => {
-   
-    let superAdminId = request.query.superAdminId 
-    let parentAccount = request.query.parentAccount 
-    let super_parent_Account=request.query.super_parent_Account?request.query.super_parent_Account:null
+
+    let superAdminId = request.query.superAdminId
+    let parentAccount = request.query.parentAccount
+    let super_parent_Account = request.query.super_parent_Account ? request.query.super_parent_Account : null
     let sentResponse = {};
     account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: parentAccount }, { super_parent_Account: super_parent_Account }] }, (error, result) => {
         console.log('error', error);
@@ -1518,50 +1518,135 @@ router.get('/accountByParent', (request, response) => {
 
 /************************************END ******************************************** */
 /************************************ ACCOUNT UPDATE  IN INVOICE ******************************************** */
-router.put('/update',(request,response)=>{
+router.put('/update', (request, response) => {
     let sentResponse = {};
     let accountId = request.body.accountId;
- 
+
     // console.log('result.amount_paid',amount_paid)
     account.findById({ _id: accountId }, (error, result) => {
         console.log('error', error)
         console.log('result', result)
-        if (error ||result==null) {
+        if (error || result == null) {
             sentResponse.error = true;
             sentResponse.message = `Error :` + error.message + " Does not exist";
             response.status(500).json(sentResponse);
         }
-        else if (result){
-//    
-                result.opening_account = (request.body.opening_account ? (request.body.opening_account) : result.opening_account);
-                result.type = (request.body.type ? (request.body.type) : result.type);
+        else if (result) {
+            result.opening_account = (request.body.opening_account ? (request.body.opening_account) : result.opening_account);
+            result.type = (request.body.type ? (request.body.type) : result.type);
 
-                result.save((error, result) => {
-                    console.log(' save error',error)
-                    if (error) {
-                        sentResponse.error = true;
-                        sentResponse.message = `Error :` + error.message + " Not update";
-                        response.status(500).json(sentResponse);
-                    }
-                    else {
-                        sentResponse.error = false;
-                        sentResponse.message = "Account Updated";
-                        sentResponse.result = result
-                        response.status(200).json(sentResponse);
+            result.save((error, result) => {
+                console.log(' save error', error)
+                if (error) {
+                    sentResponse.error = true;
+                    sentResponse.message = `Error :` + error.message + " Not update";
+                    response.status(500).json(sentResponse);
+                }
+                else {
+                    sentResponse.error = false;
+                    sentResponse.message = "Account Updated";
+                    sentResponse.result = result
+                    response.status(200).json(sentResponse);
 
-                    }
-                })
+                }
+            })
 
-    }
-        
-        
-})
+        }
+
+
+    })
 })
 /************************************END ******************************************** */
-module.exports = router;
-  // for(let i =0;i<res.length;i++){
-                //     if (data.accountName != res[i].accountName &&data.accountType !=res[i].accountType && data.parentAccount!=res[i].parentAccount &&data.super_parent_Account!=res[i].super_parent_Account) { break; 
-                //     }
-                //     console.log('break')
+/************************************ TOTAL REVELNUE AND EXPENSE******************************************** */
+router.get('/accountBalance', (request, response) => {
+    let sentResponse = {}
+    let parentAccount = (request.query.parentAccount)
+    let accountType = request.query.accountType
+    let superAdminId = request.query.superAdminId
+    console.log('detail', parentAccount, superAdminId, accountType)
+    account.find({ $and: [{ superAdminId: superAdminId }, { parentAccount: parentAccount }, { accountType: accountType }] }, (error, result) => {
+        console.log('error', error)
+        // console.log('result', result)
 
-                // }
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message + "Account Does not exist";
+            response.status(500).json(sentResponse);
+        }
+        else {
+            switch (parentAccount) {
+                case 'Cash':
+                    //For credit addition
+                    var credit_list = result.filter(function (d) {
+                        return d.type == 'credit';
+                    });
+                    // console.log('credit list', credit_list)
+                    let total_cash_credit = 0
+                    for (var i = 0; i < credit_list.length; i++) {
+                        total_cash_credit += parseInt(credit_list[i].opening_account);
+
+                    }
+                    console.log('total_cash_credit', total_cash_credit)
+                    //For debit addition
+                    var debit_list = result.filter(function (d) {
+                        return d.type == 'debit';
+                    });
+                    // console.log('debit list', debit_list)
+                    let total_cash_debit = 0
+                    for (var i = 0; i < debit_list.length; i++) {
+                        total_cash_debit += parseInt(debit_list[i].opening_account);
+
+                    }
+                    console.log('total_cash_debit', total_cash_debit)
+                    total_exp_rev = total_cash_credit - total_cash_debit
+                    console.log('total_exp_rev', total_exp_rev)
+                    sentResponse.error = false;
+                    sentResponse.message = "Total expenses/revenue through cash";
+                    sentResponse.total_cash_credit = total_cash_credit;
+                    sentResponse.total_cash_debit = total_cash_debit;
+                    sentResponse.total_exp_rev = total_exp_rev;
+                    response.status(200).json(sentResponse);
+                    break;
+                case 'Bank':
+                    //For credit addition
+                    var credit_list = result.filter(function (d) {
+                        return d.type == 'credit';
+                    });
+                    // console.log('credit list', credit_list)
+                    let total_bank_credit = 0
+                    for (var i = 0; i < credit_list.length; i++) {
+                        total_bank_credit += parseInt(credit_list[i].opening_account);
+
+                    }
+                    console.log('total_bank_credit', total_bank_credit)
+                    //For debit addition
+                    var debit_list = result.filter(function (d) {
+                        return d.type == 'debit';
+                    });
+                    // console.log('debit list', debit_list)
+                    let total_bank_debit = 0
+                    for (var i = 0; i < debit_list.length; i++) {
+                        total_bank_debit += parseInt(debit_list[i].opening_account);
+
+                    }
+                    console.log('total_bank_debit', total_bank_debit)
+                    total_exp_rev = total_bank_credit - total_bank_debit
+                    console.log('total_exp_rev', total_exp_rev)
+                    sentResponse.error = false;
+                    sentResponse.message = "Total expenses/revenue through bank";
+                    sentResponse.total_bank_credit = total_bank_credit;
+                    sentResponse.total_bank_debit = total_bank_debit;
+                    sentResponse.total_exp_rev = total_exp_rev;
+                    response.status(200).json(sentResponse);
+                    break;
+
+            }
+            sentResponse.message = "Not Found";
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END******************************************** */
+module.exports = router;

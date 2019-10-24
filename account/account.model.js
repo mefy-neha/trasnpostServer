@@ -53,7 +53,7 @@ referal_contact: {
     ref: 'contact'
 },
 opening_account:{
-    type:String
+    type:String                  // amount    
 },
 type:{
     type:String,
