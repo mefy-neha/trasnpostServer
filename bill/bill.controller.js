@@ -415,6 +415,10 @@ function billBetweenDates(startDate, endDate, list) {
                 }
             }
             else {
+                // console.log('between')
+                // console.log('dbdate',dbdate)
+
+                console.log(moment(dbdate).isBetween(startDate, endDate))
                 if (moment(dbdate).isBetween(startDate, endDate, null, '[]')) {
                     console.log('date matched')
                     datearray.push(element);
@@ -474,5 +478,70 @@ router.put('/consignmentPaid', (request, response) => {
      
 })
 })
-/************************************END ******************************************** */
+/************************************END*********************************************/
+/************************************NON_SALAR REPORT********************************************* */
+
+router.get('/nonSalary', (request, response) => {
+    let sentresponse={};
+    let superAdminId=request.query.superAdminId;
+    let startDate = moment(request.query.startDate).format('YYYY-MM-DD');
+    let endDate =  moment(request.query.endDate).format('YYYY-MM-DD');
+    bill.find({ superAdminId: superAdminId }, (error, result) => {
+        console.log('error...', error);
+        // console.log(result);
+        if (error) {
+            sentresponse.error = true;
+            sentresponse.message = 'Error:' + error.message + 'Does not exist';
+            response.status(500).json(sentresponse);
+        }
+        else if (result && result.length != 0) {
+            // find milage between dates
+            billBetweenDates(startDate, endDate, result).then(billList => {
+                console.log('billList',)
+              
+                // var contact_list = billList.filter(function (d) {
+                //     return d.vendorId!==null;
+                // });
+                // console.log('contact_list',contact_list)
+                // var contract_list = billList.filter(function (d) {
+                //     return d.contractId!=null;
+                // }); 
+                let contactdetail=[]
+                for( let i =0;i<billList.length;i++){
+                    // console.log('billList.vendorId',billList[i].vendorId)
+                    if(billList[i].vendorId!=null){
+                    contactdetail.push(billList[i].vendorId)    
+                    }
+                             
+                }
+            
+                let contractdetail=[]
+                for( let i =0;i<billList.length;i++){
+                    // console.log('billList.vendorId',billList[i].contractId)
+                    if(billList[i].contractId!=null){
+                    contractdetail.push(billList[i].contractId)    
+                    }           
+                } 
+                
+                contactdetail.push(contractdetail)
+                // console.log('dcontactdetailetail',contactdetail)
+                // console.log('contract_list',contractdetail)
+                sentresponse.error = false;
+                sentresponse.result = contactdetail;
+                sentresponse.message = `Bill  list get succesfully .`;
+                response.status(200).json(sentresponse);
+                
+            })
+        }
+        else {
+            sentresponse.error = false;
+            sentresponse.result = result;
+            sentresponse.message = `Bill getting  successfully .`;
+            response.status(200).json(sentresponse);
+
+        }
+    })
+})
+/************************************END *********************************************/
+
 module.exports = router;

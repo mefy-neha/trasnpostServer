@@ -154,7 +154,8 @@ router.get('/list', (request, response) => {
         else {
             sentResponse.error = false;
             sentResponse.message = "ALL Diesel Voucher  List";
-            sentResponse.result = result
+            sentResponse.result = result;
+            sentResponse.count = result.length;
             response.status(200).json(sentResponse);
 
         }

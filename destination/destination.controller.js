@@ -84,7 +84,8 @@ router.get('/list', (request, response) => {
         else {
             sentResponse.error = false;
             sentResponse.message = "ALL Destination List";
-            sentResponse.result = result
+            sentResponse.result = result;
+            sentResponse.count = result.length;
             response.status(200).json(sentResponse);
 
         }
@@ -117,7 +118,8 @@ router.get('/destinationList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Destination List";
-                    sentResponse.result = result
+                    sentResponse.result = result;
+                    sentResponse.count = result.length;
                     response.status(200).json(sentResponse);
 
                 }

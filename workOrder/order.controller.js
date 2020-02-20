@@ -119,7 +119,8 @@ router.get('/list', (request, response) => {
         else {
             sentResponse.error = false;
             sentResponse.message = "ALL Order List";
-            sentResponse.result = result
+            sentResponse.result = result;
+            sentResponse.count = result.length;
             response.status(200).json(sentResponse);
 
         }
@@ -152,7 +153,8 @@ router.get('/orderList', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "Order List";
-                    sentResponse.result = result
+                    sentResponse.result = result;
+                    sentResponse.count = result.length;
                     response.status(200).json(sentResponse);
 
                 }

@@ -218,7 +218,8 @@ router.get('/contractBySuperAdminId', (request, response) => {
                 else {
                     sentResponse.error = false;
                     sentResponse.message = "No any list";
-                    sentResponse.result = result
+                    sentResponse.result = result;
+                    sentResponse.count = result.length;
                     response.status(200).json(sentResponse);
                 }
 

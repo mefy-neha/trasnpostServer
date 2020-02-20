@@ -572,5 +572,28 @@ var filtered = list.filter(function(value, index, arr){
     })
 }
 /************************************* ENDS ********************************************* */
+/************************** INVOICE LIST ********************************************** */
+router.get('/list', (request, response) => {
+    let sentResponse = {};
+    journal.find({}, (error, result) => {
+        console.log('error', error);
+        console.log('result', result);
+        if (error) {
+            sentResponse.error = true;
+            sentResponse.message = `Error :` + error.message;
+            response.status(500).json(sentResponse);
+        }
+        else {
+            sentResponse.error = false;
+            sentResponse.message = "ALL Journal List";
+            sentResponse.result = result;
+            sentResponse.count = result.length;
+            response.status(200).json(sentResponse);
+
+        }
+
+    })
+})
+/************************************END ******************************************** */
 module.exports = router;
 // 2019-06-07T04:12:09.288Z -iso format
