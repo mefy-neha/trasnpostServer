@@ -244,7 +244,7 @@ function sendEmail(email,password,type,otp) {
             } else {
                 console.log('Email sent: ' + info.response);
                 sentresponse.error = false;
-                sentresponse.message = "EMail sent successfully";
+                sentresponse.message = "Email sent successfully";
                 sentresponse.result = info;
                 response.status(200).json(sentresponse)
             }
@@ -334,16 +334,15 @@ router.put('/forgotPassword', (request, response) => {
     let type = 'otp'
     let forgotPasswordResponse = {};
     let otp = Math.floor(Math.random() * 90000) + 10000;
-    user.findOne({
-        email: email
-    }, (error, result) => {
+    user.findOne({email: email}, (error, result) => {
         console.log('errorrrrrrrrr', error);
         console.log("result-----------------", result);
         if (error || result === null) {
             forgotPasswordResponse.error = true;
             forgotPasswordResponse.message = "User does not exist";
             response.status(500).json(forgotPasswordResponse);
-        } else
+        } 
+        else{
             console.log('results is/////', result)
         let email = result.email;
         sendEmail(result.email, 'password',type, otp);
@@ -366,7 +365,9 @@ router.put('/forgotPassword', (request, response) => {
             }
 
         });
+    }
     });
+
 });
 /***************************************** ENDS *******************************************************/
 
